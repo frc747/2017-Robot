@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
   @Override
   public void robotInit() {
     chooser.addDefault("Default Auto", new ExampleCommand());
-    // chooser.addObject("My Auto", new MyAutoCommand());
+    chooser.addObject("My Auto", new ExampleCommand());
     SmartDashboard.putData("Auto mode", chooser);
   }
 
@@ -44,7 +44,9 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void disabledInit() {
-
+    /**
+     * Setup Gyro recalibration in this block
+     */
   }
 
   @Override
@@ -67,12 +69,15 @@ public class Robot extends IterativeRobot {
   public void autonomousInit() {
     autonomousCommand = chooser.getSelected();
 
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand =
-     * new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
-     */
+    String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+    switch (autoSelected) {
+      case "My Auto":
+      case "Default Auto":
+        autonomousCommand = new ExampleCommand();
+        break;
+      default:
+        break;
+    }
 
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
