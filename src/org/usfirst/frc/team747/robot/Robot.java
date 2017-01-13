@@ -1,12 +1,13 @@
 
 package org.usfirst.frc.team747.robot;
 
-import org.usfirst.frc.team747.robot.commands.ExampleCommand;
-import org.usfirst.frc.team747.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
+import org.usfirst.frc.team747.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,8 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-  public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-  public static final OI               oi               = new OI();
+  public static final ShooterSubsystem SHOOTER_SYSTEM = new ShooterSubsystem();
+  public static final OI               oi             = new OI();
 
   Command                  autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
@@ -32,8 +33,8 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotInit() {
-    chooser.addDefault("Default Auto", new ExampleCommand());
-    chooser.addObject("My Auto", new ExampleCommand());
+    chooser.addDefault("Default Auto", new ShooterShootCommand());
+    chooser.addObject("My Auto", new ShooterShootCommand());
     SmartDashboard.putData("Auto mode", chooser);
   }
 
@@ -73,7 +74,7 @@ public class Robot extends IterativeRobot {
     switch (autoSelected) {
       case "My Auto":
       case "Default Auto":
-        autonomousCommand = new ExampleCommand();
+        autonomousCommand = new ShooterShootCommand();
         break;
       default:
         break;
@@ -95,10 +96,8 @@ public class Robot extends IterativeRobot {
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
+    // This makes sure that the autonomous stops running when teleop starts
+    // running.
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }

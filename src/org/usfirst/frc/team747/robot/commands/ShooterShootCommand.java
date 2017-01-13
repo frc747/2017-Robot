@@ -2,15 +2,13 @@ package org.usfirst.frc.team747.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import org.usfirst.frc.team747.robot.OI;
 import org.usfirst.frc.team747.robot.Robot;
 
-/**
- *
- */
-public class ExampleCommand extends Command {
-  public ExampleCommand() {
+public class ShooterShootCommand extends Command {
+  public ShooterShootCommand() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.exampleSubsystem);
+    requires(Robot.SHOOTER_SYSTEM);
   }
 
   // Called just before this Command runs the first time
@@ -21,6 +19,7 @@ public class ExampleCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.SHOOTER_SYSTEM.setShooterSpeed(OI.getLeftShooterSpeed(),OI.getRightShooterSpeed());
   }
 
   // Make this return true when this Command no longer needs to run execute()

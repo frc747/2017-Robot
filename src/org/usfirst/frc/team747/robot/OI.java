@@ -1,35 +1,31 @@
 package org.usfirst.frc.team747.robot;
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
+import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
+import org.usfirst.frc.team747.robot.maps.DriverStation;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 public class OI {
-  //// CREATING BUTTONS
-  // One type of button is a joystick button which is any button on a
-  //// joystick.
-  // You create one by telling it which joystick it's on and which button
-  // number it is.
-  // Joystick stick = new Joystick(port);
-  // Button button = new JoystickButton(stick, buttonNumber);
 
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
+  private static final Joystick LEFT_JOYSTICK  = new Joystick(DriverStation.ControlMap.LEFT_JOYSTICK.getValue()),
+                                RIGHT_JOYSTICK = new Joystick(DriverStation.ControlMap.RIGHT_JOYSTICK.getValue());
+  
+  public OI(){
+    Button fireButton  = new JoystickButton(LEFT_JOYSTICK, DriverStation.Joystick.TRIGGER.getValue());
+    Button fireButton2 = new JoystickButton(RIGHT_JOYSTICK, DriverStation.Joystick.TRIGGER.getValue());
+    
+    fireButton.whileHeld(new ShooterShootCommand());
+    fireButton2.whileHeld(new ShooterShootCommand());
+  }
 
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
+  public static double getLeftShooterSpeed() {
+    return LEFT_JOYSTICK.getRawAxis(DriverStation.Joystick.THROTTLE_AXIS.getValue());
+  }
 
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenPressed(new ExampleCommand());
+  public static double getRightShooterSpeed() {
+    return RIGHT_JOYSTICK.getRawAxis(DriverStation.Joystick.THROTTLE_AXIS.getValue());
+  }
 
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  // button.whileHeld(new ExampleCommand());
-
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
 }

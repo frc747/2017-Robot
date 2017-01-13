@@ -1,9 +1,22 @@
 package org.usfirst.frc.team747.robot.maps;
 
-public enum DriverStation {
-  JOYSTICK,
-  GAMEPAD;
-
+public final class DriverStation {
+  
+  public enum ControlMap {
+    LEFT_JOYSTICK(1),
+    RIGHT_JOYSTICK(2);
+    
+    private int value;
+    
+    private ControlMap(int value){
+      this.value = value;
+    }
+    
+    public int getValue(){
+      return value;
+    }
+  }
+  
   /**
    * Logitech Extreme 3D Pro Joystick Mapping
    */
@@ -13,8 +26,8 @@ public enum DriverStation {
     BUTTON_2(2),
     BUTTON_3(3),
     BUTTON_4(4),
-    BUTTON_5(5),
-    BUTTON_6(6),
+    TRIGGER(5),
+    SECONDARY_TRIGGER(6),
     BUTTON_7(7),
     BUTTON_8(8),
     BUTTON_9(9),
