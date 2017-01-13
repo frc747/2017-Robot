@@ -2,12 +2,12 @@
 package org.usfirst.frc.team747.robot;
 
 import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
+import org.usfirst.frc.team747.robot.commands.ShooterStopCommand;
 import org.usfirst.frc.team747.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,7 +33,6 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotInit() {
-    chooser.addDefault("Default Auto", new ShooterShootCommand());
     chooser.addObject("My Auto", new ShooterShootCommand());
     SmartDashboard.putData("Auto mode", chooser);
   }
@@ -73,8 +72,10 @@ public class Robot extends IterativeRobot {
     String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
     switch (autoSelected) {
       case "My Auto":
-      case "Default Auto":
         autonomousCommand = new ShooterShootCommand();
+        break;
+      case "Another Auto":
+        autonomousCommand = new ShooterStopCommand(); //Currently just a placeholder
         break;
       default:
         break;

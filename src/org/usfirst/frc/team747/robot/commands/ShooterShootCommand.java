@@ -5,37 +5,25 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team747.robot.OI;
 import org.usfirst.frc.team747.robot.Robot;
 
+/**
+ * ShooterShootCommand
+ * 
+ * Spins the shooter wheels using the joystick throttles as inputs for the speed.
+ */
 public class ShooterShootCommand extends Command {
+  
   public ShooterShootCommand() {
-    // Use requires() here to declare subsystem dependencies
     requires(Robot.SHOOTER_SYSTEM);
   }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
-
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     Robot.SHOOTER_SYSTEM.setShooterSpeed(OI.getLeftShooterSpeed(),OI.getRightShooterSpeed());
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+
   @Override
   protected boolean isFinished() {
     return false;
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
   }
 }

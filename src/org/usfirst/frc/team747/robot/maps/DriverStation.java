@@ -1,5 +1,11 @@
 package org.usfirst.frc.team747.robot.maps;
 
+/**
+ * DriverStation
+ * 
+ * Mappings for the Driver Station as well as mappings for common control devices that 
+ * are used on the driver station. 
+ */
 public final class DriverStation {
   
   public enum ControlMap {
@@ -21,7 +27,11 @@ public final class DriverStation {
    * Logitech Extreme 3D Pro Joystick Mapping
    */
   public enum Joystick {
-    // Button Addresses
+    /**
+     * Button Addresses
+     * 
+     * All of the buttons on the joystick also have a numerical identifier printed on them
+     */
     BUTTON_1(1),
     BUTTON_2(2),
     BUTTON_3(3),
@@ -34,11 +44,17 @@ public final class DriverStation {
     BUTTON_10(10),
     BUTTON_11(11),
     BUTTON_12(12),
-    // Axis Addresses
+    /**
+     *  Axis Addresses
+     */
     X_AXIS(0),
     Y_AXIS(1),
     Z_AXIS(2),
     THROTTLE_AXIS(3),
+    /**
+     * These HAT Axies will most likely not be used since WPI provides 
+     * HAT functionality in their joystick classes
+     */
     HAT_X_AXIS(4),
     HAT_Y_AXIS(5);
 
@@ -54,10 +70,12 @@ public final class DriverStation {
   }
 
   /**
-   * "Controller Gampad (F310)" Controller Mapping
+   * "ontroller Gampad (F310) Controller Mapping
    */
   public enum GamePad {
-    // Button Addresses
+    /**
+     * Button Addresses
+     */
     A_BUTTON(1),
     B_BUTTON(2),
     X_BUTTON(3),
@@ -68,7 +86,9 @@ public final class DriverStation {
     START_BUTTON(8),
     L_STICK_BUTTON(9),
     R_STICK_BUTTON(10),
-    // Axis Addresses
+    /**
+     * Axis Addresses
+     */
     L_X_AXIS(0),
     L_Y_AXIS(1),
     L_TRIGGER(2),
