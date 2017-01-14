@@ -21,11 +21,11 @@ public class OI {
   }
 
   public static double getLeftShooterSpeed() {
-    return LEFT_JOYSTICK.getRawAxis(DriverStation.Joystick.THROTTLE_AXIS.getValue()) - 1.0;
+    return (LEFT_JOYSTICK.getRawAxis(DriverStation.Joystick.THROTTLE_AXIS.getValue()) - 1.0) / 2;
   }
 
   public static double getRightShooterSpeed() {
-    return RIGHT_JOYSTICK.getRawAxis(DriverStation.Joystick.THROTTLE_AXIS.getValue()) - 1.0;
+    return (RIGHT_JOYSTICK.getRawAxis(DriverStation.Joystick.THROTTLE_AXIS.getValue()) - 1.0) / 2;
   }
 
 }
