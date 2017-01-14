@@ -18,8 +18,10 @@ public final class Robot {
    * Two talons are used to run the shooter, one for the left wheel and one for the right wheel.
    */
   public enum Shooter{
-    LEFT_SHOOTER(5),
-    RIGHT_SHOOTER(6);
+    LEFT_SHOOTER_1(5),
+    LEFT_SHOOTER_2(6),
+    RIGHT_SHOOTER_1(7),
+    RIGHT_SHOOTER_2(8);
     
     private int value;
 

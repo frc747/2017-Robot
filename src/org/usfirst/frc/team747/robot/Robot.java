@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
   public static final ShooterSubsystem SHOOTER_SYSTEM = new ShooterSubsystem();
-  public static final OI               oi             = new OI();
+  public static OI               oi;
 
   Command                  autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
@@ -33,6 +33,8 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotInit() {
+    Robot.oi = new OI();
+
     chooser.addObject("My Auto", new ShooterShootCommand());
     SmartDashboard.putData("Auto mode", chooser);
   }

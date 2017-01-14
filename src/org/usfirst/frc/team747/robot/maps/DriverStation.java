@@ -9,8 +9,8 @@ package org.usfirst.frc.team747.robot.maps;
 public final class DriverStation {
   
   public enum ControlMap {
-    LEFT_JOYSTICK(1),
-    RIGHT_JOYSTICK(2);
+    LEFT_JOYSTICK(0),
+    RIGHT_JOYSTICK(1);
     
     private int value;
     
@@ -32,12 +32,12 @@ public final class DriverStation {
      * 
      * All of the buttons on the joystick also have a numerical identifier printed on them
      */
-    BUTTON_1(1),
-    BUTTON_2(2),
+    TRIGGER(1),
+    SECONDARY_TRIGGER(2),
     BUTTON_3(3),
     BUTTON_4(4),
-    TRIGGER(5),
-    SECONDARY_TRIGGER(6),
+    BUTTON_5(5),
+    BUTTON_6(6),
     BUTTON_7(7),
     BUTTON_8(8),
     BUTTON_9(9),
@@ -70,7 +70,7 @@ public final class DriverStation {
   }
 
   /**
-   * "ontroller Gampad (F310) Controller Mapping
+   * "Controller Gampad (F310) Controller Mapping
    */
   public enum GamePad {
     /**
