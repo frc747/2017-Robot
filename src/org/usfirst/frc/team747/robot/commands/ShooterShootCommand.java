@@ -19,6 +19,8 @@ public class ShooterShootCommand extends Command {
   @Override
   protected void execute() {
     Robot.SHOOTER_SYSTEM.setShooterSpeed(OI.getLeftShooterSpeed(),OI.getRightShooterSpeed());
+    System.out.println("RightRPM: " + Robot.SHOOTER_SYSTEM.getMotorRightSpeed() + "  ");
+    System.out.println("LeftRPM: " + Robot.SHOOTER_SYSTEM.getMotorLeftSpeed() + "  ");
   }
 
 
