@@ -13,7 +13,27 @@ package org.usfirst.frc.team747.robot.maps;
  * will still execute on the base without issue. 
  */
 public final class Robot {
-  
+
+	/**
+	 * One talon that is used to run the hopper agitator
+	 * One talon that is used to run the transfer motor, to move balls from the hopper to the shooter
+	 */
+	public enum Transfer{
+		AGITATOR(9),
+		LOADER(10);
+		
+		private int value;
+		
+		private Transfer(int value) {
+			this.value = value;
+		}
+		
+		public int getValue(){
+			return value;
+		}
+	}
+	
+	
   /**
    * Two talons are used to run the shooter, one for the left wheel and one for the right wheel.
    */
