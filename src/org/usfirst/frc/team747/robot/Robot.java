@@ -4,6 +4,7 @@ package org.usfirst.frc.team747.robot;
 import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
 import org.usfirst.frc.team747.robot.commands.ShooterStopCommand;
 import org.usfirst.frc.team747.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team747.robot.subsystems.TransferSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,7 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-  public static final ShooterSubsystem SHOOTER_SYSTEM = new ShooterSubsystem();
+  public static final ShooterSubsystem  SHOOTER_SYSTEM  = new ShooterSubsystem();
+  public static final TransferSubsystem TRANSFER_SYSTEM = new TransferSubsystem();
   public static OI               oi;
 
   Command                  autonomousCommand;
