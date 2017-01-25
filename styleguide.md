@@ -45,7 +45,7 @@ public static final int NUMBER_OF_WHEELS = 3;
 ## Formatting
 
 ### Indentation
-An indentation width of 2 spaces should be used. Spaces should always be inserted instead of tab characters – check your editor’s settings.
+An indentation width of 4 spaces should be used. Spaces should always be inserted instead of tab characters – check your editor’s settings.
 
 ### Column limit
 No line should exceed a width of 100 columns, to reduce the need for scrolling when more than one window is open. Lines that exceed 100 columns should be truncated at an appropriate place and the remainder indented 4 spaces on the following line. Long expressions should preferentially be terminated after an operator, but in a sensible place to preserve readability. For example:
