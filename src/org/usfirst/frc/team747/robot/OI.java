@@ -29,13 +29,13 @@ public class OI {
   public static double getLeftShooterSpeed() {
 		prefs = Preferences.getInstance();
 	  System.out.println(prefs.getDouble("Motor1", 0));
-	 return Math.abs(prefs.getDouble("Motor1", 0));
+	 return prefs.getDouble("Motor1", 0);
   }
 
   public static double getRightShooterSpeed() {
 		prefs = Preferences.getInstance();
 	  System.out.println(prefs.getDouble("Motor2", 0));
-	 return Math.abs(prefs.getDouble("Motor2", 0));
+	 return prefs.getDouble("Motor2", 0);
   }
 
 }

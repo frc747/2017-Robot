@@ -23,7 +23,9 @@ public class Robot extends IterativeRobot {
 
   public static final ShooterSubsystem SHOOTER_SYSTEM = new ShooterSubsystem();
   public static OI               oi;
-
+  private LiveWindow LW = new LiveWindow();
+  
+  
   Command                  autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -37,6 +39,12 @@ public class Robot extends IterativeRobot {
 
     chooser.addObject("My Auto", new ShooterShootCommand());
     SmartDashboard.putData("Auto mode", chooser);
+    
+    
+    
+    
+    
+    
   }
 
   /**
