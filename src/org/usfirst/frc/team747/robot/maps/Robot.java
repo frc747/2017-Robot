@@ -21,7 +21,8 @@ public final class Robot {
     LEFT_SHOOTER_1(5),
     LEFT_SHOOTER_2(6),
     RIGHT_SHOOTER_1(7),
-    RIGHT_SHOOTER_2(8);
+    RIGHT_SHOOTER_2(8),
+    INDEXER(9);
     
     private int value;
 

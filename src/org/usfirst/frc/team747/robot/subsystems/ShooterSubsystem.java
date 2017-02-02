@@ -14,13 +14,12 @@ public class ShooterSubsystem extends Subsystem {
   private CANTalon talonLeft1Shooter = new CANTalon(Robot.Shooter.LEFT_SHOOTER_1.getValue()),
                    talonLeft2Shooter = new CANTalon(Robot.Shooter.LEFT_SHOOTER_2.getValue()),
                    talonRight1Shooter = new CANTalon(Robot.Shooter.RIGHT_SHOOTER_1.getValue()),
-                   talonRight2Shooter = new CANTalon(Robot.Shooter.RIGHT_SHOOTER_2.getValue());
+                   talonRight2Shooter = new CANTalon(Robot.Shooter.RIGHT_SHOOTER_2.getValue()),
+                   talonIndexer = new CANTalon(Robot.Shooter.INDEXER.getValue());
   			
   public ShooterSubsystem(){
 	  LiveWindow.addActuator("Shooter System", "Left Motor Speed 1", talonLeft1Shooter);
   }
-  
-  
   
   public void initDefaultCommand() {
     setDefaultCommand(new ShooterStopCommand());
@@ -28,12 +27,12 @@ public class ShooterSubsystem extends Subsystem {
     talonLeft2Shooter.setInverted(true);
   }
 
-  public void setShooterSpeed(double leftShooterSpeed, double rightShooterSpeed) {
+  public void setShooterSpeed(double leftShooterSpeed, double rightShooterSpeed, double indexerSpeed) {
     talonLeft1Shooter.set(leftShooterSpeed);
     talonLeft2Shooter.set(leftShooterSpeed);
     talonRight1Shooter.set(rightShooterSpeed);
     talonRight2Shooter.set(rightShooterSpeed);
-    
+    talonIndexer.set(indexerSpeed);
   }
   public double getMotorLeftSpeed(){
 	  

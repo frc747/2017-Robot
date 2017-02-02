@@ -38,4 +38,10 @@ public class OI {
 	 return prefs.getDouble("Motor2", 0);
   }
 
+  public static double getIndexerSpeed() {
+		prefs = Preferences.getInstance();
+	  System.out.println(prefs.getDouble("Indexer", 0));
+	 return prefs.getDouble("Indexer", 0);
+  }
+
 }
