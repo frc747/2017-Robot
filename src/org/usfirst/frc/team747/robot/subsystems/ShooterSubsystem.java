@@ -11,37 +11,37 @@ import com.ctre.CANTalon;
 
 public class ShooterSubsystem extends Subsystem {
 
-  private CANTalon talonLeft1Shooter = new CANTalon(Robot.Shooter.LEFT_SHOOTER_1.getValue()),
-                   talonLeft2Shooter = new CANTalon(Robot.Shooter.LEFT_SHOOTER_2.getValue()),
-                   talonRight1Shooter = new CANTalon(Robot.Shooter.RIGHT_SHOOTER_1.getValue()),
-                   talonRight2Shooter = new CANTalon(Robot.Shooter.RIGHT_SHOOTER_2.getValue()),
+  private CANTalon talonShooterLeft1 = new CANTalon(Robot.Shooter.LEFT_1.getValue()),
+                   talonShooterLeft2 = new CANTalon(Robot.Shooter.LEFT_2.getValue()),
+                   talonShooterRight1 = new CANTalon(Robot.Shooter.RIGHT_1.getValue()),
+                   talonShooterRight2 = new CANTalon(Robot.Shooter.RIGHT_2.getValue()),
                    talonIndexer = new CANTalon(Robot.Shooter.INDEXER.getValue());
   			
   public ShooterSubsystem(){
-	  LiveWindow.addActuator("Shooter System", "Left Motor Speed 1", talonLeft1Shooter);
+	  LiveWindow.addActuator("Shooter System", "Left Motor Speed 1", talonShooterLeft1);
   }
-  
+ 
   public void initDefaultCommand() {
     setDefaultCommand(new ShooterStopCommand());
-    talonLeft1Shooter.setInverted(true);
-    talonLeft2Shooter.setInverted(true);
+    talonShooterLeft1.setInverted(true);
+    talonShooterLeft2.setInverted(true);
   }
 
   public void setShooterSpeed(double leftShooterSpeed, double rightShooterSpeed, double indexerSpeed) {
-    talonLeft1Shooter.set(leftShooterSpeed);
-    talonLeft2Shooter.set(leftShooterSpeed);
-    talonRight1Shooter.set(rightShooterSpeed);
-    talonRight2Shooter.set(rightShooterSpeed);
+    talonShooterLeft1.set(leftShooterSpeed);
+    talonShooterLeft2.set(leftShooterSpeed);
+    talonShooterRight1.set(rightShooterSpeed);
+    talonShooterRight2.set(rightShooterSpeed);
     talonIndexer.set(indexerSpeed);
   }
   public double getMotorLeftSpeed(){
 	  
-	  return ((talonLeft1Shooter.getEncVelocity()/1024)*60);
+	  return ((talonShooterLeft1.getEncVelocity()/1024)*60);
 	  
   }
   public double getMotorRightSpeed(){
 	  
-	  return ((talonRight1Shooter.getEncVelocity()/1024)*60);
+	  return ((talonShooterRight1.getEncVelocity()/1024)*60);
 	  
   }
 }

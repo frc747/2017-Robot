@@ -21,112 +21,107 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-  public static final ShooterSubsystem SHOOTER_SYSTEM = new ShooterSubsystem();
-  public static OI               oi;
-  private LiveWindow LW = new LiveWindow();
-  
-  
-  Command                  autonomousCommand;
-  SendableChooser<Command> chooser = new SendableChooser<>();
+    public static final ShooterSubsystem SHOOTER_SYSTEM = new ShooterSubsystem();
+    public static OI oi;
+    private LiveWindow LW = new LiveWindow();
 
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
-  @Override
-  public void robotInit() {
-    Robot.oi = new OI();
+    Command autonomousCommand;
+    SendableChooser<Command> chooser = new SendableChooser<>();
 
-    chooser.addObject("My Auto", new ShooterShootCommand());
-    SmartDashboard.putData("Auto mode", chooser);
-    
-    
-    
-    
-    
-    
-  }
-
-  /**
-   * This function is called once each time the robot enters Disabled mode. You
-   * can use it to reset any subsystem information you want to clear when the
-   * robot is disabled.
-   */
-  @Override
-  public void disabledInit() {
     /**
-     * Setup Gyro recalibration in this block
+     * This function is run when the robot is first started up and should be
+     * used for any initialization code.
      */
-  }
+    @Override
+    public void robotInit() {
+        Robot.oi = new OI();
 
-  @Override
-  public void disabledPeriodic() {
-    Scheduler.getInstance().run();
-  }
+        chooser.addObject("My Auto", new ShooterShootCommand());
+        SmartDashboard.putData("Auto mode", chooser);
 
-  /**
-   * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-   * Dashboard, remove all of the chooser code and uncomment the getString code
-   * to get the auto name from the text box below the Gyro
-   *
-   * You can add additional auto modes by adding additional commands to the
-   * chooser code above (like the commented example) or additional comparisons
-   * to the switch structure below with additional strings & commands.
-   */
-  @Override
-  public void autonomousInit() {
-    autonomousCommand = chooser.getSelected();
-
-    String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-    switch (autoSelected) {
-      case "My Auto":
-        autonomousCommand = new ShooterShootCommand();
-        break;
-      case "Another Auto":
-        autonomousCommand = new ShooterStopCommand(); //Currently just a placeholder
-        break;
-      default:
-        break;
     }
 
-    // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      autonomousCommand.start();
+    /**
+     * This function is called once each time the robot enters Disabled mode.
+     * You can use it to reset any subsystem information you want to clear when
+     * the robot is disabled.
+     */
+    @Override
+    public void disabledInit() {
+        /**
+         * Setup Gyro recalibration in this block
+         */
     }
-  }
 
-  /**
-   * This function is called periodically during autonomous
-   */
-  @Override
-  public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
-  }
-
-  @Override
-  public void teleopInit() {
-    // This makes sure that the autonomous stops running when teleop starts
-    // running.
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
+    @Override
+    public void disabledPeriodic() {
+        Scheduler.getInstance().run();
     }
-  }
 
-  /**
-   * This function is called periodically during operator control
-   */
-  @Override
-  public void teleopPeriodic() {
-    Scheduler.getInstance().run();
-  }
+    /**
+     * This autonomous (along with the chooser code above) shows how to select
+     * between different autonomous modes using the dashboard. The sendable
+     * chooser code works with the Java SmartDashboard. If you prefer the
+     * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+     * getString code to get the auto name from the text box below the Gyro
+     *
+     * You can add additional auto modes by adding additional commands to the
+     * chooser code above (like the commented example) or additional comparisons
+     * to the switch structure below with additional strings & commands.
+     */
+    @Override
+    public void autonomousInit() {
+        autonomousCommand = chooser.getSelected();
 
-  /**
-   * This function is called periodically during test mode
-   */
-  @Override
-  public void testPeriodic() {
-    LiveWindow.run();
-  }
+        String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+        switch (autoSelected) {
+        case "My Auto":
+            autonomousCommand = new ShooterShootCommand();
+            break;
+        case "Another Auto":
+            autonomousCommand = new ShooterStopCommand(); // Currently just a
+                                                            // placeholder
+            break;
+        default:
+            break;
+        }
+
+        // schedule the autonomous command (example)
+        if (autonomousCommand != null) {
+            autonomousCommand.start();
+        }
+    }
+
+    /**
+     * This function is called periodically during autonomous
+     */
+    @Override
+    public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
+    }
+
+    @Override
+    public void teleopInit() {
+        // This makes sure that the autonomous stops running when teleop starts
+        // running.
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
+        }
+    }
+
+    /**
+     * This function is called periodically during operator control
+     */
+    @Override
+    public void teleopPeriodic() {
+        Scheduler.getInstance().run();
+    }
+
+    /**
+     * This function is called periodically during test mode
+     */
+    @Override
+    public void testPeriodic() {
+        LiveWindow.run();
+    }
 }
