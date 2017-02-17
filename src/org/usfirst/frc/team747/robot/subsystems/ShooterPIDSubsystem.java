@@ -11,53 +11,38 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
  *
  */
 public class ShooterPIDSubsystem extends PIDSubsystem {
-	
-	private CANTalon talonLeft1Shooter = new CANTalon(Robot.Shooter.LEFT_SHOOTER_1.getValue()),
-              talonLeft2Shooter = new CANTalon(Robot.Shooter.LEFT_SHOOTER_2.getValue()),
-              talonRight1Shooter = new CANTalon(Robot.Shooter.RIGHT_SHOOTER_1.getValue()),
-              talonRight2Shooter = new CANTalon(Robot.Shooter.RIGHT_SHOOTER_2.getValue()),
-              talonIndexer = new CANTalon(Robot.Shooter.INDEXER.getValue());
-	  
 
-    // Initialize your subsystem here
-    public ShooterPIDSubsystem() {
-        // Use these to get going:
-        // setSetpoint() -  Sets where the PID controller should move the system
-        //                  to
-        //enable(); //- Enables the PID controller.
-    }
+	public ShooterPIDSubsystem(double p, double i, double d) {
+		super(p, i, d);
+	}
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    	
-        setDefaultCommand(new ShooterStopCommand());
-        talonLeft1Shooter.setInverted(true);
-        talonLeft2Shooter.setInverted(true);
-        
-        
-    }
+	private CANTalon talonLeft1Shooter = new CANTalon(Robot.Shooter.LEFT_1.getValue()),
+			talonLeft2Shooter = new CANTalon(Robot.Shooter.LEFT_2.getValue()),
+			talonRight1Shooter = new CANTalon(Robot.Shooter.RIGHT_1.getValue()),
+			talonRight2Shooter = new CANTalon(Robot.Shooter.RIGHT_2.getValue()),
+			talonIndexer = new CANTalon(Robot.Shooter.INDEXER.getValue());
 
-    protected double returnPIDInput() {
-        // Return your input value for the PID loop
-        // e.g. a sensor, like a potentiometer:
-        // yourPot.getAverageVoltage() / kYourMaxVoltage;
-        return 0.0;
-    }
+	public void initDefaultCommand() {
+		setDefaultCommand(new ShooterStopCommand());
+		talonLeft1Shooter.setInverted(true);
+		talonLeft2Shooter.setInverted(true);
+	}
 
-    protected void usePIDOutput(double outputLeft, double outputRight, double indexerOutput) {
-        // Use output to drive your system, like a motor
-        // e.g. yourMotor.set(output);
-    	
-    	
-        talonLeft1Shooter.set(outputLeft);
-        talonLeft2Shooter.set(outputLeft);
-        talonRight1Shooter.set(outputRight);
-        talonRight2Shooter.set(outputRight);
-        talonIndexer.set(indexerOutput);
-        
-        
-        
-        
-    }
+	protected double returnPIDInput() {
+		return 0.0;
+	}
+
+	protected void usePIDOutput(double outputLeft, double outputRight, double indexerOutput) {
+		talonLeft1Shooter.set(outputLeft);
+		talonLeft2Shooter.set(outputLeft);
+		talonRight1Shooter.set(outputRight);
+		talonRight2Shooter.set(outputRight);
+		talonIndexer.set(indexerOutput);
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		// TODO Auto-generated method stub
+
+	}
 }
