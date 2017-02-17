@@ -36,6 +36,21 @@ public final class Robot {
         }
     }
 
+    public enum Climber {
+        CLIMB_1(10),
+        CLIMB_2(11);
+
+        private int value;
+
+        private Climber(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
     /**
      * The drive train uses four talons, two per side.
      */
