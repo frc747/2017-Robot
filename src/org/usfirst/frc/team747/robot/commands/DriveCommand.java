@@ -27,7 +27,13 @@ public class DriveCommand extends Command {
     	double left = -OI.JOYSTICK_DRIVER_LEFT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
     	double right = -OI.JOYSTICK_DRIVER_RIGHT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
     	
-    	Robot.DRIVE_TRAIN.set(left, right);
+    	double speed = OI.JOYSTICK_DRIVER_LEFT.getThrottle();
+    	
+    	if (OI.BUTTON_DRIVE_SLOW_OPERATOR.get() || OI.BUTTON_DRIVE_SLOW_DRIVER.get()) {
+    		speed += 25;
+    	}
+    	
+    	Robot.DRIVE_TRAIN.set(left * speed, right * speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

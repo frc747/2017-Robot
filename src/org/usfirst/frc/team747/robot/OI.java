@@ -3,6 +3,7 @@ package org.usfirst.frc.team747.robot;
 import org.usfirst.frc.team747.robot.maps.DriverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -10,6 +11,12 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class OI {
 
-    public static final Joystick JOYSTICK_DRIVER_LEFT = new Joystick(DriverStation.Controller.DRIVER_LEFT.getValue()),
-    		JOYSTICK_DRIVER_RIGHT = new Joystick(DriverStation.Controller.DRIVER_RIGHT.getValue());
+	public static final Joystick JOYSTICK_DRIVER_LEFT = new Joystick(DriverStation.Controller.DRIVER_LEFT.getValue()),
+			JOYSTICK_DRIVER_RIGHT = new Joystick(DriverStation.Controller.DRIVER_RIGHT.getValue()),
+			CONTROLLER_OPERATOR = new Joystick(DriverStation.Controller.OPERATOR.getValue());
+
+	public static final JoystickButton BUTTON_DRIVE_SLOW_OPERATOR
+				= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_A.getValue()),
+			BUTTON_DRIVE_SLOW_DRIVER
+				= new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_7.getValue());
 }
