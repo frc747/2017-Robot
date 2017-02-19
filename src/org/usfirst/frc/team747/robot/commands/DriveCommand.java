@@ -27,10 +27,17 @@ public class DriveCommand extends Command {
     	double left = -OI.JOYSTICK_DRIVER_LEFT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
     	double right = -OI.JOYSTICK_DRIVER_RIGHT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
     	
+    	if (Math.abs(left) < 0.1) {
+    		left = 0;
+    	}
+    	if (Math.abs(right) < 0.1) {
+    		right = 0;
+    	}
+    	
     	double speed = OI.JOYSTICK_DRIVER_LEFT.getThrottle();
     	
     	if (OI.BUTTON_DRIVE_SLOW_OPERATOR.get() || OI.BUTTON_DRIVE_SLOW_DRIVER.get()) {
-    		speed += 25;
+    		speed *= 0.25;
     	}
     	
     	Robot.DRIVE_TRAIN.set(left * speed, right * speed);
