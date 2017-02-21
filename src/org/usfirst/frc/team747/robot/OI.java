@@ -16,7 +16,7 @@ public class OI {
 			CONTROLLER_OPERATOR = new Joystick(DriverStation.Controller.OPERATOR.getValue());
 
 	public static final JoystickButton BUTTON_DRIVE_SLOW_OPERATOR
-				= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_A.getValue()),
+				= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_LB.getValue()),
 			BUTTON_DRIVE_SLOW_DRIVER
 				= new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_7.getValue());
 }
