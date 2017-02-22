@@ -19,28 +19,28 @@ public class DriveCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.DRIVE_TRAIN.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+        Robot.DRIVE_TRAIN.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double left = -OI.JOYSTICK_DRIVER_LEFT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
-    	double right = -OI.JOYSTICK_DRIVER_RIGHT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
-    	
-    	if (Math.abs(left) < 0.1) {
-    		left = 0;
-    	}
-    	if (Math.abs(right) < 0.1) {
-    		right = 0;
-    	}
-    	
-    	double speed = OI.JOYSTICK_DRIVER_LEFT.getThrottle();
-    	
-    	if (OI.BUTTON_DRIVE_SLOW_OPERATOR.get() || OI.BUTTON_DRIVE_SLOW_DRIVER.get()) {
-    		speed *= 0.25;
-    	}
-    	
-    	Robot.DRIVE_TRAIN.set(left * speed, right * speed);
+        double left = -OI.JOYSTICK_DRIVER_LEFT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
+        double right = -OI.JOYSTICK_DRIVER_RIGHT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
+        
+        if (Math.abs(left) < 0.1) {
+            left = 0;
+        }
+        if (Math.abs(right) < 0.1) {
+            right = 0;
+        }
+        
+        double speed = OI.JOYSTICK_DRIVER_LEFT.getThrottle();
+        
+        if (OI.BUTTON_DRIVE_SLOW_OPERATOR.get() || OI.BUTTON_DRIVE_SLOW_DRIVER.get()) {
+            speed *= 0.50;
+        }
+        
+        Robot.DRIVE_TRAIN.set(left * speed, right * speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
