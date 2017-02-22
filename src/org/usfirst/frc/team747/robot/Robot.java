@@ -2,6 +2,7 @@
 package org.usfirst.frc.team747.robot;
 
 import org.usfirst.frc.team747.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team747.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -18,6 +19,7 @@ public class Robot extends IterativeRobot {
 
 	public static final OI oi = new OI();
 	public static final DriveSubsystem DRIVE_TRAIN = new DriveSubsystem();
+	public static final IntakeSubsystem INTAKE = new IntakeSubsystem();
 
 	/**
 	 * This function is run when the robot is first started up and should be

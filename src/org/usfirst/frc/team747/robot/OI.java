@@ -1,5 +1,6 @@
 package org.usfirst.frc.team747.robot;
 
+import org.usfirst.frc.team747.robot.commands.IntakeCommand;
 import org.usfirst.frc.team747.robot.maps.DriverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -18,5 +19,14 @@ public class OI {
 	public static final JoystickButton BUTTON_DRIVE_SLOW_OPERATOR
 				= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_LB.getValue()),
 			BUTTON_DRIVE_SLOW_DRIVER
-				= new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_7.getValue());
+				= new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_7.getValue()),
+			BUTTON_INTAKE_FORWARD
+				= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_A.getValue()),
+			BUTTON_INTAKE_BACK
+				= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_B.getValue());
+
+    public OI() {
+    	BUTTON_INTAKE_FORWARD.whileHeld(new IntakeCommand());
+    	BUTTON_INTAKE_BACK.whileHeld(new IntakeCommand(true));
+    }
 }

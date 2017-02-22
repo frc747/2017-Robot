@@ -33,4 +33,21 @@ public final class RobotMap {
             return value;
         }
     }
+
+    /**
+     * Intake uses 1 talon.
+     */
+    public enum Intake {
+    	INTAKE(9);
+    	
+    	private int value;
+
+        private Intake(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
 }
