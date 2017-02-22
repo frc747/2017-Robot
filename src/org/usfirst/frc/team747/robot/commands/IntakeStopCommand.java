@@ -4,27 +4,20 @@ import org.usfirst.frc.team747.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeCommand extends Command {
-	
-	private final boolean forward;
-	
-	public IntakeCommand() {
-		this(true);	// By default drive forward.
-	}
+public class IntakeStopCommand extends Command {
 
-    public IntakeCommand(boolean forward) {
+    public IntakeStopCommand() {
         requires(Robot.INTAKE);
-        this.forward = forward;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	Robot.INTAKE.set(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.INTAKE.set(true, this.forward);
+    	Robot.INTAKE.set(false);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -34,7 +27,7 @@ public class IntakeCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Robot.INTAKE.set(false, this.forward);
+        Robot.INTAKE.set(false);
     }
 
     // Called when another command which requires one or more of the same

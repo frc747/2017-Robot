@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Robot extends IterativeRobot {
 
-	public static final OI oi = new OI();
 	public static final DriveSubsystem DRIVE_TRAIN = new DriveSubsystem();
 	public static final IntakeSubsystem INTAKE = new IntakeSubsystem();
+	public static final OI oi = new OI();
 
 	/**
 	 * This function is run when the robot is first started up and should be
