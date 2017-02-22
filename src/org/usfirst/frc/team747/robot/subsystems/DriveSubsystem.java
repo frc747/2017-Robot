@@ -17,10 +17,10 @@ public class DriveSubsystem extends Subsystem {
 
 	public DriveSubsystem() {
 		super();
-		this.talonDriveLeftPrimary.setInverted(false);
-		this.talonDriveLeftSlave.setInverted(false);
-		this.talonDriveRightPrimary.setInverted(true);
-		this.talonDriveRightSlave.setInverted(true);
+		this.talonDriveLeftPrimary.setInverted(true);
+		this.talonDriveLeftSlave.setInverted(true);
+		this.talonDriveRightPrimary.setInverted(false);
+		this.talonDriveRightSlave.setInverted(false);
 
 		this.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
 		this.talonDriveLeftSlave.set(this.talonDriveLeftPrimary.getDeviceID());
