@@ -1,7 +1,7 @@
 package org.usfirst.frc.team747.robot.subsystems;
 
 import org.usfirst.frc.team747.robot.commands.ShooterStopCommand;
-import org.usfirst.frc.team747.robot.maps.Robot;
+import org.usfirst.frc.team747.robot.maps.RobotMap;
 
 import com.ctre.CANTalon;
 
@@ -16,11 +16,11 @@ public class ShooterPIDSubsystem extends PIDSubsystem {
 		super(p, i, d);
 	}
 
-	private CANTalon talonLeft1Shooter = new CANTalon(Robot.Shooter.LEFT_1.getValue()),
-			talonLeft2Shooter = new CANTalon(Robot.Shooter.LEFT_2.getValue()),
-			talonRight1Shooter = new CANTalon(Robot.Shooter.RIGHT_1.getValue()),
-			talonRight2Shooter = new CANTalon(Robot.Shooter.RIGHT_2.getValue()),
-			talonIndexer = new CANTalon(Robot.Shooter.INDEXER.getValue());
+	private CANTalon talonLeft1Shooter = new CANTalon(RobotMap.Shooter.LEFT_1.getValue()),
+			talonLeft2Shooter = new CANTalon(RobotMap.Shooter.LEFT_2.getValue()),
+			talonRight1Shooter = new CANTalon(RobotMap.Shooter.RIGHT_1.getValue()),
+			talonRight2Shooter = new CANTalon(RobotMap.Shooter.RIGHT_2.getValue()),
+			talonIndexer = new CANTalon(RobotMap.Shooter.INDEXER.getValue());
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new ShooterStopCommand());

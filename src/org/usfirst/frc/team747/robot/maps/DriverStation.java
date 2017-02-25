@@ -10,7 +10,8 @@ public final class DriverStation {
 
     public enum ControlMap {
         JOYSTICK_LEFT(0),
-        JOYSTICK_RIGHT(1);
+        JOYSTICK_RIGHT(1),
+        OPERATOR(2);
 
         private int value;
 

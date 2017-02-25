@@ -12,7 +12,7 @@ package org.usfirst.frc.team747.robot.maps;
  * differently addressed components, or missing components, but the code will
  * still execute on the base without issue.
  */
-public final class Robot {
+public final class RobotMap {
 
     /**
      * Two talons are used to run the shooter, one for the left wheel and one
