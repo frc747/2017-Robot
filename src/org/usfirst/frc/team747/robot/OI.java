@@ -1,5 +1,6 @@
 package org.usfirst.frc.team747.robot;
 
+import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
 import org.usfirst.frc.team747.robot.commands.IntakeCommand;
 import org.usfirst.frc.team747.robot.maps.DriverStation;
 
@@ -16,17 +17,20 @@ public class OI {
             JOYSTICK_DRIVER_RIGHT = new Joystick(DriverStation.Controller.DRIVER_RIGHT.getValue()),
             CONTROLLER_OPERATOR = new Joystick(DriverStation.Controller.OPERATOR.getValue());
 
-    public static final JoystickButton BUTTON_DRIVE_SLOW_OPERATOR
-                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_LB.getValue()),
-            BUTTON_DRIVE_SLOW_DRIVER
+    public static final JoystickButton BUTTON_DRIVE_SLOW_DRIVER
                 = new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_7.getValue()),
+            BUTTON_DRIVE_SLOW_OPERATOR
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_LB.getValue()),
             BUTTON_INTAKE_FORWARD
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_A.getValue()),
             BUTTON_INTAKE_BACK
-                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_B.getValue());
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_B.getValue()),
+            BUTTON_DRIVE_DISTANCE
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_START.getValue());
 
     public OI() {
         BUTTON_INTAKE_FORWARD.whileHeld(new IntakeCommand());
         BUTTON_INTAKE_BACK.whileHeld(new IntakeCommand(false));
+        BUTTON_DRIVE_DISTANCE.whenPressed(new DriveDistanceCommand((6.25 * Math.PI), 0.1));
     }
 }

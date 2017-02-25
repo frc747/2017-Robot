@@ -58,7 +58,7 @@ public enum DriverStation {
 	}
 
 	/**
-	 * "Controller Gampad (F310)" Controller Mapping
+	 * "Controller Gamepad (F310)" Controller Mapping
 	 */
 	public enum GamePad {
 		// Button Addresses
