@@ -33,6 +33,43 @@ public final class RobotMap {
             return value;
         }
     }
+    
+    /**
+	 * Two talons are used to run the shooter, one for the left wheel and one
+	 * for the right wheel.
+	 */
+	public enum Shooter {
+	    LEFT_1(5),
+	    LEFT_2(6),
+	    RIGHT_1(7),
+	    RIGHT_2(8),
+	    INDEXER(9);
+	
+	    private int value;
+	
+	    private Shooter(int value) {
+	        this.value = value;
+	    }
+	
+	    public int getValue() {
+	        return value;
+	    }
+	}
+	
+	public enum Climber {
+	    CLIMB_1(10),
+	    CLIMB_2(11);
+	
+	    private int value;
+	
+	    private Climber(int value) {
+	        this.value = value;
+	    }
+	
+	    public int getValue() {
+	        return value;
+	    }
+	}
 
     /**
      * Intake uses 1 talon.

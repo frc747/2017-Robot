@@ -1,10 +1,14 @@
 package org.usfirst.frc.team747.robot;
 
+import org.usfirst.frc.team747.robot.commands.ClimberClimbUpCommand;
+import org.usfirst.frc.team747.robot.commands.ClimberClimbDownCommand;
+import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
 import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
 import org.usfirst.frc.team747.robot.commands.IntakeCommand;
 import org.usfirst.frc.team747.robot.maps.DriverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -26,11 +30,37 @@ public class OI {
             BUTTON_INTAKE_BACK
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_B.getValue()),
             BUTTON_DRIVE_DISTANCE
-                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_START.getValue());
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_START.getValue()),
+            BUTTON_FIRE
+            	= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.TRIGGER_RIGHT.getValue()),
+            BUTTON_CLIMB
+            	= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_X.getValue()),
+            BUTTON_CLIMB_DOWN
+            	= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_Y.getValue());
 
+    static Preferences prefs;
+    
     public OI() {
         BUTTON_INTAKE_FORWARD.whileHeld(new IntakeCommand());
         BUTTON_INTAKE_BACK.whileHeld(new IntakeCommand(false));
         BUTTON_DRIVE_DISTANCE.whenPressed(new DriveDistanceCommand((6.25 * Math.PI), 0.1));
+        BUTTON_FIRE.whileHeld(new ShooterShootCommand());
+        BUTTON_CLIMB.whileHeld(new ClimberClimbUpCommand());
+        BUTTON_CLIMB_DOWN.whileHeld(new ClimberClimbDownCommand());
+    }
+
+    public static double getLeftShooterSpeed() {
+        prefs = Preferences.getInstance();
+        return prefs.getDouble("Motor1", 0);
+    }
+
+    public static double getRightShooterSpeed() {
+        prefs = Preferences.getInstance();
+        return prefs.getDouble("Motor2", 0);
+    }
+
+    public static double getIndexerSpeed() {
+        prefs = Preferences.getInstance();
+        return prefs.getDouble("Indexer", 0);
     }
 }
