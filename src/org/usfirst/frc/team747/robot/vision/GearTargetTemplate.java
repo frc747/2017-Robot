@@ -1,8 +1,6 @@
 package org.usfirst.frc.team747.robot.vision;
 
-import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 
 public class GearTargetTemplate extends TargetTemplate {
 
@@ -16,12 +14,6 @@ public class GearTargetTemplate extends TargetTemplate {
 
     private static final double TARGET_SECTION_RATIO_VARIANCE = 0.1;
     private static final double TARGET_RATIO_VARIANCE = 0.1;
-
-    private static final double TARGET_SECTION_RATIO_MIN = TARGET_SECTION_RATIO - TARGET_SECTION_RATIO_VARIANCE;
-    private static final double TARGET_SECTION_RATIO_MAX = TARGET_SECTION_RATIO + TARGET_SECTION_RATIO_VARIANCE;
-
-    private static final double TARGET_WIDTH_RATIO_MIN = TARGET_WIDTH_RATIO - TARGET_RATIO_VARIANCE;
-    private static final double TARGET_WIDTH_RATIO_MAX = TARGET_WIDTH_RATIO - TARGET_RATIO_VARIANCE;
 
     @Override
     public boolean isSector(Rect contour) {

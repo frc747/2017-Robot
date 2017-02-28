@@ -1,8 +1,6 @@
 package org.usfirst.frc.team747.robot.vision;
 
-import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 
 public class BoilerTargetTemplate extends TargetTemplate {
 
