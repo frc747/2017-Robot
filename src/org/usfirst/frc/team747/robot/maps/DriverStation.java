@@ -1,20 +1,17 @@
 package org.usfirst.frc.team747.robot.maps;
 
-/**
- * DriverStation
- * 
- * Mappings for the Driver Station as well as mappings for common control
- * devices that are used on the driver station.
- */
-public final class DriverStation {
+public enum DriverStation {
+    JOYSTICK,
+    GAMEPAD;
 
-    public enum ControlMap {
-        JOYSTICK_LEFT(0),
-        JOYSTICK_RIGHT(1);
+    public enum Controller {
+        DRIVER_LEFT(0),
+        DRIVER_RIGHT(1),
+        OPERATOR(2);
 
         private int value;
 
-        private ControlMap(int value) {
+        private Controller(int value) {
             this.value = value;
         }
 
@@ -27,14 +24,9 @@ public final class DriverStation {
      * Logitech Extreme 3D Pro Joystick Mapping
      */
     public enum Joystick {
-        /**
-         * Button Addresses
-         * 
-         * All of the buttons on the joystick also have a numerical identifier
-         * printed on them
-         */
-        TRIGGER(1),
-        SECONDARY_TRIGGER(2),
+        // Button Addresses
+        BUTTON_1(1),
+        BUTTON_2(2),
         BUTTON_3(3),
         BUTTON_4(4),
         BUTTON_5(5),
@@ -46,20 +38,13 @@ public final class DriverStation {
         BUTTON_11(11),
         BUTTON_12(12),
 
-        /**
-         * Axis Addresses
-         */
-        X_AXIS(0),
-        Y_AXIS(1),
-        Z_AXIS(2),
-        THROTTLE_AXIS(3),
-
-        /**
-         * These HAT Axies will most likely not be used since WPI provides HAT
-         * functionality in their joystick classes
-         */
-        HAT_X_AXIS(4),
-        HAT_Y_AXIS(5);
+        // Axis Addresses
+        AXIS_X(0),
+        AXIS_Y(1),
+        AXIS_Z(2),
+        AXIS_THROTTLE(3),
+        AXIS_HAT_X(4),
+        AXIS_HAT_Y(5);
 
         private int value;
 
@@ -73,32 +58,28 @@ public final class DriverStation {
     }
 
     /**
-     * "Controller Gampad (F310) Controller Mapping
+     * "Controller Gamepad (F310)" Controller Mapping
      */
     public enum GamePad {
-        /**
-         * Button Addresses
-         */
-        A_BUTTON(1),
-        B_BUTTON(2),
-        X_BUTTON(3),
-        Y_BUTTON(4),
-        LB_BUTTON(5),
-        RB_BUTTON(6),
-        BACK_BUTTON(7),
-        START_BUTTON(8),
-        L_STICK_BUTTON(9),
-        R_STICK_BUTTON(10),
-        
-        /**
-         * Axis Addresses
-         */
-        L_X_AXIS(0),
-        L_Y_AXIS(1),
-        L_TRIGGER(2),
-        R_TRIGGER(3),
-        R_X_AXIS(4),
-        R_Y_AXIS(5);
+        // Button Addresses
+        BUTTON_A(1),
+        BUTTON_B(2),
+        BUTTON_X(3),
+        BUTTON_Y(4),
+        BUTTON_LB(5),
+        BUTTON_RB(6),
+        BUTTON_BACK(7),
+        BUTTON_START(8),
+        STICK_LEFT(9),
+        STICK_RIGHT(10),
+
+        // Axis Addresses
+        AXIS_LEFT_X(0),
+        AXIS_LEFT_Y(1),
+        TRIGGER_LEFT(2),
+        TRIGGER_RIGHT(3),
+        AXIS_RIGHT_X(4),
+        AXIS_RIGHT_Y(5);
 
         private int value;
 

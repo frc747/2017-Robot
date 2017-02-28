@@ -14,14 +14,14 @@ import org.usfirst.frc.team747.robot.Robot;
 public class ShooterShootCommand extends Command {
 
 	public ShooterShootCommand() {
-		requires(Robot.SHOOTER_SYSTEM);
+		requires(Robot.SHOOTER);
 	}
 
 	@Override
 	protected void execute() {
-		Robot.SHOOTER_SYSTEM.setShooterSpeed(OI.getLeftShooterSpeed(), OI.getRightShooterSpeed(), OI.getIndexerSpeed());
-		//System.out.println("RightRPM: " + Robot.SHOOTER_SYSTEM.getMotorRightSpeed() + "  ");
-		//System.out.println("LeftRPM: " + Robot.SHOOTER_SYSTEM.getMotorLeftSpeed() + "  ");
+		Robot.SHOOTER.setShooterSpeed(OI.getLeftShooterSpeed(), OI.getRightShooterSpeed(), OI.getIndexerSpeed());
+		System.out.println("RightRPM: " + Robot.SHOOTER.getMotorRightSpeed() + "  ");
+		System.out.println("LeftRPM: " + Robot.SHOOTER.getMotorLeftSpeed() + "  ");
 	}
 
 	@Override

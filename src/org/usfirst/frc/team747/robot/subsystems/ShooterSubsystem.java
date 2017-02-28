@@ -1,9 +1,10 @@
 package org.usfirst.frc.team747.robot.subsystems;
 
 import org.usfirst.frc.team747.robot.commands.ShooterStopCommand;
-import org.usfirst.frc.team747.robot.maps.Robot.ShooterVals;
-import org.usfirst.frc.team747.robot.maps.Robot.ShooterSpeed;
+import org.usfirst.frc.team747.robot.maps.RobotMap.Shooter;
+import org.usfirst.frc.team747.robot.maps.RobotMap.ShooterSpeed;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.ctre.CANTalon;
@@ -11,11 +12,11 @@ import com.ctre.CANTalon.FeedbackDevice;
 
 public class ShooterSubsystem extends Subsystem {
 
-  private CANTalon talonShooterLeft1 = new CANTalon(ShooterVals.LEFT_1.getValue()),
-                   talonShooterLeft2 = new CANTalon(ShooterVals.LEFT_2.getValue()),
-                   talonShooterRight1 =	new CANTalon(ShooterVals.RIGHT_1.getValue()),
-                   talonShooterRight2 =	new CANTalon(ShooterVals.RIGHT_2.getValue()),
-                   talonIndexer	= new CANTalon(ShooterVals.INDEXER.getValue());
+  private CANTalon talonShooterLeft1 = new CANTalon(Shooter.LEFT_1.getValue()),
+                   talonShooterLeft2 = new CANTalon(Shooter.LEFT_2.getValue()),
+                   talonShooterRight1 =	new CANTalon(Shooter.RIGHT_1.getValue()),
+                   talonShooterRight2 =	new CANTalon(Shooter.RIGHT_2.getValue()),
+                   talonIndexer	= new CANTalon(Shooter.INDEXER.getValue());
   			
   public ShooterSubsystem(){
 	  	
