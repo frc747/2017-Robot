@@ -11,61 +11,68 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveSubsystem extends Subsystem {
 
-	public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
-			talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
-			talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
-			talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue());
-	
-	public DriveSubsystem() {
-		super();
-		this.talonDriveLeftPrimary.setInverted(true);
-		this.talonDriveLeftSlave.setInverted(true);
-		this.talonDriveRightPrimary.setInverted(false);
-		this.talonDriveRightSlave.setInverted(false);
-		this.talonDriveRightPrimary.reverseSensor(true);
+    private static final double DEFAULT_DISTANCE_PRECISION = 3; // Inches
+    private static final double DEFAULT_ANGLE_PRECISION = 1; // Degrees
+    
+    public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
+            talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
+            talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
+            talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue());
+    
+    public DriveSubsystem() {
+        super();
+        this.talonDriveLeftPrimary.setInverted(true);
+        this.talonDriveLeftSlave.setInverted(true);
+        this.talonDriveRightPrimary.setInverted(false);
+        this.talonDriveRightSlave.setInverted(false);
+        this.talonDriveRightPrimary.reverseSensor(true);
 
-		this.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
-		this.talonDriveLeftSlave.set(this.talonDriveLeftPrimary.getDeviceID());
-		
-		this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
-		this.talonDriveRightSlave.set(this.talonDriveRightPrimary.getDeviceID());
-	}
-	
-	@Override
-	protected void initDefaultCommand() {
-		this.setDefaultCommand(new DriveCommand());
-	}
+        this.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.talonDriveLeftSlave.set(this.talonDriveLeftPrimary.getDeviceID());
+        
+        this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.talonDriveRightSlave.set(this.talonDriveRightPrimary.getDeviceID());
+    }
+    
+    @Override
+    protected void initDefaultCommand() {
+        this.setDefaultCommand(new DriveCommand());
+    }
 
-	public void changeControlMode(TalonControlMode mode) {
-		this.talonDriveLeftPrimary.changeControlMode(mode);
-		this.talonDriveRightPrimary.changeControlMode(mode);
-	}
-	
-	public void set(double left, double right) {
-		this.talonDriveLeftPrimary.set(left);
-		this.talonDriveRightPrimary.set(right);
-	}
+    public void changeControlMode(TalonControlMode mode) {
+        this.talonDriveLeftPrimary.changeControlMode(mode);
+        this.talonDriveRightPrimary.changeControlMode(mode);
+    }
+    
+    public void set(double left, double right) {
+        this.talonDriveLeftPrimary.set(left);
+        this.talonDriveRightPrimary.set(right);
+    }
 
-	public void resetLeftEncoder() {
-	    talonDriveLeftPrimary.setPosition(0);
-	}
-	
-	public void resetRightEncoder() {
-	    talonDriveRightPrimary.setPosition(0);
-	}
-	
-	public double getLeftEncoderPosition() {
-	    return talonDriveLeftPrimary.getPosition();
-	}
-	
-	public double getRightEncoderPosition() {
-	    return talonDriveRightPrimary.getPosition();
-	}
-	
-    public double convertEncoderTicksToInches(double inchesToTravel) {
+    public void resetLeftEncoder() {
+        talonDriveLeftPrimary.setPosition(0);
+    }
+    
+    public void resetRightEncoder() {
+        talonDriveRightPrimary.setPosition(0);
+    }
+    
+    public double getLeftEncoderPosition() {
+        return talonDriveLeftPrimary.getPosition();
+    }
+    
+    public double getRightEncoderPosition() {
+        return talonDriveRightPrimary.getPosition();
+    }
+    
+    public double getCombindedEncoderPosition() {
+        return (getLeftEncoderPosition() + getRightEncoderPosition()) / 2;
+    }
+    
+    public double convertInchesToTicks(double inchesToTravel) {
         
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
-        final double wheelCircumference = 6.25 * Math.PI, 
+        final double wheelCircumference = 6.25 * Math.PI,
                      ticksPerEncoder = 128;
                 
         //Calculate how many ticks per inch
@@ -74,6 +81,20 @@ public class DriveSubsystem extends Subsystem {
         final double encoderTicks = inchesToTravel / ticksPerInch;
         
         return encoderTicks;
+    }
+    
+    public double convertTicksToInches(double ticks) {
+        
+        //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
+        final double wheelCircumference = 6.25 * Math.PI,
+                     ticksPerEncoder = 128;
+                
+        //Calculate how many ticks per inch
+        final double inchesPerTick = wheelCircumference / ticksPerEncoder;
+        
+        final double inches = ticks * inchesPerTick;
+        
+        return inches;
     }
     
     public void driveStraight ( double speed, double targetAngle) {
@@ -114,26 +135,70 @@ public class DriveSubsystem extends Subsystem {
         
     }
     
-	public void stop() {
-		TalonControlMode mode = this.talonDriveLeftPrimary.getControlMode();
+    public void stop() {
+        TalonControlMode mode = this.talonDriveLeftPrimary.getControlMode();
 
-		double left = 0;
-		double right = 0;
-		
-		switch (mode) {
-		case Position:
-			left = this.talonDriveLeftPrimary.getPosition();
-			right = this.talonDriveRightPrimary.getPosition();
-			break;
-		case PercentVbus:
-		case Speed:
-		case Voltage:
-		default:
-			// Values should be 0;
-			break;
-		}
-		
-		this.set(left, right);
-	}
+        double left = 0;
+        double right = 0;
+        
+        switch (mode) {
+        case Position:
+            left = this.talonDriveLeftPrimary.getPosition();
+            right = this.talonDriveRightPrimary.getPosition();
+            break;
+        case PercentVbus:
+        case Speed:
+        case Voltage:
+        default:
+            // Values should be 0;
+            break;
+        }
+        
+        this.set(left, right);
+    }
+    
+    public void skewDrive(double power, double diff) {
+        double left = power * (0.25 * diff + .75);
+        double right = power * (-0.25 * diff + .75);
+        set(left, right);
+    }
+    
+    public void spinDrive(double power) {
+        set(power, -power);
+    }
+    
+    public void driveToTarget(double angle, double distance, double power, double stopPoint) {
+        driveToTarget(angle, distance, power, stopPoint, DEFAULT_DISTANCE_PRECISION, DEFAULT_ANGLE_PRECISION);
+    }
+    
+    public void driveToTarget(double angle, double distance, double power, double stopPoint, double stopPrecision, double anglePrecision) {
+        
+        double distanceDiff = distance - stopPoint;
+        double distanceDiffAbs = Math.abs(distanceDiff);
+        power *= distanceDiff / distanceDiffAbs;
+
+        double angleAbs = Math.abs(angle);
+        double skew = angle / angleAbs;
+
+        if (angleAbs < anglePrecision) {
+            skew = 0;
+        } else if (angleAbs < anglePrecision) {
+            skew *= angleAbs / anglePrecision;
+        }
+
+        if (distanceDiffAbs < stopPrecision) {
+            // @TODO Try to turn.
+            if (skew != 0) {
+                Robot.DRIVE_TRAIN.spinDrive(1.25 * skew * power);
+            } else {
+                Robot.DRIVE_TRAIN.stop();
+            }
+            return;
+        } else if (distanceDiffAbs < stopPrecision) {
+            power *= distanceDiffAbs / stopPrecision;
+        }
+
+        Robot.DRIVE_TRAIN.skewDrive(power, skew);
+    }
 
 }
