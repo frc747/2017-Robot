@@ -3,6 +3,8 @@ package org.usfirst.frc.team747.robot;
 
 import org.usfirst.frc.team747.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team747.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team747.robot.subsystems.ClimberSubsystem;
+import org.usfirst.frc.team747.robot.subsystems.ShooterSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -10,7 +12,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -22,6 +23,8 @@ public class Robot extends IterativeRobot {
 
 	public static final DriveSubsystem DRIVE_TRAIN = new DriveSubsystem();
 	public static final IntakeSubsystem INTAKE = new IntakeSubsystem();
+	public static final ShooterSubsystem SHOOTER = new ShooterSubsystem();
+	public static final ClimberSubsystem CLIMBER = new ClimberSubsystem();
 	public static final OI oi = new OI();
 
 	private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
