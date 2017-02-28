@@ -8,6 +8,7 @@ import java.util.Map;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
@@ -27,18 +28,18 @@ public class VisionTracking implements VisionPipeline {
     private static double[] HSL_THRESHOLD_HUE = {47.0, 92.0};
     private static double[] HSL_THRESHOLD_SATURATION = {23.0, 255.0};
     private static double[] HSL_THRESHOLD_LUMINANCE = {30.0, 255.0};
-    
+
     private final CameraSpecs cameraSpecs;
     private final Map<String, TargetTemplate> targetTemplates;
     public Map<String, Target> targets;
-    
+
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
-    
+
     public VisionTracking(CameraSpecs cameraSpecs, Map<String, TargetTemplate> targetTemplates) {
-    	this.cameraSpecs = cameraSpecs;
-    	this.targetTemplates = targetTemplates;
+        this.cameraSpecs = cameraSpecs;
+        this.targetTemplates = targetTemplates;
     }
 
     /**
@@ -67,10 +68,10 @@ public class VisionTracking implements VisionPipeline {
      *            The min and max luminance
      * @param output
      *            The image in which to store the output.
-     * @return 
+     * @return
      */
     private Mat hslThreshold(Mat input, double[] hue, double[] sat, double[] lum) {
-    	Mat output = new Mat();
+        Mat output = new Mat();
         Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2HLS);
         Core.inRange(output, new Scalar(hue[0], lum[0], sat[0]), new Scalar(hue[1], lum[1], sat[1]),
                         output);
@@ -79,15 +80,15 @@ public class VisionTracking implements VisionPipeline {
 
     /**
      * Converts a color image into shades of grey.
-     * 
+     *
      * @param input
      *            The image on which to perform the desaturate.
      * @param output
      *            The image in which to store the output.
-     * @return 
+     * @return
      */
     private Mat desaturate(Mat input) {
-    	Mat output = new Mat();
+        Mat output = new Mat();
         switch (input.channels()) {
         case 1:
             // If the input is already one channel, it's already desaturated
@@ -108,7 +109,7 @@ public class VisionTracking implements VisionPipeline {
     /**
      * Sets the values of pixels in a binary image to their distance to the
      * nearest black pixel.
-     * 
+     *
      * @param input
      *            The image on which to perform the Distance Transform.
      * @param type
@@ -117,10 +118,10 @@ public class VisionTracking implements VisionPipeline {
      *            the size of the mask.
      * @param output
      *            The image in which to store the output.
-     * @return 
+     * @return
      */
     private ArrayList<MatOfPoint> findContours(Mat input) {
-    	ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+        ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
         Mat hierarchy = new Mat();
         Imgproc.findContours(input, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         return contours;
@@ -128,57 +129,79 @@ public class VisionTracking implements VisionPipeline {
 
     /**
      * Analyze Contours for matching.
-     * 
+     *
      * @param contours
      *            Input contours for
      */
     public void analyzeCoutours(ArrayList<MatOfPoint> contours) {
-    	Map<String, ArrayList<MatOfPoint>> buckets = new HashMap<String, ArrayList<MatOfPoint>>();
-    	Map<String, Target> resultTargets = new HashMap<String, Target>();
+        Map<String, ArrayList<Rect>> buckets = new HashMap<String, ArrayList<Rect>>();
+        Map<String, Target> resultTargets = new HashMap<String, Target>();
 
-    	for (String key : this.targetTemplates.keySet()) {
-    		ArrayList<MatOfPoint> list = new ArrayList<MatOfPoint>();
-    		buckets.put(key, list);
-    	}
-    	
-    	for(MatOfPoint contour : contours) {
-        	for (String key : this.targetTemplates.keySet()) {
-        		if (this.targetTemplates.get(key).isSector(contour)) {
-        			buckets.get(key).add(contour);
-        		}
-        	}
-    	}
+        for (String key : this.targetTemplates.keySet()) {
+            ArrayList<Rect> list = new ArrayList<Rect>();
+            buckets.put(key, list);
+        }
 
-    	for (String key : buckets.keySet()) {
-    		ArrayList<MatOfPoint> bucket = buckets.get(key);
-    		Target t = null;
+        for(MatOfPoint contour : contours) {
+            Rect rect = Imgproc.boundingRect(contour);
+            for (String key : this.targetTemplates.keySet()) {
+                if (this.targetTemplates.get(key).isSector(rect)) {
+                    buckets.get(key).add(rect);
+                }
+            }
 
-    		for (MatOfPoint c1 : bucket) {
-    			for (MatOfPoint c2 : bucket) {
-    				t = this.targetTemplates.get(key).getTarget(c1, c2, this.cameraSpecs);
-    				if (t != null) {
-    					resultTargets.put(key, t);
-    					break;
-    				}
-    			}
-				if (t != null) {
-					break;
-				}
-    		}
-    	}
-    	
-    	this.targets = resultTargets;
+            // Attempt partial Matching of two contour, to account for obstructions (Peg, Fuel, Gears)
+            for(MatOfPoint contour2: contours) {
+                if (contour == contour2) {
+                    continue;
+                }
+                Rect rect2 = Imgproc.boundingRect(contour2);
+                int right = Math.min(rect.x, rect2.x);
+                int top = Math.min(rect.y, rect2.y);
+                int left = Math.max(rect.x + rect.width, rect2.x + rect2.width);
+                int bottom = Math.max(rect.y + rect.height, rect2.y + rect2.height);
+
+                Rect bounding = new Rect(right, top, left - right, bottom - top);
+
+                for (String key : this.targetTemplates.keySet()) {
+                    if (this.targetTemplates.get(key).isSector(bounding)) {
+                        buckets.get(key).add(bounding);
+                    }
+                }
+
+            }
+        }
+
+        for (String key : buckets.keySet()) {
+            ArrayList<Rect> bucket = buckets.get(key);
+            Target t = null;
+
+            for (Rect c1 : bucket) {
+                for (Rect c2 : bucket) {
+                    t = this.targetTemplates.get(key).getTarget(c1, c2, this.cameraSpecs);
+                    if (t != null) {
+                        resultTargets.put(key, t);
+                        break;
+                    }
+                }
+                if (t != null) {
+                    break;
+                }
+            }
+        }
+
+        this.targets = resultTargets;
     }
 
     /**
      * Test if vision tracking has found a target.
-     * 
+     *
      * @return boolean If vision tracking has detected a target.
      */
     public Target getTarget(String name) {
-    	if (this.targets != null) {
-    		return this.targets.get(name);
-    	}
-    	return null;
+        if (this.targets != null) {
+            return this.targets.get(name);
+        }
+        return null;
     }
 }
