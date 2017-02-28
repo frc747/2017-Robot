@@ -2,7 +2,6 @@ package org.usfirst.frc.team747.robot.vision;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.opencv.core.Core;
@@ -24,7 +23,9 @@ import edu.wpi.first.wpilibj.vision.VisionPipeline;
  */
 public class VisionTracking implements VisionPipeline {
 
-    // Outputs
+	// Bounding rectangles should be made of > 60% of the paired contours
+    private static final double BOUNDING_AREA_MINIMUM = .60;
+	// Outputs
     private static double[] HSL_THRESHOLD_HUE = {47.0, 92.0};
     private static double[] HSL_THRESHOLD_SATURATION = {23.0, 255.0};
     private static double[] HSL_THRESHOLD_LUMINANCE = {30.0, 255.0};
@@ -162,13 +163,15 @@ public class VisionTracking implements VisionPipeline {
                 int bottom = Math.max(rect.y + rect.height, rect2.y + rect2.height);
 
                 Rect bounding = new Rect(right, top, left - right, bottom - top);
-
-                for (String key : this.targetTemplates.keySet()) {
-                    if (this.targetTemplates.get(key).isSector(bounding)) {
-                        buckets.get(key).add(bounding);
-                    }
+                
+                // Only test bounding rectagles of the parts make up the minimum area.
+                if (rect.area() + rect2.area() > bounding.area() * BOUNDING_AREA_MINIMUM) {
+	                for (String key : this.targetTemplates.keySet()) {
+	                    if (this.targetTemplates.get(key).isSector(bounding)) {
+	                        buckets.get(key).add(bounding);
+	                    }
+	                }
                 }
-
             }
         }
 
