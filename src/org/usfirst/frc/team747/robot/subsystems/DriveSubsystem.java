@@ -1,5 +1,6 @@
 package org.usfirst.frc.team747.robot.subsystems;
 
+import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.DriveCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap;
 
@@ -16,8 +17,6 @@ public class DriveSubsystem extends Subsystem {
 			talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
 			talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
 			talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue());
-
-	public AHRS navX = new AHRS (SPI.Port.kMXP);
 	
 	public DriveSubsystem() {
 		super();
@@ -78,19 +77,6 @@ public class DriveSubsystem extends Subsystem {
         
         return encoderTicks;
     }
-
-    public double getNavX360Angle(){
-        double angle360   = 0;
-        final int    halfCircle = 180;
-  
-  if (this.navX.getYaw() < 0){
-      angle360 = (halfCircle + this.navX.getYaw()) + halfCircle;
-      
-  } else {
-      angle360 = this.navX.getYaw();
-  }
-  return angle360;
-}    
     
     public void driveStraight ( double speed, double targetAngle) {
         
@@ -101,7 +87,7 @@ public class DriveSubsystem extends Subsystem {
                convertedAngle;
         
         desiredAngle = targetAngle;
-        currentAngle = this.getNavX360Angle();
+        currentAngle = Robot.getNavX360Angle();
         
         if (currentAngle <= 360 && currentAngle >= 350){
             convertedAngle = currentAngle - 360;

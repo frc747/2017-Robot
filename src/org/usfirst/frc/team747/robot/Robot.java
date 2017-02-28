@@ -4,7 +4,10 @@ package org.usfirst.frc.team747.robot;
 import org.usfirst.frc.team747.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team747.robot.subsystems.IntakeSubsystem;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -21,6 +24,20 @@ public class Robot extends IterativeRobot {
 	public static final IntakeSubsystem INTAKE = new IntakeSubsystem();
 	public static final OI oi = new OI();
 
+	private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
+
+    public static double getNavX360Angle(){
+        double angle360   = 0;
+        final int    halfCircle = 180;
+        
+		if (NAV_X.getYaw() < 0){
+			angle360 = (halfCircle + NAV_X.getYaw()) + halfCircle;
+		} else {
+			angle360 = NAV_X.getYaw();
+		}
+		return angle360;
+	}
+    
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
