@@ -164,7 +164,7 @@ public class VisionTracking implements VisionPipeline {
 
                 Rect bounding = new Rect(right, top, left - right, bottom - top);
                 
-                // Only test bounding rectagles of the parts make up the minimum area.
+                // Only test bounding rectangles of the parts make up the minimum area.
                 if (rect.area() + rect2.area() > bounding.area() * BOUNDING_AREA_MINIMUM) {
 	                for (String key : this.targetTemplates.keySet()) {
 	                    if (this.targetTemplates.get(key).isSector(bounding)) {
