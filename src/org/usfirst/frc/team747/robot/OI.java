@@ -3,6 +3,7 @@ package org.usfirst.frc.team747.robot;
 import org.usfirst.frc.team747.robot.commands.ClimberClimbUpCommand;
 import org.usfirst.frc.team747.robot.commands.ClimberClimbDownCommand;
 import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
+import org.usfirst.frc.team747.robot.commands.VisionDriveCommand;
 import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
 import org.usfirst.frc.team747.robot.commands.IntakeCommand;
 import org.usfirst.frc.team747.robot.maps.DriverStation;
@@ -32,11 +33,15 @@ public class OI {
             BUTTON_DRIVE_DISTANCE
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_START.getValue()),
             BUTTON_FIRE
-            	= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.TRIGGER_RIGHT.getValue()),
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.TRIGGER_RIGHT.getValue()),
             BUTTON_CLIMB
-            	= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_X.getValue()),
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_X.getValue()),
             BUTTON_CLIMB_DOWN
-            	= new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_Y.getValue());
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_Y.getValue()),
+            BUTTON_GEAR
+                = new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_2.getValue()),
+            BUTTON_BOILER
+                = new JoystickButton(JOYSTICK_DRIVER_RIGHT, DriverStation.Joystick.BUTTON_2.getValue());
 
     static Preferences prefs;
     
@@ -47,6 +52,8 @@ public class OI {
         BUTTON_FIRE.whileHeld(new ShooterShootCommand());
         BUTTON_CLIMB.whileHeld(new ClimberClimbUpCommand());
         BUTTON_CLIMB_DOWN.whileHeld(new ClimberClimbDownCommand());
+        BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR"));
+        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER"));
     }
 
     public static double getLeftShooterSpeed() {

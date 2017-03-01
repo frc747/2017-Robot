@@ -10,13 +10,6 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class VisionDriveCommand extends Command {
-
-    private static final double TARGET_DISTANCE = 30;
-    private static final double TARGET_DISTANCE_FLEX = 5;
-    private static final double TARGET_DISTANCE_PRECISION = 5;
-
-    private static final double TARGET_ANGLE_FLEX_DEGREES = 15;
-    private static final double TARGET_ANGLE_PRECISION = 1;
     
     private static final double DRIVE_MAX_POWER = 0.3;
     private VisionTracking visionProcessor;
@@ -44,6 +37,8 @@ public class VisionDriveCommand extends Command {
         Target target = this.visionProcessor.getTarget(this.targetId);
         
         double navXAngle = Robot.getNavX360Angle();
+        
+        System.out.print(this.targetId);
         
         if (target != null) {
             this.targetActive = true;
@@ -77,15 +72,16 @@ public class VisionDriveCommand extends Command {
             this.targetDistance = target.getDistance();
             this.driveStartpoint = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
         }
-        
+        System.out.println(this.targetActive);
         if (this.targetActive) {
-        	double position = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
-        	double traveled = this.driveStartpoint - position;
-        	this.targetDistance -= traveled;
-        	
-        	Robot.DRIVE_TRAIN.driveToTarget(this.targetAngle, this.targetDistance, DRIVE_MAX_POWER, TARGET_DISTANCE);
+            double position = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
+            double traveled = this.driveStartpoint - position;
+            this.targetDistance -= traveled;
+            this.driveStartpoint = position;
+            
+            Robot.DRIVE_TRAIN.driveToTarget(this.targetAngle, this.targetDistance, DRIVE_MAX_POWER);
         } else {
-        	Robot.DRIVE_TRAIN.stop();
+            Robot.DRIVE_TRAIN.stop();
         }
     }
 

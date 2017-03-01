@@ -13,6 +13,7 @@ public class DriveSubsystem extends Subsystem {
 
     private static final double DEFAULT_DISTANCE_PRECISION = 3; // Inches
     private static final double DEFAULT_ANGLE_PRECISION = 1; // Degrees
+	private static final double DEFAULT_TARGET_DISTANCE = 0; // Inches
     
     public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
@@ -165,6 +166,10 @@ public class DriveSubsystem extends Subsystem {
     
     public void spinDrive(double power) {
         set(power, -power);
+    }
+    
+    public void driveToTarget(double angle, double distance, double power) {
+        driveToTarget(angle, distance, power, DEFAULT_TARGET_DISTANCE);
     }
     
     public void driveToTarget(double angle, double distance, double power, double stopPoint) {
