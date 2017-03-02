@@ -2,6 +2,7 @@ package org.usfirst.frc.team747.robot.vision;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.opencv.core.Core;
@@ -24,23 +25,24 @@ import edu.wpi.first.wpilibj.vision.VisionPipeline;
 public class VisionTracking implements VisionPipeline {
 
 	// Bounding rectangles should be made of > 60% of the paired contours
-    private static final double BOUNDING_AREA_MINIMUM = .60;
-	// Outputs
-    private static double[] HSL_THRESHOLD_HUE = {47.0, 92.0};
-    private static double[] HSL_THRESHOLD_SATURATION = {23.0, 255.0};
-    private static double[] HSL_THRESHOLD_LUMINANCE = {30.0, 255.0};
-
+    private static final double BOUNDING_AREA_MINIMUM_FILL = .60;
+    private static final double BOUNDING_AREA_MINIMUM_SIZE = 200;
+    
+    private Mat hslThresholdOutput = new Mat();
+    private Mat desaturateOutput = new Mat();
+    private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
+    
     private final CameraSpecs cameraSpecs;
     private final Map<String, TargetTemplate> targetTemplates;
     public Map<String, Target> targets;
-
+    
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
-
+    
     public VisionTracking(CameraSpecs cameraSpecs, Map<String, TargetTemplate> targetTemplates) {
-        this.cameraSpecs = cameraSpecs;
-        this.targetTemplates = targetTemplates;
+    	this.cameraSpecs = cameraSpecs;
+    	this.targetTemplates = targetTemplates;
     }
 
     /**
@@ -48,12 +50,23 @@ public class VisionTracking implements VisionPipeline {
      * outputs.
      */
     @Override
-    public void process(Mat source) {
+    public void process(Mat source0) {
         // Step HSL_Threshold0:
-        Mat hslThresholdOutput = hslThreshold(source, HSL_THRESHOLD_HUE, HSL_THRESHOLD_SATURATION, HSL_THRESHOLD_LUMINANCE);
-        Mat desaturateOutput = desaturate(hslThresholdOutput);
-        ArrayList<MatOfPoint> contours = findContours(desaturateOutput);
-        analyzeCoutours(contours);
+        Mat hslThresholdInput = source0;
+        double[] hslThresholdHue = {47.0, 92.0};
+        double[] hslThresholdSaturation = {23.0, 255.0};
+        double[] hslThresholdLuminance = {30.0, 255.0};
+        hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
+
+        // Step Desaturate0:
+        Mat desaturateInput = hslThresholdOutput;
+        desaturate(desaturateInput, desaturateOutput);
+
+        // Step Find_Contours0:
+        Mat findContoursInput = desaturateOutput;
+        boolean findContoursExternalOnly = false;
+        findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
+        analyzeCoutours(findContoursOutput);
       }
 
     /**
@@ -69,27 +82,22 @@ public class VisionTracking implements VisionPipeline {
      *            The min and max luminance
      * @param output
      *            The image in which to store the output.
-     * @return
      */
-    private Mat hslThreshold(Mat input, double[] hue, double[] sat, double[] lum) {
-        Mat output = new Mat();
-        Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2HLS);
-        Core.inRange(output, new Scalar(hue[0], lum[0], sat[0]), new Scalar(hue[1], lum[1], sat[1]),
-                        output);
-        return output;
+    private void hslThreshold(Mat input, double[] hue, double[] sat, double[] lum, Mat out) {
+        Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2HLS);
+        Core.inRange(out, new Scalar(hue[0], lum[0], sat[0]), new Scalar(hue[1], lum[1], sat[1]),
+                        out);
     }
 
     /**
      * Converts a color image into shades of grey.
-     *
+     * 
      * @param input
      *            The image on which to perform the desaturate.
      * @param output
      *            The image in which to store the output.
-     * @return
      */
-    private Mat desaturate(Mat input) {
-        Mat output = new Mat();
+    private void desaturate(Mat input, Mat output) {
         switch (input.channels()) {
         case 1:
             // If the input is already one channel, it's already desaturated
@@ -104,13 +112,12 @@ public class VisionTracking implements VisionPipeline {
         default:
             throw new IllegalArgumentException("Input to desaturate must have 1, 3, or 4 channels");
         }
-        return output;
     }
 
     /**
      * Sets the values of pixels in a binary image to their distance to the
      * nearest black pixel.
-     *
+     * 
      * @param input
      *            The image on which to perform the Distance Transform.
      * @param type
@@ -119,13 +126,18 @@ public class VisionTracking implements VisionPipeline {
      *            the size of the mask.
      * @param output
      *            The image in which to store the output.
-     * @return
      */
-    private ArrayList<MatOfPoint> findContours(Mat input) {
-        ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+    private void findContours(Mat input, boolean externalOnly, List<MatOfPoint> contours) {
         Mat hierarchy = new Mat();
-        Imgproc.findContours(input, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-        return contours;
+        contours.clear();
+        int mode;
+        if (externalOnly) {
+            mode = Imgproc.RETR_EXTERNAL;
+        } else {
+            mode = Imgproc.RETR_LIST;
+        }
+        int method = Imgproc.CHAIN_APPROX_SIMPLE;
+        Imgproc.findContours(input, contours, hierarchy, mode, method);
     }
 
     /**
@@ -145,11 +157,13 @@ public class VisionTracking implements VisionPipeline {
 
         for(MatOfPoint contour : contours) {
             Rect rect = Imgproc.boundingRect(contour);
-            for (String key : this.targetTemplates.keySet()) {
-                if (this.targetTemplates.get(key).isSector(rect)) {
-                    buckets.get(key).add(rect);
-                }
-            }
+            if (rect.area() > BOUNDING_AREA_MINIMUM_SIZE) {
+	            for (String key : this.targetTemplates.keySet()) {
+	                if (this.targetTemplates.get(key).isSector(rect)) {
+	                    buckets.get(key).add(rect);
+	                }
+	            }
+	        }
 
             // Attempt partial Matching of two contour, to account for obstructions (Peg, Fuel, Gears)
             for(MatOfPoint contour2: contours) {
@@ -165,7 +179,7 @@ public class VisionTracking implements VisionPipeline {
                 Rect bounding = new Rect(right, top, left - right, bottom - top);
                 
                 // Only test bounding rectangles of the parts make up the minimum area.
-                if (rect.area() + rect2.area() > bounding.area() * BOUNDING_AREA_MINIMUM) {
+                if (bounding.area() > BOUNDING_AREA_MINIMUM_SIZE && rect.area() + rect2.area() > bounding.area() * BOUNDING_AREA_MINIMUM_FILL) {
 	                for (String key : this.targetTemplates.keySet()) {
 	                    if (this.targetTemplates.get(key).isSector(bounding)) {
 	                        buckets.get(key).add(bounding);

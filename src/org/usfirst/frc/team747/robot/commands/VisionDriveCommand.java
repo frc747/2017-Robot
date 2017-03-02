@@ -15,33 +15,37 @@ public class VisionDriveCommand extends Command {
     private VisionTracking visionProcessor;
     private String targetId;
     
+    private final double stopPoint;
+    
     private double targetAngle = 0;
     private double targetDistance = 0;
     private boolean targetActive = false;
-    
-    private double driveStartpoint = 0;
+    private boolean targetFound = false;
 
-    public VisionDriveCommand(VisionTracking visionProcessor, String targetId) {
+    public VisionDriveCommand(VisionTracking visionProcessor, String targetId, double stopPoint) {
         this.visionProcessor = visionProcessor;
         this.targetId = targetId;
+        this.stopPoint = stopPoint;
         requires(Robot.DRIVE_TRAIN);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
         this.targetActive = false;
+        Robot.DRIVE_TRAIN.resetEcoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         Target target = this.visionProcessor.getTarget(this.targetId);
         
-        double navXAngle = Robot.getNavX360Angle();
+        double navXAngle = Robot.getNavXAngle();
         
-        System.out.print(this.targetId);
+        System.out.println(this.targetId);
         
         if (target != null) {
             this.targetActive = true;
+            this.targetFound = true;
             
             double targetAngleFromCamera = target.getAngleDegrees();
             double targetDistanceFromCamera = target.getDistance();
@@ -69,20 +73,29 @@ public class VisionDriveCommand extends Command {
             double toRotate = targetAngleNavX - centerAngleNavX;
             
             this.targetAngle = navXAngle + toRotate;
-            this.targetDistance = target.getDistance();
-            this.driveStartpoint = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
+            this.targetDistance = target.getDistance() - this.stopPoint;
+            
+        } else {
+        	this.targetActive = false;
         }
-        System.out.println(this.targetActive);
-        if (this.targetActive) {
+        if (this.targetFound) {
             double position = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
-            double traveled = this.driveStartpoint - position;
-            this.targetDistance -= traveled;
-            this.driveStartpoint = position;
+            
+            if (!targetActive) {
+                this.targetDistance -= position;
+                this.targetAngle -= navXAngle;
+            }
+            
+            System.out.println(targetDistance);
+            System.out.println(targetAngle);
             
             Robot.DRIVE_TRAIN.driveToTarget(this.targetAngle, this.targetDistance, DRIVE_MAX_POWER);
         } else {
             Robot.DRIVE_TRAIN.stop();
         }
+        Robot.DRIVE_TRAIN.resetEcoders();
+        Robot.resetNavXAngle();
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()

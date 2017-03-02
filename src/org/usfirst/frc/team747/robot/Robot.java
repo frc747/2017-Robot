@@ -43,17 +43,24 @@ public class Robot extends IterativeRobot {
     public static OI oi = null;
 
     private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
+    
+    public static double getNavXAngle() {
+    	return NAV_X.getYaw();
+    }
 
-    public static double getNavX360Angle(){
-        double angle360   = 0;
-        final int    halfCircle = 180;
+    public static double getNavXAngle360() {
         
-        if (NAV_X.getYaw() < 0){
-            angle360 = (halfCircle + NAV_X.getYaw()) + halfCircle;
-        } else {
-            angle360 = NAV_X.getYaw();
+        double angle = getNavXAngle();
+        
+        if (angle < 0) {
+        	angle += 360;
         }
-        return angle360;
+        
+        return angle;
+    }
+    
+    public static void resetNavXAngle() {
+    	NAV_X.zeroYaw();
     }
     
     /**
@@ -69,7 +76,7 @@ public class Robot extends IterativeRobot {
         //frontTemplates.put("RETRIEVAL", new RetrievalTargetTemplate());
         VISION_TRACKING_FRONT = new VisionTracking(new AxisM1011Specs(), frontTemplates);
         
-        AxisCamera rearCamera = new AxisCamera("axis", "axis-camera.local");
+        AxisCamera rearCamera = new AxisCamera("axis", "10.7.47.7");
         HashMap<String, TargetTemplate> rearTemplates = new HashMap<String, TargetTemplate>();
         rearTemplates.put("BOILER", new BoilerTargetTemplate());
         VISION_TRACKING_REAR = new VisionTracking(new AxisM1004Specs(), rearTemplates);
@@ -79,7 +86,7 @@ public class Robot extends IterativeRobot {
         }
         
         visionThreadFront = new VisionThread(frontCamera, VISION_TRACKING_FRONT, pipeline -> {
-            // Do nothing on each frame.
+        	// Do nothing on each frame.
             //System.out.println("GEAR TARGETS: " + pipeline.targets.size());
         });
         visionThreadFront.start();
@@ -90,7 +97,7 @@ public class Robot extends IterativeRobot {
         });
         visionThreadRear.start();
         
-        
+        resetNavXAngle();
     }
 
     /**

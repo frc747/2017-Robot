@@ -13,7 +13,6 @@ public class DriveSubsystem extends Subsystem {
 
     private static final double DEFAULT_DISTANCE_PRECISION = 3; // Inches
     private static final double DEFAULT_ANGLE_PRECISION = 1; // Degrees
-	private static final double DEFAULT_TARGET_DISTANCE = 0; // Inches
     
     public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
@@ -56,6 +55,11 @@ public class DriveSubsystem extends Subsystem {
     
     public void resetRightEncoder() {
         talonDriveRightPrimary.setPosition(0);
+    }
+    
+    public void resetEcoders() {
+    	this.resetLeftEncoder();
+    	this.resetRightEncoder();
     }
     
     public double getLeftEncoderPosition() {
@@ -107,7 +111,7 @@ public class DriveSubsystem extends Subsystem {
                convertedAngle;
         
         desiredAngle = targetAngle;
-        currentAngle = Robot.getNavX360Angle();
+        currentAngle = Robot.getNavXAngle360();
         
         if (currentAngle <= 360 && currentAngle >= 350){
             convertedAngle = currentAngle - 360;
@@ -169,18 +173,13 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public void driveToTarget(double angle, double distance, double power) {
-        driveToTarget(angle, distance, power, DEFAULT_TARGET_DISTANCE);
+        driveToTarget(angle, distance, power, DEFAULT_DISTANCE_PRECISION, DEFAULT_ANGLE_PRECISION);
     }
     
-    public void driveToTarget(double angle, double distance, double power, double stopPoint) {
-        driveToTarget(angle, distance, power, stopPoint, DEFAULT_DISTANCE_PRECISION, DEFAULT_ANGLE_PRECISION);
-    }
-    
-    public void driveToTarget(double angle, double distance, double power, double stopPoint, double stopPrecision, double anglePrecision) {
+    public void driveToTarget(double angle, double distance, double power, double distancePrecision, double anglePrecision) {
         
-        double distanceDiff = distance - stopPoint;
-        double distanceDiffAbs = Math.abs(distanceDiff);
-        power *= distanceDiff / distanceDiffAbs;
+        double distanceAbs = Math.abs(distance);
+        power *= distance / distanceAbs;
 
         double angleAbs = Math.abs(angle);
         double skew = angle / angleAbs;
@@ -191,7 +190,7 @@ public class DriveSubsystem extends Subsystem {
             skew *= angleAbs / anglePrecision;
         }
 
-        if (distanceDiffAbs < stopPrecision) {
+        if (distanceAbs < distancePrecision) {
             // @TODO Try to turn.
             if (skew != 0) {
                 Robot.DRIVE_TRAIN.spinDrive(1.25 * skew * power);
@@ -199,8 +198,8 @@ public class DriveSubsystem extends Subsystem {
                 Robot.DRIVE_TRAIN.stop();
             }
             return;
-        } else if (distanceDiffAbs < stopPrecision) {
-            power *= distanceDiffAbs / stopPrecision;
+        } else if (distanceAbs < distancePrecision) {
+            power *= distanceAbs / distancePrecision;
         }
 
         Robot.DRIVE_TRAIN.skewDrive(power, skew);

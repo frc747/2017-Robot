@@ -52,8 +52,8 @@ public class OI {
         BUTTON_FIRE.whileHeld(new ShooterShootCommand());
         BUTTON_CLIMB.whileHeld(new ClimberClimbUpCommand());
         BUTTON_CLIMB_DOWN.whileHeld(new ClimberClimbDownCommand());
-        BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR"));
-        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER"));
+        BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 3));
+        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
     }
 
     public static double getLeftShooterSpeed() {
