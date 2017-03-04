@@ -39,11 +39,11 @@ public final class RobotMap {
 	 * for the right wheel.
 	 */
 	public enum Shooter {
-	    LEFT_1(5),
-	    LEFT_2(6),
-	    RIGHT_1(7),
-	    RIGHT_2(8),
-	    INDEXER(9);
+	    LEFT_1(4),
+	    LEFT_2(5),
+	    RIGHT_1(6),
+	    RIGHT_2(7),
+	    INDEXER(8);
 	
 	    private int value;
 	

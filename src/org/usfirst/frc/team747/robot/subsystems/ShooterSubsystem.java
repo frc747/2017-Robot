@@ -1,10 +1,14 @@
 package org.usfirst.frc.team747.robot.subsystems;
 
+import java.io.IOException;
+
+import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.ShooterStopCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap.Shooter;
 import org.usfirst.frc.team747.robot.maps.RobotMap.ShooterSpeed;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.ctre.CANTalon;
@@ -17,7 +21,10 @@ public class ShooterSubsystem extends Subsystem {
                    talonShooterRight1 =	new CANTalon(Shooter.RIGHT_1.getValue()),
                    talonShooterRight2 =	new CANTalon(Shooter.RIGHT_2.getValue()),
                    talonIndexer	= new CANTalon(Shooter.INDEXER.getValue());
-  			
+  
+	StringBuilder sb = new StringBuilder();
+	int loops = 0;
+	
   public ShooterSubsystem(){
 	  	
 	  	ShooterSpeed 	shooter_I = ShooterSpeed.I,
@@ -29,12 +36,6 @@ public class ShooterSubsystem extends Subsystem {
 	  					shooter_IZone = ShooterSpeed.SHOOTER_IZONE,
 	  					indexer_Speed = ShooterSpeed.INDEXER_SPEED;
 	  	
-	  	
-	  
-	    talonShooterLeft1.setInverted(true);
-//	    talonShooterLeft2.setInverted(true);  //Don't need to invert the second motor since it follows direction of first
-	   
-	    
 		//Set the 2nd motor on each side to be follower motors
 		talonShooterLeft2.changeControlMode(CANTalon.TalonControlMode.Follower);
 		talonShooterLeft2.set(talonShooterLeft1.getDeviceID());
@@ -42,13 +43,20 @@ public class ShooterSubsystem extends Subsystem {
 		talonShooterRight2.changeControlMode(CANTalon.TalonControlMode.Follower);
 		talonShooterRight2.set(talonShooterRight1.getDeviceID());
 		
-		
 		talonShooterLeft1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		talonShooterRight1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+	  	
+	  	
+	  
+	    talonShooterLeft1.setInverted(true);
+	    talonShooterLeft1.reverseSensor(true);
+	    talonShooterRight1.reverseSensor(true);
+	   
+	    
+
 		
-		 talonShooterLeft1.reverseSensor(true); //reverses reading of encoder to put in Phase with Motor
-		 
-		 
+
+		
 		talonShooterLeft1.configNominalOutputVoltage(+0.0f,-0.0f);
 		talonShooterLeft1.configPeakOutputVoltage(+12.0f, -12.0f);
 		talonShooterRight1.configNominalOutputVoltage(+0.0f,-0.0f);
@@ -67,7 +75,6 @@ public class ShooterSubsystem extends Subsystem {
 		
 		talonShooterRight1.setProfile(0);
 		talonShooterLeft1.setProfile(0);
-		
 		
   }
  
@@ -93,17 +100,25 @@ public class ShooterSubsystem extends Subsystem {
   public void shooterStart(){
 	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
+		talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	  	
-	    talonShooterLeft1.set(ShooterSpeed.SPEED.getDouble());
-	    talonShooterRight1.set(ShooterSpeed.SPEED.getDouble());
-	    talonIndexer.set(ShooterSpeed.INDEXER_SPEED.getDouble());
+//	    talonShooterLeft1.set(ShooterSpeed.SPEED.getDouble());
+//	    talonShooterRight1.set(ShooterSpeed.SPEED.getDouble());
+//	    talonIndexer.set(ShooterSpeed.INDEXER_SPEED.getDouble());
+	    talonShooterLeft1.set(1800);
+	    talonShooterRight1.set(1800);
+	    talonIndexer.set(.85);
+	    
+	    shooterLogging();	    
   }
   
   public void shooterStop(){
 	  talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	  talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	  talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	  talonShooterLeft1.set(0);
 	  talonShooterRight1.set(0);
+	  talonIndexer.set(0);
   }
   
   public double getMotorLeftSpeed(){
@@ -115,5 +130,30 @@ public class ShooterSubsystem extends Subsystem {
 	  
 	  return (talonShooterRight1.getEncVelocity());
 	  
+  }
+  
+  public void shooterLogging () {
+		
+		
+
+  	/* prepare line to print */
+  	if(++loops >= 10) {
+  	  	double motorOutputLeft = talonShooterLeft1.getOutputVoltage() / talonShooterLeft1.getBusVoltage();
+  	  	double motorOutputRight = talonShooterRight1.getOutputVoltage() / talonShooterRight1.getBusVoltage();
+  		
+  		sb.append(motorOutputLeft + "," + talonShooterLeft1.getSpeed() + "," + talonShooterLeft1.getOutputVoltage() + ",");
+  		sb.append(motorOutputRight + "," + talonShooterRight1.getSpeed() + "," + talonShooterRight1.getOutputVoltage() + "\n");
+  		
+  		try {
+			Robot.bw.write(sb.toString());
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        	loops = 0;
+        	System.out.println(sb.toString());
+        }
+    sb.setLength(0);
   }
 }

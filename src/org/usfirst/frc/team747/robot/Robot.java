@@ -8,6 +8,13 @@ import org.usfirst.frc.team747.robot.subsystems.ShooterSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import java.io.File;
+import java.time.Instant;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -25,7 +32,10 @@ public class Robot extends IterativeRobot {
 	public static final IntakeSubsystem INTAKE = new IntakeSubsystem();
 	public static final ShooterSubsystem SHOOTER = new ShooterSubsystem();
 	public static final ClimberSubsystem CLIMBER = new ClimberSubsystem();
-	public static final OI oi = new OI();
+	public static OI oi;
+	public static File logs;
+	public static BufferedWriter bw;
+	public static FileWriter fw;
 
 	private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
 
@@ -41,13 +51,15 @@ public class Robot extends IterativeRobot {
 		return angle360;
 	}
     
+    
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
-		
+	       oi = new OI();
+	       
 	}
 
 	/**
@@ -60,6 +72,15 @@ public class Robot extends IterativeRobot {
 		/**
 		 * Setup Gyro recalibration in this block
 		 */
+		
+		if(logs != null && logs.exists()){
+			try {
+				bw.close();
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -93,7 +114,24 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		System.out.println(Instant.now().toEpochMilli());
+		System.out.println("PRINTED BITCH");
 		
+		
+    	try {
+    		logs = new File("/U/Logs/shooterLog" + Instant.now().toEpochMilli() + ".csv");
+    		if(!logs.exists()){
+    			logs.createNewFile();
+    		}
+			fw = new FileWriter(logs);
+			bw = new BufferedWriter(fw);
+		
+			Robot.bw.write("outLeft,spdLeft,vltgLeft,outRight,spdRight,vltgRight\n");
+  		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
 	}
 
 	/**
@@ -102,6 +140,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		
 	}
 
 	/**
