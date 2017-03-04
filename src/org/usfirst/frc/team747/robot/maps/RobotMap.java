@@ -60,11 +60,11 @@ public final class RobotMap {
      * This will be the PID values for the Shooter
      */
     public enum ShooterSpeed {
-    	SPEED(1500),
+    	SPEED(1800),
     	INDEXER_SPEED(100),
     	PROFILE(0),
-    	F(0),
-    	P(0),
+    	F(0.1097),
+    	P(0.22),
     	I(0),
     	D(0),
     	RAMPRATE(0),

@@ -26,12 +26,13 @@ public class ShooterSubsystem extends Subsystem {
 	  					shooter_F = ShooterSpeed.F,
 	  					shooter_Profile = ShooterSpeed.PROFILE,
 	  					shooter_RampRate = ShooterSpeed.RAMPRATE,
-	  					shooter_IZone = ShooterSpeed.SHOOTER_IZONE;
+	  					shooter_IZone = ShooterSpeed.SHOOTER_IZONE,
+	  					indexer_Speed = ShooterSpeed.INDEXER_SPEED;
 	  	
 	  	
 	  
 	    talonShooterLeft1.setInverted(true);
-	    talonShooterLeft2.setInverted(true);
+//	    talonShooterLeft2.setInverted(true);  //Don't need to invert the second motor since it follows direction of first
 	   
 	    
 		//Set the 2nd motor on each side to be follower motors
@@ -43,9 +44,7 @@ public class ShooterSubsystem extends Subsystem {
 		
 		
 		talonShooterLeft1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-//		talonShooterLeft1.configEncoderCodesPerRev(1024);
 		talonShooterRight1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-//		talonShooterRight1.configEncoderCodesPerRev(1024); //Shouldn't need any other config settings when using "CtreMagEncoder"
 		
 		 talonShooterLeft1.reverseSensor(true); //reverses reading of encoder to put in Phase with Motor
 		 
@@ -92,10 +91,21 @@ public class ShooterSubsystem extends Subsystem {
    * Used once the shooter and indexer correct speed values are determined
    */
   public void shooterStart(){
+	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
+	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
+	  	
 	    talonShooterLeft1.set(ShooterSpeed.SPEED.getDouble());
 	    talonShooterRight1.set(ShooterSpeed.SPEED.getDouble());
 	    talonIndexer.set(ShooterSpeed.INDEXER_SPEED.getDouble());
   }
+  
+  public void shooterStop(){
+	  talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	  talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	  talonShooterLeft1.set(0);
+	  talonShooterRight1.set(0);
+  }
+  
   public double getMotorLeftSpeed(){
 	  
 	  return (talonShooterLeft1.getEncVelocity());
