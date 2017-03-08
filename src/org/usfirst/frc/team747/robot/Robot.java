@@ -126,7 +126,7 @@ public class Robot extends IterativeRobot {
 			fw = new FileWriter(logs);
 			bw = new BufferedWriter(fw);
 		
-			Robot.bw.write("outLeft,spdLeft,vltgLeft,outRight,spdRight,vltgRight\n");
+			Robot.bw.write("outLeft,spdLeft,voltOutLeft1,voltOutLeft2,busVoltLeft,outRight,spdRight,voltOutRight1,voltOutRight2,busVoltRight,leftP,leftI,leftD,leftF,rightP,rightI,rightD,rightF\n");
   		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

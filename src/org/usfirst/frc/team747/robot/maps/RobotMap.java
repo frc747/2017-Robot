@@ -63,10 +63,10 @@ public final class RobotMap {
     	SPEED(1800),
     	INDEXER_SPEED(100),
     	PROFILE(0),
-    	F(0.1097),
-    	P(0.22),
+    	F(0.066),
+    	P(0.05),
     	I(0),
-    	D(0),
+    	D(1),
     	RAMPRATE(0),
     	SHOOTER_IZONE(0);
 

@@ -2,6 +2,7 @@ package org.usfirst.frc.team747.robot.subsystems;
 
 import java.io.IOException;
 
+import org.usfirst.frc.team747.robot.OI;
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.ShooterStopCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap.Shooter;
@@ -102,12 +103,12 @@ public class ShooterSubsystem extends Subsystem {
 	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
 		talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	  	
-//	    talonShooterLeft1.set(ShooterSpeed.SPEED.getDouble());
-//	    talonShooterRight1.set(ShooterSpeed.SPEED.getDouble());
-//	    talonIndexer.set(ShooterSpeed.INDEXER_SPEED.getDouble());
+//	    talonShooterLeft1.set(OI.getLeftShooterSpeed());
+//	    talonShooterRight1.set(OI.getRightShooterSpeed());
+	    talonIndexer.set(OI.getIndexerSpeed());
 	    talonShooterLeft1.set(1800);
 	    talonShooterRight1.set(1800);
-	    talonIndexer.set(.85);
+//	    talonIndexer.set(.30);
 	    
 	    shooterLogging();	    
   }
@@ -137,13 +138,17 @@ public class ShooterSubsystem extends Subsystem {
 		
 
   	/* prepare line to print */
-  	if(++loops >= 10) {
+//  	if(++loops >= 10) {
   	  	double motorOutputLeft = talonShooterLeft1.getOutputVoltage() / talonShooterLeft1.getBusVoltage();
   	  	double motorOutputRight = talonShooterRight1.getOutputVoltage() / talonShooterRight1.getBusVoltage();
   		
-  		sb.append(motorOutputLeft + "," + talonShooterLeft1.getSpeed() + "," + talonShooterLeft1.getOutputVoltage() + ",");
-  		sb.append(motorOutputRight + "," + talonShooterRight1.getSpeed() + "," + talonShooterRight1.getOutputVoltage() + "\n");
-  		
+  	  	
+  	  	
+  	  	
+  		sb.append(motorOutputLeft + "," + talonShooterLeft1.getSpeed() + "," + talonShooterLeft1.getOutputVoltage() + "," + talonShooterLeft2.getOutputVoltage() + "," + talonShooterLeft1.getBusVoltage() + ",");
+  		sb.append(motorOutputRight + "," + talonShooterRight1.getSpeed() + "," + talonShooterRight1.getOutputVoltage() + "," + talonShooterRight2.getOutputVoltage() + "," + talonShooterRight1.getBusVoltage() + ",");
+  		sb.append( talonShooterLeft1.getP() + "," + talonShooterLeft1.getI() + "," + talonShooterLeft1.getD() + "," + talonShooterLeft1.getF() + ",");
+  		sb.append( talonShooterRight1.getP() + "," + talonShooterRight1.getI() + "," + talonShooterRight1.getD() + "," + talonShooterRight1.getF() + "\n");
   		try {
 			Robot.bw.write(sb.toString());
 			
@@ -151,9 +156,9 @@ public class ShooterSubsystem extends Subsystem {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        	loops = 0;
+//        	loops = 0;
         	System.out.println(sb.toString());
-        }
+//        }
     sb.setLength(0);
   }
 }
