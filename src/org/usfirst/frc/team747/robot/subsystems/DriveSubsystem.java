@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveSubsystem extends Subsystem {
 
     private static final double DEFAULT_DISTANCE_PRECISION = 3; // Inches
-    private static final double DEFAULT_ANGLE_PRECISION = 1; // Degrees
+    private static final double DEFAULT_ANGLE_PRECISION = 1; // Radians?
+    private static final double DEFAULT_DISTANCE_VARIANCE = 30;
+    private static final double DEFAULT_ANGLE_VARIANCE = 1; // Radians?
     
     public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
@@ -173,13 +175,16 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public void driveToTarget(double angle, double distance, double power) {
-        driveToTarget(angle, distance, power, DEFAULT_DISTANCE_PRECISION, DEFAULT_ANGLE_PRECISION);
+        driveToTarget(angle, distance, power, DEFAULT_DISTANCE_VARIANCE, DEFAULT_ANGLE_VARIANCE);
     }
     
-    public void driveToTarget(double angle, double distance, double power, double distancePrecision, double anglePrecision) {
+    public void driveToTarget(double angle, double distance, double power, double distanceVariance, double angleVariance) {
+        driveToTarget(angle, distance, power, distanceVariance, angleVariance, DEFAULT_DISTANCE_PRECISION, DEFAULT_ANGLE_PRECISION);
+    }
+    
+    public void driveToTarget(double angle, double distance, double power, double distanceVariance, double angleVariance, double distancePrecision, double anglePrecision) {
         
         double distanceAbs = Math.abs(distance);
-        power *= distance / distanceAbs;
 
         double angleAbs = Math.abs(angle);
         double skew = angle / angleAbs;
@@ -198,8 +203,8 @@ public class DriveSubsystem extends Subsystem {
                 Robot.DRIVE_TRAIN.stop();
             }
             return;
-        } else if (distanceAbs < distancePrecision) {
-            power *= distanceAbs / distancePrecision;
+        } else if (distanceAbs < distanceVariance) {
+            power *= distanceAbs / distanceVariance;
         }
 
         Robot.DRIVE_TRAIN.skewDrive(power, skew);

@@ -33,7 +33,7 @@ public class OI {
             BUTTON_DRIVE_DISTANCE
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_START.getValue()),
             BUTTON_FIRE
-                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.TRIGGER_RIGHT.getValue()),
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_RB.getValue()),
             BUTTON_CLIMB
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_X.getValue()),
             BUTTON_CLIMB_DOWN
@@ -48,26 +48,26 @@ public class OI {
     public OI() {
         BUTTON_INTAKE_FORWARD.whileHeld(new IntakeCommand());
         BUTTON_INTAKE_BACK.whileHeld(new IntakeCommand(false));
-        BUTTON_DRIVE_DISTANCE.whenPressed(new DriveDistanceCommand((6.25 * Math.PI), 0.1));
         BUTTON_FIRE.whileHeld(new ShooterShootCommand());
         BUTTON_CLIMB.whileHeld(new ClimberClimbUpCommand());
         BUTTON_CLIMB_DOWN.whileHeld(new ClimberClimbDownCommand());
-        BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 3));
+        BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 25));
         BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
+        BUTTON_DRIVE_DISTANCE.whenPressed(new DriveDistanceCommand((6.25 * Math.PI), 0.1));
     }
 
     public static double getLeftShooterSpeed() {
         prefs = Preferences.getInstance();
-        return prefs.getDouble("Motor1", 0);
+        return prefs.getDouble("Motor1", 1);
     }
 
     public static double getRightShooterSpeed() {
         prefs = Preferences.getInstance();
-        return prefs.getDouble("Motor2", 0);
+        return prefs.getDouble("Motor2", 1);
     }
 
     public static double getIndexerSpeed() {
         prefs = Preferences.getInstance();
-        return prefs.getDouble("Indexer", 0);
+        return prefs.getDouble("Indexer", .85);
     }
 }
