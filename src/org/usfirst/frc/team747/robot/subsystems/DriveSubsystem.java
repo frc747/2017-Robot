@@ -11,24 +11,28 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveSubsystem extends Subsystem {
 
-    private static final double DEFAULT_DISTANCE_PRECISION = 1; // Inches
+    private static final double DEFAULT_DISTANCE_PRECISION = 3; // Inches
     private static final double DEFAULT_ANGLE_PRECISION = 1; // Radians?
     private static final double DEFAULT_DISTANCE_VARIANCE = 30;
     private static final double DEFAULT_ANGLE_VARIANCE = 1; // Radians?
     
     public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
+            talonDriveLeftThree = new CANTalon(RobotMap.DriveTrain.LEFT_THREE.getValue()),
             talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
-            talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue());
+            talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue()),
+            talonDriveRightThree = new CANTalon(RobotMap.DriveTrain.RIGHT_THREE.getValue());
             
     
     public DriveSubsystem() {
         super();
         this.talonDriveLeftPrimary.setInverted(true);
         this.talonDriveLeftSlave.setInverted(true);
+        this.talonDriveLeftThree.setInverted(true);
         
         this.talonDriveRightPrimary.setInverted(false);
         this.talonDriveRightSlave.setInverted(false);
+        this.talonDriveRightThree.setInverted(false);
         
         this.talonDriveRightPrimary.reverseSensor(true);
         
@@ -38,6 +42,12 @@ public class DriveSubsystem extends Subsystem {
         
         this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.talonDriveRightSlave.set(this.talonDriveRightPrimary.getDeviceID());
+        
+        this.talonDriveLeftThree.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.talonDriveLeftThree.set(this.talonDriveLeftPrimary.getDeviceID());
+        
+        this.talonDriveRightThree.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.talonDriveRightThree.set(this.talonDriveRightPrimary.getDeviceID());
     }
     
     @Override
