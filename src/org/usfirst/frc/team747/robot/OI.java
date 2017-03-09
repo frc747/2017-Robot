@@ -6,6 +6,7 @@ import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
 import org.usfirst.frc.team747.robot.commands.VisionDriveCommand;
 import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
 import org.usfirst.frc.team747.robot.commands.IntakeCommand;
+import org.usfirst.frc.team747.robot.commands.ShootButton;
 import org.usfirst.frc.team747.robot.maps.DriverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -32,8 +33,6 @@ public class OI {
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_B.getValue()),
             BUTTON_DRIVE_DISTANCE
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_START.getValue()),
-            BUTTON_FIRE
-                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_RB.getValue()),
             BUTTON_CLIMB
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_X.getValue()),
             BUTTON_CLIMB_DOWN
@@ -42,6 +41,8 @@ public class OI {
                 = new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_2.getValue()),
             BUTTON_BOILER
                 = new JoystickButton(JOYSTICK_DRIVER_RIGHT, DriverStation.Joystick.BUTTON_2.getValue());
+
+	public static final ShootButton BUTTON_FIRE = new ShootButton();
 
     static Preferences prefs;
     
@@ -70,4 +71,10 @@ public class OI {
         prefs = Preferences.getInstance();
         return prefs.getDouble("Indexer", .85);
     }
+  
+	public static boolean getShootButton() {
+		return CONTROLLER_OPERATOR.getRawAxis(DriverStation.GamePad.TRIGGER_RIGHT.getValue())
+                >= 0.5;
+	}
+    
 }

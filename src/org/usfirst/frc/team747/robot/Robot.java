@@ -17,7 +17,14 @@ import java.util.HashMap;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import java.io.File;
+import java.time.Instant;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import edu.wpi.cscore.AxisCamera;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -36,6 +43,9 @@ public class Robot extends IterativeRobot {
     public static final IntakeSubsystem INTAKE = new IntakeSubsystem();
     public static final ShooterSubsystem SHOOTER = new ShooterSubsystem();
     public static final ClimberSubsystem CLIMBER = new ClimberSubsystem();
+	public static File logs;
+	public static BufferedWriter bw;
+	public static FileWriter fw;
     public static VisionTracking VISION_TRACKING_FRONT = null;
     public static VisionTracking VISION_TRACKING_REAR = null;
     private VisionThread visionThreadFront = null;
@@ -100,65 +110,76 @@ public class Robot extends IterativeRobot {
         resetNavXAngle();
     }
 
-    /**
-     * This function is called once each time the robot enters Disabled mode.
-     * You can use it to reset any subsystem information you want to clear when
-     * the robot is disabled.
-     */
-    @Override
-    public void disabledInit() {
-        /**
-         * Setup Gyro recalibration in this block
-         */
-    }
+	/**
+	 * This function is called once each time the robot enters Disabled mode.
+	 * You can use it to reset any subsystem information you want to clear when
+	 * the robot is disabled.
+	 */
+	@Override
+	public void disabledInit() {
+		/**
+		 * Setup Gyro recalibration in this block
+		 */
+		
+		if(logs != null && logs.exists()){
+			try {
+				bw.close();
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    @Override
-    public void disabledPeriodic() {
-        Scheduler.getInstance().run();
-    }
+	@Override
+	public void disabledPeriodic() {
+		Scheduler.getInstance().run();
+	}
 
-    /**
-     * This autonomous (along with the chooser code above) shows how to select
-     * between different autonomous modes using the dashboard. The sendable
-     * chooser code works with the Java SmartDashboard. If you prefer the
-     * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-     * getString code to get the auto name from the text box below the Gyro
-     *
-     * You can add additional auto modes by adding additional commands to the
-     * chooser code above (like the commented example) or additional comparisons
-     * to the switch structure below with additional strings & commands.
-     */
-    @Override
-    public void autonomousInit() {
-        
-    }
 
-    /**
-     * This function is called periodically during autonomous
-     */
-    @Override
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	@Override
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+	}
 
-    @Override
-    public void teleopInit() {
-        
-    }
+	@Override
+	public void teleopInit() {
+		System.out.println(Instant.now().toEpochMilli());
+		System.out.println("PRINTED BITCH");
+		
+		
+    	try {
+    		logs = new File("/U/Logs/shooterLog" + Instant.now().toEpochMilli() + ".csv");
+    		if(!logs.exists()){
+    			logs.createNewFile();
+    		}
+			fw = new FileWriter(logs);
+			bw = new BufferedWriter(fw);
+		
+			Robot.bw.write("outLeft,spdLeft,voltOutLeft1,voltOutLeft2,busVoltLeft,outRight,spdRight,voltOutRight1,voltOutRight2,busVoltRight,leftP,leftI,leftD,leftF,rightP,rightI,rightD,rightF\n");
+  		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+	}
 
-    /**
-     * This function is called periodically during operator control
-     */
-    @Override
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
-    }
+	/**
+	 * This function is called periodically during operator control
+	 */
+	@Override
+	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+	}
 
-    /**
-     * This function is called periodically during test mode
-     */
-    @Override
-    public void testPeriodic() {
-        LiveWindow.run();
-    }
+	/**
+	 * This function is called periodically during test mode
+	 */
+	@Override
+	public void testPeriodic() {
+		LiveWindow.run();
+	}
 }

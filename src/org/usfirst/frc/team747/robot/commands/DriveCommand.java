@@ -43,9 +43,8 @@ public class DriveCommand extends Command {
         
         Robot.DRIVE_TRAIN.set(left * speed, right * speed);
         
-        System.out.println("LeftEncoder Ticks: " + Robot.DRIVE_TRAIN.talonDriveLeftPrimary.getPosition());
-        System.out.println("RightEncoder Ticks: " + Robot.DRIVE_TRAIN.talonDriveRightPrimary.getPosition());
-        System.out.println("NavX Angle: " + navXAngle);
+//        System.out.println("LeftEncoder Ticks: " + Robot.DRIVE_TRAIN.talonDriveLeftPrimary.getPosition());
+//        System.out.println("RightEncoder Ticks: " + Robot.DRIVE_TRAIN.talonDriveRightPrimary.getPosition());
     }
 
     // Make this return true when this Command no longer needs to run execute()
