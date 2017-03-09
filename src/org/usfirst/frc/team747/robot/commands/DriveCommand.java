@@ -26,7 +26,8 @@ public class DriveCommand extends Command {
     protected void execute() {
         double left = -OI.JOYSTICK_DRIVER_LEFT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
         double right = -OI.JOYSTICK_DRIVER_RIGHT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
-        
+        double navXAngle = Robot.getNavXAngle();
+
         if (Math.abs(left) < 0.1) {
             left = 0;
         }
@@ -34,7 +35,7 @@ public class DriveCommand extends Command {
             right = 0;
         }
         
-        double speed = OI.JOYSTICK_DRIVER_LEFT.getThrottle();
+        double speed = 1; //OI.JOYSTICK_DRIVER_LEFT.getThrottle();
         
         if (OI.BUTTON_DRIVE_SLOW_OPERATOR.get() || OI.BUTTON_DRIVE_SLOW_DRIVER.get()) {
             speed *= 0.50;
@@ -44,6 +45,7 @@ public class DriveCommand extends Command {
         
         System.out.println("LeftEncoder Ticks: " + Robot.DRIVE_TRAIN.talonDriveLeftPrimary.getPosition());
         System.out.println("RightEncoder Ticks: " + Robot.DRIVE_TRAIN.talonDriveRightPrimary.getPosition());
+        System.out.println("NavX Angle: " + navXAngle);
     }
 
     // Make this return true when this Command no longer needs to run execute()

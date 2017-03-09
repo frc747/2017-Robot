@@ -33,6 +33,13 @@ public class ShooterSubsystem extends Subsystem {
     talonShooterRight1.set(rightShooterSpeed);
     talonShooterRight2.set(rightShooterSpeed);
     talonIndexer.set(indexerSpeed);
+    
+    System.out.println("LeftSpeed: " + talonShooterLeft1.getSpeed() + " RightSpeed: " + talonShooterRight1.getSpeed());
+    System.out.println("LeftPercent: " + leftShooterSpeed + "RightPercent: " + rightShooterSpeed);
+    System.out.println("LeftP: " + talonShooterLeft1.getOutputVoltage()/talonShooterLeft1.getBusVoltage() + " RightP:" + talonShooterRight1.getOutputVoltage()/talonShooterRight1.getBusVoltage());
+    System.out.println("Left1Out: " + talonShooterLeft1.getOutputVoltage() + " Left2Out: " + talonShooterLeft2.getOutputVoltage() + " Right1Out: " + talonShooterRight1.getOutputVoltage() + " Right2Out: " + talonShooterRight2.getOutputVoltage());
+    
+    
   }
   public double getMotorLeftSpeed(){
 	  
