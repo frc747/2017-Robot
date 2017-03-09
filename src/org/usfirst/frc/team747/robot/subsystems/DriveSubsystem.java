@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveSubsystem extends Subsystem {
 
-    private static final double DEFAULT_DISTANCE_PRECISION = 3; // Inches
+    private static final double DEFAULT_DISTANCE_PRECISION = 1; // Inches
     private static final double DEFAULT_ANGLE_PRECISION = 1; // Radians?
     private static final double DEFAULT_DISTANCE_VARIANCE = 30;
     private static final double DEFAULT_ANGLE_VARIANCE = 1; // Radians?
@@ -20,14 +20,18 @@ public class DriveSubsystem extends Subsystem {
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
             talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
             talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue());
+            
     
     public DriveSubsystem() {
         super();
         this.talonDriveLeftPrimary.setInverted(true);
         this.talonDriveLeftSlave.setInverted(true);
+        
         this.talonDriveRightPrimary.setInverted(false);
         this.talonDriveRightSlave.setInverted(false);
+        
         this.talonDriveRightPrimary.reverseSensor(true);
+        
 
         this.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.talonDriveLeftSlave.set(this.talonDriveLeftPrimary.getDeviceID());
@@ -205,6 +209,8 @@ public class DriveSubsystem extends Subsystem {
             return;
         } else if (distanceAbs < distanceVariance) {
             power *= distanceAbs / distanceVariance;
+            power = Math.max(Math.abs(power), 0.1) * Math.abs(power) / power;
+            System.out.println("Power: " + power);
         }
 
         Robot.DRIVE_TRAIN.skewDrive(power, skew);
