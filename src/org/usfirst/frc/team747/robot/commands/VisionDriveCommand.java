@@ -109,7 +109,8 @@ public class VisionDriveCommand extends Command {
             double targetDistanceZCamera = targetDistanceFromCamera * Math.cos(targetAngleFromCamera);
 
             //distance of the camera from our origin (front-right side from robot's perspective)
-            double cameraOffsetX = 6.375;
+            //double cameraOffsetX = 6.375;
+            double cameraOffsetX = 1.5;
             double cameraOffsetZ = 0;
             
             //this is currently the front-center of the robot and is not likely to change
@@ -120,16 +121,19 @@ public class VisionDriveCommand extends Command {
             double navXOffsetX = 14.5;
             double navXOffsetZ = 16.375;
 
+            double targetPositionX = targetDistanceXCamera + cameraOffsetX;
+            double targetPositionZ = targetDistanceZCamera - cameraOffsetZ;
+
             //these are the distances the target is from the front-center part of the robot
-            double targetDistanceXGearSecure = targetDistanceXCamera + gearSecureOffsetX - cameraOffsetX;
-            double targetDistanceZGearSecure = targetDistanceZCamera + gearSecureOffsetZ - cameraOffsetZ;
+            double targetDistanceXGearSecure = targetPositionX - gearSecureOffsetX;
+            double targetDistanceZGearSecure = targetPositionZ + gearSecureOffsetZ;
             
             double targetAngleFromGearSecure = Math.atan(targetDistanceXGearSecure / targetDistanceZGearSecure);
             double targetDistanceFromGearSecure = Math.hypot(targetDistanceXGearSecure, targetDistanceZGearSecure);
             
             //distances the target is from the NavX
-            double targetDistanceXNavX = targetDistanceXCamera + navXOffsetX - cameraOffsetX;
-            double targetDistanceZNavX = targetDistanceZCamera + navXOffsetZ - cameraOffsetZ;
+            double targetDistanceXNavX = targetPositionX + navXOffsetX;
+            double targetDistanceZNavX = targetPositionZ + navXOffsetZ;
             
             double targetAngleFromNavX = Math.atan(targetDistanceXNavX / targetDistanceZNavX);
             double targetDistanceFromNavX = Math.hypot(targetDistanceXNavX, targetDistanceZNavX);
@@ -153,8 +157,8 @@ public class VisionDriveCommand extends Command {
                 this.targetAngle -= navXAngle;
             }
             
-            System.out.println(targetDistance);
-            System.out.println(targetAngle);
+            System.out.println(this.targetDistance);
+            System.out.println(this.targetAngle);
             
             Robot.DRIVE_TRAIN.driveToTarget(this.targetAngle, this.targetDistance, DRIVE_MAX_POWER);
         } else {

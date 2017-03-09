@@ -26,7 +26,7 @@ public class VisionTracking implements VisionPipeline {
 
 	// Bounding rectangles should be made of > 60% of the paired contours
     private static final double BOUNDING_AREA_MINIMUM_FILL = .60;
-    private static final double BOUNDING_AREA_MINIMUM_SIZE = 200;
+    private static final double BOUNDING_AREA_MINIMUM_SIZE = 100;
     
     private Mat hslThresholdOutput = new Mat();
     private Mat desaturateOutput = new Mat();

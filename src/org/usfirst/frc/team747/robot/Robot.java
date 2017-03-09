@@ -70,16 +70,16 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
 
-        AxisCamera frontCamera = new AxisCamera("axis", "axis-camera.local");
+        AxisCamera frontCamera = new AxisCamera("axis", "10.7.47.7");
+        AxisCamera rearCamera = new AxisCamera("axis", "axis-camera.local");
         HashMap<String, TargetTemplate> frontTemplates = new HashMap<String, TargetTemplate>();
         frontTemplates.put("GEAR", new GearTargetTemplate());
         //frontTemplates.put("RETRIEVAL", new RetrievalTargetTemplate());
-        VISION_TRACKING_FRONT = new VisionTracking(new AxisM1011Specs(), frontTemplates);
+        VISION_TRACKING_FRONT = new VisionTracking(new AxisM1004Specs(), frontTemplates);
         
-        AxisCamera rearCamera = new AxisCamera("axis", "10.7.47.7");
         HashMap<String, TargetTemplate> rearTemplates = new HashMap<String, TargetTemplate>();
         rearTemplates.put("BOILER", new BoilerTargetTemplate());
-        VISION_TRACKING_REAR = new VisionTracking(new AxisM1004Specs(), rearTemplates);
+        VISION_TRACKING_REAR = new VisionTracking(new AxisM1011Specs(), rearTemplates);
         
         if (oi == null) {
             oi = new OI();

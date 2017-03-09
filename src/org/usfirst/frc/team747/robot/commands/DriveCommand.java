@@ -35,7 +35,7 @@ public class DriveCommand extends Command {
             right = 0;
         }
         
-        double speed = OI.JOYSTICK_DRIVER_LEFT.getThrottle();
+        double speed = 1; //OI.JOYSTICK_DRIVER_LEFT.getThrottle();
         
         if (OI.BUTTON_DRIVE_SLOW_OPERATOR.get() || OI.BUTTON_DRIVE_SLOW_DRIVER.get()) {
             speed *= 0.50;
