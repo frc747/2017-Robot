@@ -158,6 +158,12 @@ public class ShooterSubsystem extends Subsystem {
 	  talonIndexer.set(0);
   }
   
+  public void reverseIndexer(){
+	  
+	  talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	  talonIndexer.set(-.3);
+  }
+  
   public double getMotorLeftSpeed(){
 	  
 	  return (talonShooterLeft1.getEncVelocity());
