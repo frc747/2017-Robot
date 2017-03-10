@@ -23,6 +23,9 @@ public class ShooterSubsystem extends Subsystem {
                    talonShooterRight2 =	new CANTalon(Shooter.RIGHT_2.getValue()),
                    talonIndexer	= new CANTalon(Shooter.INDEXER.getValue());
   
+  private boolean indexerRunning = false;
+  private int indexerJamCount = 0; //May have to move this out to teleOp mode so it doesn't keep resetting. Not sure. 
+  
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
 	
@@ -106,17 +109,43 @@ public class ShooterSubsystem extends Subsystem {
    * Used once the shooter and indexer correct speed values are determined
    */
   public void shooterStart(){
+	  
 	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
 		talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	  	
 //	    talonShooterLeft1.set(OI.getLeftShooterSpeed());
 //	    talonShooterRight1.set(OI.getRightShooterSpeed());
-	    talonIndexer.set(OI.getIndexerSpeed());
+//	    talonIndexer.set(.30);
+	   
 	    talonShooterLeft1.set(1800);
 	    talonShooterRight1.set(1800);
-//	    talonIndexer.set(.30);
 	    
+	    if ((Math.abs(talonShooterLeft1.getSpeed()) > 1750) && (Math.abs(talonShooterRight1.getSpeed()) > 1750)
+				&& (Math.abs(talonShooterLeft1.getSpeed()) < 1850) && (Math.abs(talonShooterRight1.getSpeed()) < 1850)){
+	    	talonIndexer.set(.3);
+	    	indexerRunning = true;
+	    } else {
+	    	talonIndexer.set(0);
+	    	indexerRunning = false;
+	    	indexerJamCount = 0;
+	    }
+	    
+	    //if the indexer is jammed stop it and spin it backwards a certain distance
+	    if (indexerRunning && talonIndexer.getSpeed() <= 10 && indexerJamCount >=10) {
+	    	indexerRunning = false;
+	    	
+	    	talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	    	talonIndexer.set(0);
+	    	
+	    	talonIndexer.changeControlMode(CANTalon.TalonControlMode.Position);
+	    	talonIndexer.set(talonIndexer.getPosition() - 50);
+	    	
+	    	indexerJamCount = 0; 
+	    	
+	    }
+	    
+	    indexerJamCount ++;
 	    shooterLogging();	    
   }
   
