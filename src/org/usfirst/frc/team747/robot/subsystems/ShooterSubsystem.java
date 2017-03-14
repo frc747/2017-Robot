@@ -67,15 +67,18 @@ public class ShooterSubsystem extends Subsystem {
 		talonShooterRight1.configPeakOutputVoltage(+12.0f, -12.0f);
 		
 
-		talonShooterLeft1.setPID(	shooter_P.getDouble(), shooter_I.getDouble(), 
-									shooter_D.getDouble(), shooter_F.getDouble(), 
-									shooter_IZone.getValue(), shooter_RampRate.getDouble(), 
-									shooter_Profile.getValue());
+//		talonShooterLeft1.setPID(	shooter_P.getDouble(), shooter_I.getDouble(), 
+//									shooter_D.getDouble(), shooter_F.getDouble(), 
+//									shooter_IZone.getValue(), shooter_RampRate.getDouble(), 
+//									shooter_Profile.getValue());
 		
-		talonShooterRight1.setPID(	shooter_P.getDouble(), shooter_I.getDouble(), 
-									shooter_D.getDouble(), shooter_F.getDouble(), 
-									shooter_IZone.getValue(), shooter_RampRate.getDouble(), 
-									shooter_Profile.getValue());
+//		talonShooterRight1.setPID(	shooter_P.getDouble(), shooter_I.getDouble(), 
+//									shooter_D.getDouble(), shooter_F.getDouble(), 
+//									shooter_IZone.getValue(), shooter_RampRate.getDouble(), 
+//									shooter_Profile.getValue());
+		
+		talonShooterLeft1.setPID(	.05, 0, 1, .066, 0, 0, 0);
+		talonShooterRight1.setPID(	0, 0, 0, .069, 0, 0, 0);
 		
 		talonShooterRight1.setProfile(0);
 		talonShooterLeft1.setProfile(0);
@@ -110,20 +113,41 @@ public class ShooterSubsystem extends Subsystem {
    */
   public void shooterStart(){
 	  
-	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
-	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
-		talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+
 	  	
+		
+//	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+//	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 //	    talonShooterLeft1.set(OI.getLeftShooterSpeed());
 //	    talonShooterRight1.set(OI.getRightShooterSpeed());
-//	    talonIndexer.set(.30);
+	    
+		talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	    talonIndexer.set(OI.getIndexerSpeed());
 	   
+	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
+	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	    talonShooterLeft1.set(1800);
 	    talonShooterRight1.set(1800);
 	    
-	    if ((Math.abs(talonShooterLeft1.getSpeed()) > 1750) && (Math.abs(talonShooterRight1.getSpeed()) > 1750)
+//		talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+//	    talonIndexer.set(indexerJamCheck());
+//	    talonIndexer.set(.3);
+	    
+	   
+	    shooterLogging();	    
+  }
+  
+  public double indexerControl (){
+	  
+	  
+	  double indexerSpeed = 0;
+	  
+	  
+	  
+	  if ((Math.abs(talonShooterLeft1.getSpeed()) > 1400) && (Math.abs(talonShooterRight1.getSpeed()) > 1400)
 				&& (Math.abs(talonShooterLeft1.getSpeed()) < 1850) && (Math.abs(talonShooterRight1.getSpeed()) < 1850)){
-	    	talonIndexer.set(.3);
+			talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	    	talonIndexer.set(OI.getIndexerSpeed());
 	    	indexerRunning = true;
 	    } else {
 	    	talonIndexer.set(0);
@@ -146,7 +170,10 @@ public class ShooterSubsystem extends Subsystem {
 	    }
 	    
 	    indexerJamCount ++;
-	    shooterLogging();	    
+	  
+	  
+	  return indexerSpeed;
+	  
   }
   
   public void shooterStop(){
@@ -160,8 +187,19 @@ public class ShooterSubsystem extends Subsystem {
   
   public void reverseIndexer(){
 	  
+	  double movePosition = talonIndexer.getPosition() - 256;
+	  
+	  
 	  talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-	  talonIndexer.set(-.3);
+	  
+	  do {
+		  talonIndexer.set(-.3);
+	  } while (talonIndexer.getPosition() <= movePosition);
+		  
+
+	  
+	  
+	  
   }
   
   public double getMotorLeftSpeed(){
@@ -180,7 +218,7 @@ public class ShooterSubsystem extends Subsystem {
 		
 
   	/* prepare line to print */
-//  	if(++loops >= 10) {
+  	if(++loops >= 10) {
   	  	double motorOutputLeft = talonShooterLeft1.getOutputVoltage() / talonShooterLeft1.getBusVoltage();
   	  	double motorOutputRight = talonShooterRight1.getOutputVoltage() / talonShooterRight1.getBusVoltage();
   		
@@ -190,7 +228,8 @@ public class ShooterSubsystem extends Subsystem {
   		sb.append(motorOutputLeft + "," + talonShooterLeft1.getSpeed() + "," + talonShooterLeft1.getOutputVoltage() + "," + talonShooterLeft2.getOutputVoltage() + "," + talonShooterLeft1.getBusVoltage() + ",");
   		sb.append(motorOutputRight + "," + talonShooterRight1.getSpeed() + "," + talonShooterRight1.getOutputVoltage() + "," + talonShooterRight2.getOutputVoltage() + "," + talonShooterRight1.getBusVoltage() + ",");
   		sb.append( talonShooterLeft1.getP() + "," + talonShooterLeft1.getI() + "," + talonShooterLeft1.getD() + "," + talonShooterLeft1.getF() + ",");
-  		sb.append( talonShooterRight1.getP() + "," + talonShooterRight1.getI() + "," + talonShooterRight1.getD() + "," + talonShooterRight1.getF() + "\n");
+  		sb.append( talonShooterRight1.getP() + "," + talonShooterRight1.getI() + "," + talonShooterRight1.getD() + "," + talonShooterRight1.getF() + "," );
+  		sb.append( talonIndexer.getSpeed() + "," + talonIndexer.getP() + "," + talonIndexer.getI() + "," + talonIndexer.getD() + "," + talonIndexer.getF() + "\n");
   		try {
 			Robot.bw.write(sb.toString());
 			
@@ -198,9 +237,9 @@ public class ShooterSubsystem extends Subsystem {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//        	loops = 0;
+        	loops = 0;
         	System.out.println(sb.toString());
-//        }
+        }
     sb.setLength(0);
   }
 }
