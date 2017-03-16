@@ -12,8 +12,8 @@ public class GearTargetTemplate extends TargetTemplate {
     private static final double TARGET_SECTION_RATIO = TARGET_SECTION_WIDTH / TARGET_SECTION_HEIGHT;
     private static final double TARGET_WIDTH_RATIO = TARGET_SECTION_WIDTH / TARGET_WIDTH;
 
-    private static final double TARGET_SECTION_RATIO_VARIANCE = 0.1;
-    private static final double TARGET_RATIO_VARIANCE = 0.1;
+    private static final double TARGET_SECTION_RATIO_VARIANCE = 0.05;
+    private static final double TARGET_RATIO_VARIANCE = 0.05;
 
     @Override
     public boolean isSector(Rect contour) {

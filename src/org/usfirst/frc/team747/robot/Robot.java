@@ -55,7 +55,11 @@ public class Robot extends IterativeRobot {
     private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
     
     public static double getNavXAngle() {
-    	return NAV_X.getYaw();
+    	return - NAV_X.getYaw();
+    }
+    
+    public static double getNavXAngleRadians() {
+    	return Math.toRadians(getNavXAngle());
     }
 
     public static double getNavXAngle360() {

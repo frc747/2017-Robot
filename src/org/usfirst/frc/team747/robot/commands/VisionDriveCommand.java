@@ -39,7 +39,7 @@ public class VisionDriveCommand extends Command {
     protected void execute() {
         Target target = this.visionProcessor.getTarget(this.targetId);
         
-        double navXAngle = Robot.getNavXAngle();
+        double navXAngle = Robot.getNavXAngleRadians();
         
         System.out.println(this.targetId);
         
@@ -110,16 +110,16 @@ public class VisionDriveCommand extends Command {
 
             //distance of the camera from our origin (front-right side from robot's perspective)
             //double cameraOffsetX = 6.375;
-            double cameraOffsetX = 1.5;
+            double cameraOffsetX = 22.75;
             double cameraOffsetZ = 0;
             
             //this is currently the front-center of the robot and is not likely to change
-            double gearSecureOffsetX = 14.5;
+            double gearSecureOffsetX = 14.625;
             double gearSecureOffsetZ = 0;
             
             //navX is at the center of the robot
-            double navXOffsetX = 14.5;
-            double navXOffsetZ = 16.375;
+            double navXOffsetX = 14;
+            double navXOffsetZ = 15;
 
             double targetPositionX = targetDistanceXCamera + cameraOffsetX;
             double targetPositionZ = targetDistanceZCamera - cameraOffsetZ;

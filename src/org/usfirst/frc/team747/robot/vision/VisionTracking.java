@@ -25,8 +25,8 @@ import edu.wpi.first.wpilibj.vision.VisionPipeline;
 public class VisionTracking implements VisionPipeline {
 
 	// Bounding rectangles should be made of > 60% of the paired contours
-    private static final double BOUNDING_AREA_MINIMUM_FILL = .60;
-    private static final double BOUNDING_AREA_MINIMUM_SIZE = 100;
+    private static final double BOUNDING_AREA_MINIMUM_FILL = .90;
+    private static final double BOUNDING_AREA_MINIMUM_SIZE = 90;
     
     private Mat hslThresholdOutput = new Mat();
     private Mat desaturateOutput = new Mat();
