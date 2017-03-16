@@ -226,13 +226,13 @@ public class DriveSubsystem extends Subsystem {
         if (angleAbs < anglePrecision) {
             skew = 0;
         } else if (angleAbs < angleVariance) {
-            skew *= angleAbs / angleVariance * angle / angleAbs;
+            skew *= angleAbs / angleVariance;
         }
 
         if (distanceAbs < distancePrecision) {
-            // @TODO Try to turn.
+            // Try to turn.
             if (skew != 0) {
-                Robot.DRIVE_TRAIN.spinDrive(1.25 * skew * power);
+                Robot.DRIVE_TRAIN.spinDrive(skew * power);
             } else {
                 Robot.DRIVE_TRAIN.stop();
             }
