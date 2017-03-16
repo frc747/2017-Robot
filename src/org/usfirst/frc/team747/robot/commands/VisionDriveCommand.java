@@ -132,7 +132,7 @@ public class VisionDriveCommand extends Command {
             double targetDistanceFromGearSecure = Math.hypot(targetDistanceXGearSecure, targetDistanceZGearSecure);
             
             //distances the target is from the NavX
-            double targetDistanceXNavX = targetPositionX + navXOffsetX;
+            double targetDistanceXNavX = targetPositionX - navXOffsetX;
             double targetDistanceZNavX = targetPositionZ + navXOffsetZ;
             
             double targetAngleFromNavX = Math.atan(targetDistanceXNavX / targetDistanceZNavX);
