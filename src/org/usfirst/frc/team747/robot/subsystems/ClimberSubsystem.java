@@ -25,14 +25,17 @@ public class ClimberSubsystem extends Subsystem {
         setDefaultCommand(new ClimberDoNothing());
     }
     
-    public void up() {
+    public void upFast() {
+    	//POSITIVE SPEEDS ONLY!!!!!!!
     	talonClimb1.set(1);
     	talonClimb2.set(1);
     }
     
-    public void down() {
-    	talonClimb1.set(-1);
-    	talonClimb2.set(-1);
+    public void upSlow(){
+    	
+    	//POSITIVE SPEEDS ONLY!!!!!!!
+    	talonClimb1.set(.75);
+    	talonClimb2.set(.75);
     }
     
     public void doNothing() {

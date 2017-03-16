@@ -1,5 +1,7 @@
 package org.usfirst.frc.team747.robot.subsystems;
 
+import java.io.IOException;
+
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.DriveCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap;
@@ -23,6 +25,8 @@ public class DriveSubsystem extends Subsystem {
             talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue()),
             talonDriveRightThree = new CANTalon(RobotMap.DriveTrain.RIGHT_THREE.getValue());
             
+	StringBuilder sb = new StringBuilder();
+	int loops = 0;
     
     public DriveSubsystem() {
         super();
@@ -34,8 +38,7 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightSlave.setInverted(false);
         this.talonDriveRightThree.setInverted(false);
         
-        this.talonDriveRightPrimary.reverseSensor(true);
-        
+        this.talonDriveRightPrimary.reverseSensor(true);        
 
         this.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.talonDriveLeftSlave.set(this.talonDriveLeftPrimary.getDeviceID());
@@ -122,8 +125,10 @@ public class DriveSubsystem extends Subsystem {
     public double convertTicksToInches(double ticks) {
         
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
-        final double wheelCircumference = 6.25 * Math.PI,
-                     ticksPerEncoder = 128;
+//        final double wheelCircumference = 6.25 * Math.PI,
+//                     ticksPerEncoder = 128;
+        final double wheelCircumference = 18.75,
+                ticksPerEncoder = 128;
                 
         //Calculate how many ticks per inch
         final double inchesPerTick = wheelCircumference / ticksPerEncoder;

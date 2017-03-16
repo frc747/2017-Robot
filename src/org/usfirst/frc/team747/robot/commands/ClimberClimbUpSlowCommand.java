@@ -7,9 +7,9 @@ import org.usfirst.frc.team747.robot.Robot;
 /**
  *
  */
-public class ClimberClimbDownCommand extends Command {
+public class ClimberClimbUpSlowCommand extends Command {
 
-    public ClimberClimbDownCommand() {
+    public ClimberClimbUpSlowCommand() {
         // Use requires() here to declare subsystem dependencies
     	requires(Robot.CLIMBER);
     }
@@ -20,7 +20,7 @@ public class ClimberClimbDownCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.CLIMBER.down();
+    	Robot.CLIMBER.upSlow();
     }
 
     // Make this return true when this Command no longer needs to run execute()
