@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.DriveCommand;
+import org.usfirst.frc.team747.robot.commands.DriveDistanceStraightCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap;
 
 import com.ctre.CANTalon;
@@ -13,10 +14,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveSubsystem extends Subsystem {
 
-    private static final double DEFAULT_DISTANCE_PRECISION = 3; // Inches
-    private static final double DEFAULT_ANGLE_PRECISION = Math.toRadians(3); // Radians?
-    private static final double DEFAULT_DISTANCE_VARIANCE = 30;
-    private static final double DEFAULT_ANGLE_VARIANCE = Math.toRadians(10); // Radians?
+    private static final double DEFAULT_DISTANCE_PRECISION = 1; // Inches
+    private static final double DEFAULT_ANGLE_PRECISION = Math.toRadians(5); // Change to Radians
+    private static final double DEFAULT_DISTANCE_VARIANCE = 2;
+    private static final double DEFAULT_ANGLE_VARIANCE = Math.toRadians(10); // Change to Radians
     
     public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
@@ -245,4 +246,18 @@ public class DriveSubsystem extends Subsystem {
         this.skewDrive(power, skew);
     }
 
+    public void simpleRotateToTarget(double angle, double distance, double power) {
+        
+        double navxAngle = Robot.getNavXAngle();
+        
+        double angleThreshold = 3;
+      
+        if (angle > 0){
+            //LEFT
+        } else if (angle < 0){
+            //RIGHT
+            //DO UNTIL LOOPS
+        }
+        
+    }
 }

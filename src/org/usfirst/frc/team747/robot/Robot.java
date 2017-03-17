@@ -53,6 +53,9 @@ public class Robot extends IterativeRobot {
     private VisionThread visionThreadRear = null;
     public static OI oi = null;
     
+    public static double targetOffsetAngle;
+    public static double targetOffsetDistance;
+    
     private Command      autonomousCommand;
     private Autonomous   autonomous;
 
@@ -76,6 +79,16 @@ public class Robot extends IterativeRobot {
         
         return angle;
     }
+
+    public static double getNavXAngle360(double angle) {
+        
+        if (angle < 0) {
+            angle += 360;
+        }
+        
+        return angle;
+    }
+    
     
     public static void resetNavXAngle() {
     	NAV_X.zeroYaw();
