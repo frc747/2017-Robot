@@ -47,59 +47,8 @@ public class VisionDriveCommand extends Command {
             this.targetActive = true;
             this.targetFound = true;
             
-            /* Rich Stuff
-             * Commented Out
-             */
-            
-//            double targetAngleFromCamera = Math.toRadians(target.getAngleDegrees());
-//            double targetDistanceFromCamera = target.getDistance();
-//            
-//            double targetDistanceXCamera = targetDistanceFromCamera * Math.sin(targetAngleFromCamera);
-//            double targetDistanceZCamera = targetDistanceFromCamera * Math.cos(targetAngleFromCamera);
-//                        
-//            double navXOffsetX = 14.5;
-//            double navXOffsetZ = 16.375;
-//            double centerOffsetX = 8.125;
-//            double centerOffsetZ = 0;                             
-//            double targetDistanceX = targetDistanceXCamera + navXOffsetX;
-//            double targetDistanceZ = targetDistanceZCamera + navXOffsetZ;
-//            
-//            //double targetDistanceNavX = Math.sqrt(targetDistanceX * targetDistanceX + targetDistanceZ * targetDistanceZ);
-//            double targetAngleNavX = Math.atan(targetDistanceX / targetDistanceZ);
-//            
-//            double centerDistanceX = navXOffsetX - centerOffsetX;
-//            double centerDistanceZ = navXOffsetZ - centerOffsetZ;            
-//            
-//            double centerAngleNavX = Math.atan(centerDistanceX / centerDistanceZ);
-//            
-//            double toRotate = targetAngleNavX - centerAngleNavX;
-//            
-//            this.targetAngle = navXAngle + toRotate;
-//            this.targetDistance = target.getDistance() - this.stopPoint;
-//        } else {
-//            this.targetActive = false;
-//        }
-//        if (this.targetFound) {
-//            double position = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
-//            
-//            if (!targetActive) {
-//                this.targetDistance -= position;
-//                this.targetAngle -= navXAngle;
-//            }
-//            
-//            System.out.println(targetDistance);
-//            System.out.println(targetAngle);
-//            
-//            Robot.DRIVE_TRAIN.driveToTarget(this.targetAngle, this.targetDistance, DRIVE_MAX_POWER);
-//        } else {
-//            Robot.DRIVE_TRAIN.stop();
-//        }
-//        Robot.DRIVE_TRAIN.resetEcoders();
-//        Robot.resetNavXAngle();
-            
-            //Rich Code End
            
-            /* Brian Stuff
+            /* Brian Stuff 8========D~~~~(o()  (.Y.)  <---- TITS AND ANAL SEX (CREAMPIE) bj
              * Rewriting logic to see if I can get it to work
              */
             double targetAngleFromCamera = Math.toRadians(target.getAngleDegrees());
