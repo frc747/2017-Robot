@@ -95,6 +95,13 @@ public class VisionDriveCommand extends Command {
             this.targetAngle = navXAngle + toRotate;
             this.targetDistance = targetDistanceZGearSecure - this.stopPoint;
 
+            
+            /*
+             * 
+             * JEFF BUNCA EATS DICK
+             * 
+             */
+            		
         } else {
         	this.targetActive = false;
         }
