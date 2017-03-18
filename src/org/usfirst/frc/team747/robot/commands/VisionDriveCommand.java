@@ -110,7 +110,7 @@ public class VisionDriveCommand extends Command {
 
             //distance of the camera from our origin (front-right side from robot's perspective)
             //double cameraOffsetX = 6.375;
-            double cameraOffsetX = 1.5;
+            double cameraOffsetX = 23;
             double cameraOffsetZ = 0;
             
             //this is currently the front-center of the robot and is not likely to change
