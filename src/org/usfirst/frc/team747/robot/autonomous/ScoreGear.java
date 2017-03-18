@@ -13,7 +13,7 @@ public class ScoreGear extends CommandGroup {
         requires(Robot.DRIVE_TRAIN);
 
         addSequential(new DriveDistanceCommand(AutonomousConfig.ScoreGear.DISTANCE, AutonomousConfig.ScoreGear.SPEED));
-        addSequential(new DriveDistanceCommand(AutonomousConfig.ScoreGear.DISTANCE2, AutonomousConfig.ScoreGear.SPEED2));
-        
+       // addSequential(new DriveDistanceCommand(AutonomousConfig.ScoreGear.DISTANCE2, AutonomousConfig.ScoreGear.SPEED2));
+
     }
 }

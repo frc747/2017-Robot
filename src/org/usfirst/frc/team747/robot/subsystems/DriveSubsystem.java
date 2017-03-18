@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.DriveCommand;
+import org.usfirst.frc.team747.robot.commands.DriveDistanceStraightCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap;
 
 import com.ctre.CANTalon;
@@ -13,10 +14,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveSubsystem extends Subsystem {
 
-    private static final double DEFAULT_DISTANCE_PRECISION = 3; // Inches
-    private static final double DEFAULT_ANGLE_PRECISION = 1; // Radians?
-    private static final double DEFAULT_DISTANCE_VARIANCE = 30;
-    private static final double DEFAULT_ANGLE_VARIANCE = 1; // Radians?
+    private static final double DEFAULT_DISTANCE_PRECISION = 1; // Inches
+    private static final double DEFAULT_ANGLE_PRECISION = Math.toRadians(5); // Change to Radians
+    private static final double DEFAULT_DISTANCE_VARIANCE = 2;
+    private static final double DEFAULT_ANGLE_VARIANCE = Math.toRadians(10); // Change to Radians
     
     public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
@@ -68,7 +69,7 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightPrimary.set(right);
         
         
-//        System.out.println("NAVX Angle: " + Robot.getNavXAngle360());
+        System.out.println("NAVX Angle: " + Robot.getNavXAngle());
 //        sb.append( Robot.getNavXAngle360() + "\n");
 //  
 //  		try {
@@ -199,8 +200,8 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public void skewDrive(double power, double diff) {
-        double left = power * (0.25 * diff + .75);
-        double right = power * (-0.25 * diff + .75);
+        double left = power * (0.5 * diff + .5);
+        double right = power * (-0.5 * diff + .5);
         set(left, right);
     }
     
@@ -225,25 +226,38 @@ public class DriveSubsystem extends Subsystem {
 
         if (angleAbs < anglePrecision) {
             skew = 0;
-        } else if (angleAbs < anglePrecision) {
-            skew *= angleAbs / anglePrecision;
+        } else if (angleAbs < angleVariance) {
+            skew *= angleAbs / angleVariance;
         }
 
         if (distanceAbs < distancePrecision) {
-            // @TODO Try to turn.
+            // Try to turn.
             if (skew != 0) {
-                Robot.DRIVE_TRAIN.spinDrive(1.25 * skew * power);
+                Robot.DRIVE_TRAIN.spinDrive(skew * power);
             } else {
                 Robot.DRIVE_TRAIN.stop();
             }
             return;
         } else if (distanceAbs < distanceVariance) {
             power *= distanceAbs / distanceVariance;
-            power = Math.max(Math.abs(power), 0.1) * Math.abs(power) / power;
-            System.out.println("Power: " + power);
+            power = Math.max(Math.abs(power), 0.1) * power / Math.abs(power);
         }
 
-        Robot.DRIVE_TRAIN.skewDrive(power, skew);
+        this.skewDrive(power, skew);
     }
 
+    public void simpleRotateToTarget(double angle, double distance, double power) {
+        
+        double navxAngle = Robot.getNavXAngle();
+        
+        double angleThreshold = 3;
+      
+        if (angle > 0){
+            //LEFT
+        } else if (angle < 0){
+            //RIGHT
+            //DO UNTIL LOOPS
+        }
+        
+    }
 }

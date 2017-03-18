@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 
 import org.usfirst.frc.team747.robot.autonomous.CrossLine;
 import org.usfirst.frc.team747.robot.autonomous.ScoreGear;
+import org.usfirst.frc.team747.robot.autonomous.VisionGear;
 
 
 
@@ -15,6 +16,7 @@ public class Autonomous{
         AUTOMODE_NONE,
         AUTOMODE_CROSS_LINE,
         AUTOMODE_SCORE_GEAR,
+        AUTOMODE_VISION_GEAR
     }
     
     private SendableChooser autoChooser1;
@@ -28,6 +30,7 @@ public class Autonomous{
         autoChooser1.addDefault("No autonomous", AutoMode.AUTOMODE_NONE);
         autoChooser1.addObject("Cross Line", AutoMode.AUTOMODE_CROSS_LINE);
         autoChooser1.addObject("Score Gear", AutoMode.AUTOMODE_SCORE_GEAR);
+        autoChooser1.addObject("Score Vision Gear", AutoMode.AUTOMODE_VISION_GEAR);
         SmartDashboard.putData("Auto mode", autoChooser1);
         
         
@@ -46,6 +49,9 @@ public class Autonomous{
                 break;
             case AUTOMODE_SCORE_GEAR:
                 new ScoreGear().start();
+                break;
+            case AUTOMODE_VISION_GEAR:
+                new VisionGear().start();
                 break;
             case AUTOMODE_NONE:
                 //DO NOTHING

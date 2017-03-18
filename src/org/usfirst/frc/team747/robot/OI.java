@@ -3,6 +3,7 @@ package org.usfirst.frc.team747.robot;
 import org.usfirst.frc.team747.robot.commands.ClimberClimbUpFastCommand;
 import org.usfirst.frc.team747.robot.commands.ClimberClimbUpSlowCommand;
 import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
+import org.usfirst.frc.team747.robot.commands.SimpleVisionDriveCommand;
 import org.usfirst.frc.team747.robot.commands.VisionDriveCommand;
 import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
 import org.usfirst.frc.team747.robot.commands.IntakeCommand;
@@ -42,8 +43,10 @@ public class OI {
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_Y.getValue()),
             BUTTON_GEAR
                 = new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_2.getValue()),
-            BUTTON_BOILER
+            BUTTON_SECOND_GEAR
                 = new JoystickButton(JOYSTICK_DRIVER_RIGHT, DriverStation.Joystick.BUTTON_2.getValue());
+            //BUTTON_BOILER
+            //    = new JoystickButton(JOYSTICK_DRIVER_RIGHT, DriverStation.Joystick.BUTTON_2.getValue());
 
 	public static final ShootButton BUTTON_FIRE = new ShootButton();
 	public static final IndexerReverseButton BUTTON_REVERSE_INDEXER = new IndexerReverseButton();
@@ -66,8 +69,9 @@ public class OI {
 //        }
 
         
-        BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 20));
-        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
+        BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
+        BUTTON_SECOND_GEAR.toggleWhenPressed(new SimpleVisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
+        //        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
         BUTTON_DRIVE_DISTANCE.whenPressed(new DriveDistanceCommand((6.25 * Math.PI), 0.1));
     }
     

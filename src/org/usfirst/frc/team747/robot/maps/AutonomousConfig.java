@@ -29,7 +29,7 @@ public final class AutonomousConfig {
         
         public static final double SPEED    = .19,
         						   ANGLE	= 0,
-                                   DISTANCE = 65,
+                                   DISTANCE = 61,
                                    SPEED2	= .17,
                                    DISTANCE2 = 15;
     }

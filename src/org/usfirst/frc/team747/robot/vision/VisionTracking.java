@@ -53,7 +53,7 @@ public class VisionTracking implements VisionPipeline {
     public void process(Mat source0) {
         // Step HSL_Threshold0:
         Mat hslThresholdInput = source0;
-        double[] hslThresholdHue = {47.0, 92.0};
+        double[] hslThresholdHue = {47.0, 99.0};
         double[] hslThresholdSaturation = {23.0, 255.0};
         double[] hslThresholdLuminance = {30.0, 255.0};
         hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);

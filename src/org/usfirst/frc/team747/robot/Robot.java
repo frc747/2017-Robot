@@ -53,13 +53,20 @@ public class Robot extends IterativeRobot {
     private VisionThread visionThreadRear = null;
     public static OI oi = null;
     
+    public static double targetOffsetAngle;
+    public static double targetOffsetDistance;
+    
     private Command      autonomousCommand;
     private Autonomous   autonomous;
 
     private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
     
     public static double getNavXAngle() {
-    	return NAV_X.getYaw();
+    	return - NAV_X.getYaw();
+    }
+    
+    public static double getNavXAngleRadians() {
+    	return Math.toRadians(getNavXAngle());
     }
 
     public static double getNavXAngle360() {
@@ -72,6 +79,16 @@ public class Robot extends IterativeRobot {
         
         return angle;
     }
+
+    public static double getNavXAngle360(double angle) {
+        
+        if (angle < 0) {
+            angle += 360;
+        }
+        
+        return angle;
+    }
+    
     
     public static void resetNavXAngle() {
     	NAV_X.zeroYaw();

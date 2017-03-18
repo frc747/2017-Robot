@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class VisionDriveCommand extends Command {
+public class SimpleVisionDriveCommand extends Command {
     
     private static final double DRIVE_MAX_POWER = 0.3;
     private VisionTracking visionProcessor;
@@ -22,7 +22,7 @@ public class VisionDriveCommand extends Command {
     private boolean targetActive = false;
     private boolean targetFound = false;
 
-    public VisionDriveCommand(VisionTracking visionProcessor, String targetId, double stopPoint) {
+    public SimpleVisionDriveCommand(VisionTracking visionProcessor, String targetId, double stopPoint) {
         this.visionProcessor = visionProcessor;
         this.targetId = targetId;
         this.stopPoint = stopPoint;
@@ -39,6 +39,7 @@ public class VisionDriveCommand extends Command {
     protected void execute() {
         Target target = this.visionProcessor.getTarget(this.targetId);
         
+        Robot.resetNavXAngle();
         double navXAngle = Robot.getNavXAngleRadians();
         
         System.out.println(this.targetId);
@@ -160,7 +161,9 @@ public class VisionDriveCommand extends Command {
             System.out.println(this.targetDistance);
             System.out.println(this.targetAngle);
             
-            Robot.DRIVE_TRAIN.driveToTarget(this.targetAngle, this.targetDistance, DRIVE_MAX_POWER);
+            Robot.targetOffsetAngle = Math.toDegrees(this.targetAngle);
+            Robot.targetOffsetDistance = this.targetDistance;
+            
         } else {
             Robot.DRIVE_TRAIN.stop();
         }
@@ -171,7 +174,7 @@ public class VisionDriveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return this.targetFound;
     }
 
     // Called once after isFinished returns true
