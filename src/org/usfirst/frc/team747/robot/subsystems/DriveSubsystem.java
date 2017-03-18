@@ -69,7 +69,7 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightPrimary.set(right);
         
         
-        System.out.println("NAVX Angle: " + Robot.getNavXAngle());
+        //System.out.println("NAVX Angle: " + Robot.getNavXAngle());
 //        sb.append( Robot.getNavXAngle360() + "\n");
 //  
 //  		try {

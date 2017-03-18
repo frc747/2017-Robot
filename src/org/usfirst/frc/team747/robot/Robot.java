@@ -190,9 +190,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		System.out.println(Instant.now().toEpochMilli());
-		System.out.println("PRINTED BITCH");
-		
+		System.out.println(Instant.now().toEpochMilli());		
 		resetNavXAngle();
 		
 		

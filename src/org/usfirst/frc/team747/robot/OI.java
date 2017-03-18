@@ -8,6 +8,7 @@ import org.usfirst.frc.team747.robot.commands.VisionDriveCommand;
 import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
 import org.usfirst.frc.team747.robot.commands.IntakeCommand;
 import org.usfirst.frc.team747.robot.commands.ShooterIndexerReverseCommand;
+import org.usfirst.frc.team747.robot.commands.ShooterReverseCommand;
 import org.usfirst.frc.team747.robot.commands.ShootButton;
 import org.usfirst.frc.team747.robot.commands.IndexerReverseButton;
 import org.usfirst.frc.team747.robot.maps.DriverStation;
@@ -29,7 +30,7 @@ public class OI {
 
     public static final JoystickButton BUTTON_DRIVE_SLOW_DRIVER
                 = new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_7.getValue()),
-            BUTTON_DRIVE_SLOW_OPERATOR
+            BUTTON_REVERSE_SHOOTER
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_LB.getValue()),
             BUTTON_INTAKE_FORWARD
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_A.getValue()),
@@ -57,6 +58,7 @@ public class OI {
         BUTTON_INTAKE_FORWARD.whileHeld(new IntakeCommand());
         BUTTON_INTAKE_BACK.whileHeld(new IntakeCommand(false));
         BUTTON_REVERSE_INDEXER.whileHeld(new ShooterIndexerReverseCommand());
+        BUTTON_REVERSE_SHOOTER.whileHeld(new ShooterReverseCommand());
         BUTTON_FIRE.whileHeld(new ShooterShootCommand());
         BUTTON_CLIMB_SLOW.whileHeld(new ClimberClimbUpSlowCommand());
         BUTTON_CLIMB_FAST.whileHeld(new ClimberClimbUpFastCommand());

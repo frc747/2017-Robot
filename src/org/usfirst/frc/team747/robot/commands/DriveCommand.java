@@ -38,9 +38,9 @@ public class DriveCommand extends Command {
         
         double speed = 1; //OI.JOYSTICK_DRIVER_LEFT.getThrottle();
         
-        if (OI.BUTTON_DRIVE_SLOW_OPERATOR.get() || OI.BUTTON_DRIVE_SLOW_DRIVER.get()) {
-            speed *= 0.50;
-        }
+//        if (OI.BUTTON_DRIVE_SLOW_OPERATOR.get() || OI.BUTTON_DRIVE_SLOW_DRIVER.get()) {
+//            speed *= 0.50;
+//        }
         
         Robot.DRIVE_TRAIN.set(left * speed, right * speed);
         
