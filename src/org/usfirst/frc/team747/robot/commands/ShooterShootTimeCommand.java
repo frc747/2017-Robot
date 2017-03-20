@@ -11,16 +11,17 @@ import org.usfirst.frc.team747.robot.Robot;
  * Spins the shooter wheels using the joystick throttles as inputs for the
  * speed.
  */
-public class ShooterShootCommand extends Command {
+public class ShooterShootTimeCommand extends Command {
 
-	public ShooterShootCommand() {
+	public ShooterShootTimeCommand(double timeOutAmount) {
+		
+    	setTimeout(timeOutAmount);
 		requires(Robot.SHOOTER);
 	}
 	
 	@Override
 	protected void initialize() {
 		super.initialize();
-		//System.out.print("8=");
 	}
 
 	@Override
@@ -36,6 +37,11 @@ public class ShooterShootCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+//		return false;
+        return isTimedOut();
+	}
+	
+	protected void end(){
+		Robot.SHOOTER.shooterStop();
 	}
 }

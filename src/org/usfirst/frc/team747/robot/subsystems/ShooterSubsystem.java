@@ -31,14 +31,14 @@ public class ShooterSubsystem extends Subsystem {
 	
   public ShooterSubsystem(){
 	  	
-	  	ShooterSpeed 	shooter_I = ShooterSpeed.I,
-	  					shooter_P = ShooterSpeed.P,
-	  					shooter_D = ShooterSpeed.D,
-	  					shooter_F = ShooterSpeed.F,
-	  					shooter_Profile = ShooterSpeed.PROFILE,
-	  					shooter_RampRate = ShooterSpeed.RAMPRATE,
-	  					shooter_IZone = ShooterSpeed.SHOOTER_IZONE,
-	  					indexer_Speed = ShooterSpeed.INDEXER_SPEED;
+//	  	ShooterSpeed 	shooter_I = ShooterSpeed.I,
+//	  					shooter_P = ShooterSpeed.P,
+//	  					shooter_D = ShooterSpeed.D,
+//	  					shooter_F = ShooterSpeed.F,
+//	  					shooter_Profile = ShooterSpeed.PROFILE,
+//	  					shooter_RampRate = ShooterSpeed.RAMPRATE,
+//	  					shooter_IZone = ShooterSpeed.SHOOTER_IZONE,
+//	  					indexer_Speed = ShooterSpeed.INDEXER_SPEED;
 	  	
 		//Set the 2nd motor on each side to be follower motors
 		talonShooterLeft2.changeControlMode(CANTalon.TalonControlMode.Follower);
@@ -154,6 +154,15 @@ public class ShooterSubsystem extends Subsystem {
 	    shooterLogging();	    
   }
   
+  
+  public void shooterRev(){
+	   
+	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
+	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
+	    talonShooterLeft1.set(1800);
+	    talonShooterRight1.set(1800);
+	   
+}
   public double indexerControl (){
 	  
 	  
@@ -257,17 +266,17 @@ public class ShooterSubsystem extends Subsystem {
   		sb.append( talonShooterLeft1.getP() + "," + talonShooterLeft1.getI() + "," + talonShooterLeft1.getD() + "," + talonShooterLeft1.getF() + ",");
   		sb.append( talonShooterRight1.getP() + "," + talonShooterRight1.getI() + "," + talonShooterRight1.getD() + "," + talonShooterRight1.getF() + "," );
   		sb.append( talonIndexer.getSpeed() + "," + talonIndexer.getP() + "," + talonIndexer.getI() + "," + talonIndexer.getD() + "," + talonIndexer.getF() + "\n");
-  		try {
-			Robot.bw.write(sb.toString());
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        	loops = 0;
-        	System.out.println(sb.toString());
-//        	System.out.println("====D~~");
+  	
+//  		try {
+//			Robot.bw.write(sb.toString());
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        	loops = 0;
+//        	System.out.println(sb.toString());
         }
     sb.setLength(0);
-  }
+  	}
 }

@@ -53,6 +53,8 @@ public class Robot extends IterativeRobot {
     private VisionThread visionThreadRear = null;
     public static OI oi = null;
     
+    private int autonLoops = 0;
+    
     public static double targetOffsetAngle;
     public static double targetOffsetDistance;
     
@@ -62,7 +64,7 @@ public class Robot extends IterativeRobot {
     private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
     
     public static double getNavXAngle() {
-    	return - NAV_X.getYaw();
+    	return NAV_X.getYaw();
     }
     
     public static double getNavXAngleRadians() {
@@ -185,6 +187,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		
+		if (autonLoops == 10){
+			System.out.println("Auton NavX Angle: " + Robot.getNavXAngle());
+			autonLoops = 0;
+		} else {
+			++autonLoops;
+		}
+		
 		Scheduler.getInstance().run();
 	}
 
