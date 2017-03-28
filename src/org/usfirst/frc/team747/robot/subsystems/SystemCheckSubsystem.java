@@ -1,11 +1,10 @@
 package org.usfirst.frc.team747.robot.subsystems;
 
-//import java.io.IOException;
-
 import org.usfirst.frc.team747.robot.OI;
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.ShooterStopCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap.Shooter;
+import org.usfirst.frc.team747.robot.maps.RobotMap.Climber;
 import org.usfirst.frc.team747.robot.maps.RobotMap.ShooterSpeed;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -15,13 +14,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 
-public class ShooterSubsystem extends Subsystem {
+public class SystemCheckSubsystem extends Subsystem {
 
   private CANTalon talonShooterLeft1 = new CANTalon(Shooter.LEFT_1.getValue()),
                    talonShooterLeft2 = new CANTalon(Shooter.LEFT_2.getValue()),
                    talonShooterRight1 =	new CANTalon(Shooter.RIGHT_1.getValue()),
                    talonShooterRight2 =	new CANTalon(Shooter.RIGHT_2.getValue()),
                    talonIndexer	= new CANTalon(Shooter.INDEXER.getValue());
+//                   talonClimberFront = new CANTalon(Climber.)
   
   private boolean indexerRunning = false;
   private int indexerJamCount = 0; //May have to move this out to teleOp mode so it doesn't keep resetting. Not sure. 
@@ -29,7 +29,7 @@ public class ShooterSubsystem extends Subsystem {
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
 	
-  public ShooterSubsystem(){
+  public SystemCheckSubsystem(){
 	  	
 //	  	ShooterSpeed 	shooter_I = ShooterSpeed.I,
 //	  					shooter_P = ShooterSpeed.P,

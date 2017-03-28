@@ -25,7 +25,7 @@ public class DriveRotateCommand extends Command {
 
     protected void execute() {
         Robot.DRIVE_TRAIN.set(speed, -speed);
-        System.out.println("ROTATING******************");
+        System.out.println("ROTATING****************** : " + Robot.getNavXAngle());
         
     }
 
@@ -34,7 +34,7 @@ public class DriveRotateCommand extends Command {
 //    	System.out.println("Robot: " + this.degrees);
     	boolean stopRotate = false;
     	
-    	if (Robot.getNavXAngle() <= (this.degrees + 5) && Robot.getNavXAngle() >= (this.degrees - 5)){
+    	if (Robot.getNavXAngle() <= (this.degrees + 10) && Robot.getNavXAngle() >= (this.degrees - 10)){
 //    		System.out.println("****************SHOULD BE STOPPING!!!");
     		stopRotate = true;
     	}

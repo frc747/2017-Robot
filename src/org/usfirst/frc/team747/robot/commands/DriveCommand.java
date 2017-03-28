@@ -41,7 +41,7 @@ public class DriveCommand extends Command {
 //        if (OI.BUTTON_DRIVE_SLOW_OPERATOR.get() || OI.BUTTON_DRIVE_SLOW_DRIVER.get()) {
 //            speed *= 0.50;
 //        }
-        
+        System.out.println("ANGLE: " + Robot.getNavXAngle());
         Robot.DRIVE_TRAIN.set(left * speed, right * speed);
         
 //        System.out.println("LeftEncoder Ticks: " + Robot.DRIVE_TRAIN.talonDriveLeftPrimary.getPosition());
