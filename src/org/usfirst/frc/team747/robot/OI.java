@@ -48,7 +48,12 @@ public class OI {
             BUTTON_GEAR
                 = new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_2.getValue()),
             BUTTON_SECOND_GEAR
-                = new JoystickButton(JOYSTICK_DRIVER_RIGHT, DriverStation.Joystick.BUTTON_2.getValue());
+                = new JoystickButton(JOYSTICK_DRIVER_RIGHT, DriverStation.Joystick.BUTTON_2.getValue()),
+            BUTTON_INDEXER_FORWARD
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_BACK.getValue()),
+            BUTTON_SHOOTER_VOLTAGE
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_START.getValue());
+
             //BUTTON_BOILER
             //    = new JoystickButton(JOYSTICK_DRIVER_RIGHT, DriverStation.Joystick.BUTTON_2.getValue());
 
@@ -66,7 +71,8 @@ public class OI {
         BUTTON_REV_SHOOTER.whileHeld(new ShooterRevCommand());
         BUTTON_CLIMB_SLOW.whileHeld(new ClimberClimbUpSlowCommand());
         BUTTON_CLIMB_FAST.whileHeld(new ClimberClimbUpFastCommand());
-        
+        BUTTON_SHOOTER_VOLTAGE.whileHeld(new ShooterShootVoltageCommand());
+        BUTTON_INDEXER_FORWARD.whileHeld(new ShooterIndexerForwardCommand());
 //        if (OI.getClimbState()) {
 //        	BUTTON_CLIMB_SLOW.whileHeld(new ClimberClimbUpSlowCommand());
 //        	

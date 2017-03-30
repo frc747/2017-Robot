@@ -154,6 +154,39 @@ public class ShooterSubsystem extends Subsystem {
 //	    shooterLogging();	    
   }
   
+  public void shooterVoltageStart(){
+      
+
+      
+      
+//    talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+//    talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+//    talonShooterLeft1.set(OI.getLeftShooterSpeed());
+//    talonShooterRight1.set(OI.getRightShooterSpeed());
+
+     
+      talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Voltage);
+      talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Voltage);
+      talonShooterLeft1.set(85);
+      talonShooterRight1.set(85);
+      
+         if (Math.abs(talonShooterRight1.getSpeed()) > 1700 && Math.abs(talonShooterLeft1.getSpeed()) > 1700){
+//            System.out.println("indexer moving");
+              talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+              talonIndexer.set(OI.getIndexerSpeed());
+          } else {
+//            System.out.println("Indexer Stopped");
+              talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+              talonIndexer.set(0);
+          }
+      
+//    talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+//    talonIndexer.set(indexerJamCheck());
+//    talonIndexer.set(.3);
+      
+     
+//    shooterLogging();       
+}
   
   public void shooterRev(){
 	   
@@ -227,6 +260,20 @@ public class ShooterSubsystem extends Subsystem {
 	  
 	  
   }
+  
+  public void forwardIndexer(){
+      
+      double movePosition = talonIndexer.getPosition() - 256;
+      
+      
+      talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+      
+      do {
+          talonIndexer.set(-.3);
+      } while (talonIndexer.getPosition() <= movePosition);
+      
+  }
+
   
   public void reverseShooter(){
 

@@ -11,16 +11,10 @@ import org.usfirst.frc.team747.robot.Robot;
  * Spins the shooter wheels using the joystick throttles as inputs for the
  * speed.
  */
-public class ShooterShootCommand extends Command {
+public class ShooterIndexerForwardCommand extends Command {
 
-	public ShooterShootCommand() {
+	public ShooterIndexerForwardCommand() {
 		requires(Robot.SHOOTER);
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
-		//System.out.print("8=");
 	}
 
 	@Override
@@ -29,7 +23,7 @@ public class ShooterShootCommand extends Command {
 //		System.out.println("RightRPM: " + Robot.SHOOTER.getMotorRightSpeed() + "  ");
 //		System.out.println("LeftRPM: " + Robot.SHOOTER.getMotorLeftSpeed() + "  ");
 
-		Robot.SHOOTER.shooterVoltageStart();
+		Robot.SHOOTER.reverseIndexer();
 //		System.out.println("Shooting");
 		
 	}
