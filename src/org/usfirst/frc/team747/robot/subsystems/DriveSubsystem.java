@@ -6,6 +6,7 @@ import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.DriveCommand;
 import org.usfirst.frc.team747.robot.commands.DriveDistanceStraightCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
@@ -25,7 +26,9 @@ public class DriveSubsystem extends Subsystem {
             talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
             talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue()),
             talonDriveRightThree = new CANTalon(RobotMap.DriveTrain.RIGHT_THREE.getValue());
-            
+
+    //public RobotDrive autoDrive = new RobotDrive(talonDriveLeftPrimary, talonDriveLeftSlave, talonDriveRightPrimary, talonDriveRightSlave);
+    
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
     
@@ -86,13 +89,23 @@ public class DriveSubsystem extends Subsystem {
 
     public void resetLeftEncoder() {
         talonDriveLeftPrimary.setPosition(0);
+        
     }
     
     public void resetRightEncoder() {
         talonDriveRightPrimary.setPosition(0);
     }
     
-    public void resetEcoders() {
+    public void newResetEncoders() {
+        talonDriveLeftPrimary.setEncPosition(0);
+        talonDriveRightPrimary.setEncPosition(0);
+    }
+    
+    public int newGetEncoderPosition() {
+        return (talonDriveLeftPrimary.getEncPosition() + talonDriveRightPrimary.getEncPosition())/ 2;
+    }
+    
+    public void resetEncoders() {
     	this.resetLeftEncoder();
     	this.resetRightEncoder();
     }
@@ -112,7 +125,7 @@ public class DriveSubsystem extends Subsystem {
     public double convertInchesToTicks(double inchesToTravel) {
         
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
-        final double wheelCircumference = 6.25 * Math.PI,
+        final double wheelCircumference = 18.75,
                      ticksPerEncoder = 128;
                 
         //Calculate how many ticks per inch
@@ -128,7 +141,7 @@ public class DriveSubsystem extends Subsystem {
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
 //        final double wheelCircumference = 6.25 * Math.PI,
 //                     ticksPerEncoder = 128;
-        final double wheelCircumference = 18.75,
+        final double wheelCircumference = 20.5,
                 ticksPerEncoder = 128;
                 
         //Calculate how many ticks per inch
@@ -220,6 +233,8 @@ public class DriveSubsystem extends Subsystem {
     public void driveToTarget(double angle, double distance, double power, double distanceVariance, double angleVariance, double distancePrecision, double anglePrecision) {
         
         double distanceAbs = Math.abs(distance);
+        
+        double direction = distance / distanceAbs;
 
         double angleAbs = Math.abs(angle);
         double skew = angle / angleAbs;
@@ -240,7 +255,7 @@ public class DriveSubsystem extends Subsystem {
             return;
         } else if (distanceAbs < distanceVariance) {
             power *= distanceAbs / distanceVariance;
-            power = Math.max(Math.abs(power), 0.1) * power / Math.abs(power);
+            power = Math.max(Math.abs(power), 0.1);
         }
 
         this.skewDrive(power, skew);

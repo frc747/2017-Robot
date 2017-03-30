@@ -136,7 +136,7 @@ public class ShooterSubsystem extends Subsystem {
 	    talonShooterLeft1.set(1800);
 	    talonShooterRight1.set(1800);
 	    
-		   if (Math.abs(talonShooterRight1.getSpeed()) > 1750 && Math.abs(talonShooterLeft1.getSpeed()) > 1750){
+		   if (Math.abs(talonShooterRight1.getSpeed()) > 1700 && Math.abs(talonShooterLeft1.getSpeed()) > 1700){
 //		    	System.out.println("indexer moving");
 				talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 			    talonIndexer.set(OI.getIndexerSpeed());
