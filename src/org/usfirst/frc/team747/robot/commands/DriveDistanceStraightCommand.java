@@ -28,8 +28,6 @@ public class DriveDistanceStraightCommand extends Command {
     protected void execute() {
     	Robot.DRIVE_TRAIN.driveStraight(speed, targetAngle);
         
-        System.out.println("EXECUTE SpeedOFFSET ****** left encoder =" + Double.toString(Robot.DRIVE_TRAIN.getLeftEncoderPosition()) + 
-                "  right encoder get=" + Double.toString(Robot.DRIVE_TRAIN.getRightEncoderPosition()));
     }
 
     protected boolean isFinished() {
