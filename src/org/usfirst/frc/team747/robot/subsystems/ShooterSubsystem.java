@@ -133,10 +133,10 @@ public class ShooterSubsystem extends Subsystem {
 	   
 	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
-	    talonShooterLeft1.set(1800);
-	    talonShooterRight1.set(1800);
+	    talonShooterLeft1.set(1750);
+	    talonShooterRight1.set(1750);
 	    
-		   if (Math.abs(talonShooterRight1.getSpeed()) > 1700 && Math.abs(talonShooterLeft1.getSpeed()) > 1700){
+		   if (Math.abs(talonShooterRight1.getSpeed()) > 1750 && Math.abs(talonShooterLeft1.getSpeed()) > 1750){
 //		    	System.out.println("indexer moving");
 				talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 			    talonIndexer.set(OI.getIndexerSpeed());
@@ -151,7 +151,7 @@ public class ShooterSubsystem extends Subsystem {
 //	    talonIndexer.set(.3);
 	    
 	   
-//	    shooterLogging();	    
+//	    shooterLogging();
   }
   
   public void shooterVoltageStart(){
@@ -167,8 +167,8 @@ public class ShooterSubsystem extends Subsystem {
      
       talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Voltage);
       talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Voltage);
-      talonShooterLeft1.set(85);
-      talonShooterRight1.set(85);
+      talonShooterLeft1.set(70);
+      talonShooterRight1.set(70);
       
          if (Math.abs(talonShooterRight1.getSpeed()) > 1700 && Math.abs(talonShooterLeft1.getSpeed()) > 1700){
 //            System.out.println("indexer moving");

@@ -29,7 +29,7 @@ public class ShooterShootCommand extends Command {
 //		System.out.println("RightRPM: " + Robot.SHOOTER.getMotorRightSpeed() + "  ");
 //		System.out.println("LeftRPM: " + Robot.SHOOTER.getMotorLeftSpeed() + "  ");
 
-		Robot.SHOOTER.shooterVoltageStart();
+		Robot.SHOOTER.shooterStart();
 //		System.out.println("Shooting");
 		
 	}
