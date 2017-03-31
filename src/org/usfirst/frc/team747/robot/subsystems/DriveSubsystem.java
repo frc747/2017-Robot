@@ -141,7 +141,7 @@ public class DriveSubsystem extends Subsystem {
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
 //        final double wheelCircumference = 6.25 * Math.PI,
 //                     ticksPerEncoder = 128;
-        final double wheelCircumference = 20.5,
+        final double wheelCircumference = 18.75,
                 ticksPerEncoder = 128;
                 
         //Calculate how many ticks per inch
