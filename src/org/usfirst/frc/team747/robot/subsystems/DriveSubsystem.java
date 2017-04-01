@@ -62,9 +62,11 @@ public class DriveSubsystem extends Subsystem {
         this.setDefaultCommand(new DriveCommand());
     }
 
-    public void changeControlMode(TalonControlMode mode) {
-        this.talonDriveLeftPrimary.changeControlMode(mode);
-        this.talonDriveRightPrimary.changeControlMode(mode);
+    public void changeControlMode(TalonControlMode primaryMode, TalonControlMode secondaryMode) {
+        this.talonDriveLeftPrimary.changeControlMode(primaryMode);
+        this.talonDriveRightPrimary.changeControlMode(primaryMode);
+        this.talonDriveLeftSlave.changeControlMode(secondaryMode);
+        this.talonDriveRightSlave.changeControlMode(secondaryMode);
     }
     
     public void set(double left, double right) {
@@ -85,6 +87,14 @@ public class DriveSubsystem extends Subsystem {
 ////        	loops = 0;
 //        	System.out.println(sb.toString());
 ////        }
+    }
+    
+    public void setAutoDriveStraight(double left) {
+        this.talonDriveLeftPrimary.set(left);
+        this.talonDriveRightPrimary.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.talonDriveRightPrimary.set(this.talonDriveLeftPrimary.getDeviceID());
+        this.talonDriveRightSlave.set(this.talonDriveLeftPrimary.getDeviceID());
     }
 
     public void resetLeftEncoder() {

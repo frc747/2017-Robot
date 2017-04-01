@@ -21,8 +21,8 @@ public class HopperShootBallsFromBlue extends CommandGroup {
         requires(Robot.SHOOTER);
         //overdrive 2 inches when going 0.3 speed
         
-        addSequential( new AutoStepCommand(0, -98.125, 0.5));
-//        addSequential(new DriveDistanceCommand(-98.125/2, -0.3));
+//        addSequential( new AutoStepCommand(0, -98.125, 0.5));
+        addSequential(new DriveDistanceCommand(-100, -0.5));
 //        addSequential(new PauseCommand(.5));
 //       addSequential(new DriveRotateCommand(-0.5, -90));
 //        addSequential(new PauseCommand(.5));

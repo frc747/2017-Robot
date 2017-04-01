@@ -56,28 +56,11 @@ public class ShooterSubsystem extends Subsystem {
 	    talonShooterLeft1.reverseSensor(true);
 	    talonShooterRight1.reverseSensor(true);
 	   
-	    
-
-		
-
-		
 		talonShooterLeft1.configNominalOutputVoltage(+0.0f,-0.0f);
 		talonShooterLeft1.configPeakOutputVoltage(+12.0f, -12.0f);
 		talonShooterRight1.configNominalOutputVoltage(+0.0f,-0.0f);
 		talonShooterRight1.configPeakOutputVoltage(+12.0f, -12.0f);
 		
-
-//		talonShooterLeft1.setPID(	shooter_P.getDouble(), shooter_I.getDouble(), 
-//									shooter_D.getDouble(), shooter_F.getDouble(), 
-//									shooter_IZone.getValue(), shooter_RampRate.getDouble(), 
-//									shooter_Profile.getValue());
-		
-//		talonShooterRight1.setPID(	shooter_P.getDouble(), shooter_I.getDouble(), 
-//									shooter_D.getDouble(), shooter_F.getDouble(), 
-//									shooter_IZone.getValue(), shooter_RampRate.getDouble(), 
-//									shooter_Profile.getValue());
-		
-//		talonShooterLeft1.setPID(	.05, 0, 1, .066, 0, 0, 0); // not working at Bridgewater
 		talonShooterLeft1.setPID(	0, 0, 0, .069, 0, 0, 0);
 		talonShooterRight1.setPID(	0, 0, 0, .064, 0, 0, 0);
 		
@@ -121,16 +104,7 @@ public class ShooterSubsystem extends Subsystem {
    * Used once the shooter and indexer correct speed values are determined
    */
   public void shooterStart(){
-	  
 
-	  	
-		
-//	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//	    talonShooterLeft1.set(OI.getLeftShooterSpeed());
-//	    talonShooterRight1.set(OI.getRightShooterSpeed());
-
-	   
 	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	    talonShooterLeft1.set(1750);
@@ -146,48 +120,8 @@ public class ShooterSubsystem extends Subsystem {
 			    talonIndexer.set(0);
 		    }
 	    
-//		talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//	    talonIndexer.set(indexerJamCheck());
-//	    talonIndexer.set(.3);
-	    
-	   
-//	    shooterLogging();
   }
-  
-  public void shooterVoltageStart(){
-      
-
-      
-      
-//    talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//    talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//    talonShooterLeft1.set(OI.getLeftShooterSpeed());
-//    talonShooterRight1.set(OI.getRightShooterSpeed());
-
-     
-      talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Voltage);
-      talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Voltage);
-      talonShooterLeft1.set(70);
-      talonShooterRight1.set(70);
-      
-         if (Math.abs(talonShooterRight1.getSpeed()) > 1700 && Math.abs(talonShooterLeft1.getSpeed()) > 1700){
-//            System.out.println("indexer moving");
-              talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-              talonIndexer.set(OI.getIndexerSpeed());
-          } else {
-//            System.out.println("Indexer Stopped");
-              talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-              talonIndexer.set(0);
-          }
-      
-//    talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//    talonIndexer.set(indexerJamCheck());
-//    talonIndexer.set(.3);
-      
-     
-//    shooterLogging();       
-}
-  
+    
   public void shooterRev(){
 	   
 	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
@@ -196,6 +130,11 @@ public class ShooterSubsystem extends Subsystem {
 	    talonShooterRight1.set(1800);
 	   
 }
+  public void indexerStop (){
+      
+      talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+      talonIndexer.set(0);
+  }
   public double indexerControl (){
 	  
 	  
@@ -251,10 +190,11 @@ public class ShooterSubsystem extends Subsystem {
 	  
 	  talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	  
-	  do {
-		  talonIndexer.set(-.3);
-	  } while (talonIndexer.getPosition() <= movePosition);
+//	  do {
+//		  talonIndexer.set(-.3);
+//	  } while (talonIndexer.getPosition() <= movePosition);
 		  
+	  talonIndexer.set(OI.getIndexerSpeed());
 
 	  
 	  
