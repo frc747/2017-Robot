@@ -8,7 +8,7 @@ import org.usfirst.frc.team747.robot.commands.DriveDistanceStraightCommand;
 import org.usfirst.frc.team747.robot.commands.DriveRotateCommand;
 import org.usfirst.frc.team747.robot.commands.IntakeTimeCommand;
 import org.usfirst.frc.team747.robot.commands.NewDriveDistanceStraightCommand;
-import org.usfirst.frc.team747.robot.commands.ShooterShootTimeCommand;
+import org.usfirst.frc.team747.robot.commands.ShootBallsTimedCommand;
 import org.usfirst.frc.team747.robot.commands.ShooterRevCommand;
 import org.usfirst.frc.team747.robot.commands.PauseCommand;
 

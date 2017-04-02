@@ -59,17 +59,15 @@ public class OI {
 
 	public static final ShootButton BUTTON_FIRE = new ShootButton();
 	public static final IndexerReverseButton BUTTON_REVERSE_INDEXER = new IndexerReverseButton();
-	public static final IndexerReverseButton BUTTON_STOP_INDEXER = new IndexerReverseButton();
 
     static Preferences prefs;
     
     public OI() {
         BUTTON_INTAKE_FORWARD.whileHeld(new IntakeCommand());
         BUTTON_INTAKE_BACK.whileHeld(new IntakeCommand(false));
-        BUTTON_REVERSE_INDEXER.whileHeld(new ShooterIndexerReverseCommand());
-        BUTTON_STOP_INDEXER.whenReleased(new ShooterIndexerStopCommand());
+        BUTTON_REVERSE_INDEXER.whileHeld(new IndexerReverseCommand());
         BUTTON_REVERSE_SHOOTER.whileHeld(new ShooterReverseCommand());
-        BUTTON_FIRE.whileHeld(new ShooterShootCommand());
+        BUTTON_FIRE.whileHeld(new ShootBallsCommand());
         BUTTON_REV_SHOOTER.whileHeld(new ShooterRevCommand());
         BUTTON_CLIMB_SLOW.whileHeld(new ClimberClimbUpSlowCommand());
         BUTTON_CLIMB_FAST.whileHeld(new ClimberClimbUpFastCommand());

@@ -5,6 +5,7 @@ import org.usfirst.frc.team747.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team747.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team747.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team747.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team747.robot.subsystems.IndexerSubsystem;
 import org.usfirst.frc.team747.robot.vision.AxisM1004Specs;
 import org.usfirst.frc.team747.robot.vision.AxisM1011Specs;
 import org.usfirst.frc.team747.robot.vision.BoilerTargetTemplate;
@@ -43,6 +44,7 @@ public class Robot extends IterativeRobot {
     public static final DriveSubsystem DRIVE_TRAIN = new DriveSubsystem();
     public static final IntakeSubsystem INTAKE = new IntakeSubsystem();
     public static final ShooterSubsystem SHOOTER = new ShooterSubsystem();
+    public static final IndexerSubsystem INDEXER = new IndexerSubsystem();
     public static final ClimberSubsystem CLIMBER = new ClimberSubsystem();
 	public static File logs, driveLog;
 	public static BufferedWriter bw, bwDrive;

@@ -11,26 +11,26 @@ import org.usfirst.frc.team747.robot.Robot;
  * Spins the shooter wheels using the joystick throttles as inputs for the
  * speed.
  */
-public class ShooterShootCommand extends Command {
+public class ShootBallsCommand extends Command {
 
-	public ShooterShootCommand() {
+	public ShootBallsCommand() {
 		requires(Robot.SHOOTER);
+		requires(Robot.INDEXER);
 	}
 	
 	@Override
 	protected void initialize() {
 		super.initialize();
-		//System.out.print("8=");
 	}
 
 	@Override
 	protected void execute() {
-//		Robot.SHOOTER.setShooterSpeed(OI.getLeftShooterSpeed(), OI.getRightShooterSpeed(), OI.getIndexerSpeed());
-//		System.out.println("RightRPM: " + Robot.SHOOTER.getMotorRightSpeed() + "  ");
-//		System.out.println("LeftRPM: " + Robot.SHOOTER.getMotorLeftSpeed() + "  ");
-
-		Robot.SHOOTER.shooterStart();
-//		System.out.println("Shooting");
+		
+		Robot.SHOOTER.setShooterSpeed();
+		Robot.INDEXER.indexerStart();
+		
+		//Uncomment if you want to use Shooter voltage instead. //TODO change this to IF/THEN
+		//Robot.SHOOTER.setShooterVoltage(.8,.8);
 		
 	}
 
