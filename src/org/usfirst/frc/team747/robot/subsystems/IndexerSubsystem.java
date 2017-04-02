@@ -56,7 +56,7 @@ public class IndexerSubsystem extends Subsystem {
   
   public void reverseIndexer(){
 	  talonIndexer.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-	  talonIndexer.set(OI.getIndexerSpeed());
+	  talonIndexer.set(OI.getIndexerSpeed()*-1);
   }
   
   public double indexerJambControl (){
@@ -98,6 +98,28 @@ public class IndexerSubsystem extends Subsystem {
 	  
 	  return indexerSpeed;
 	  
+  }
+  
+  public double getSpeed(){
+	  
+	  return talonIndexer.getSpeed();
+	  
+  }
+  
+  public double getP(){
+	  return talonIndexer.getP();
+  }
+  
+  public double getI(){
+	  return talonIndexer.getI();
+  }
+  
+  public double getD(){
+	  return talonIndexer.getD();
+  }
+  
+  public double getF(){
+	  return talonIndexer.getF();
   }
   
   public boolean isIndexerRunning(){
