@@ -29,19 +29,6 @@ public class DriveDistanceCommand extends Command {
         Robot.DRIVE_TRAIN.resetLeftEncoder();
         Robot.DRIVE_TRAIN.resetRightEncoder();
         
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configNominalOutputVoltage(+0.0f,-0.0f);
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configPeakOutputVoltage(+12.0f, -12.0f);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.configNominalOutputVoltage(+0.0f,-0.0f);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.configPeakOutputVoltage(+12.0f, -12.0f);
-        
-//        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.reverseSensor(false);
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setPID(   0, 0, 0, 1, 0, 0, 0);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(  0, 0, 0, 1, 0, 0, 0);
-        
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setProfile(0);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setProfile(0);
-        
-        
     }
 
     protected void execute() {
@@ -49,14 +36,6 @@ public class DriveDistanceCommand extends Command {
         final double medianDistanceTraveled = (Robot.DRIVE_TRAIN.getLeftEncoderPosition() + Robot.DRIVE_TRAIN.getRightEncoderPosition())/2;
         final double medianInchesTraveled = Robot.DRIVE_TRAIN.convertTicksToInches(medianDistanceTraveled); 
         
-        Robot.DRIVE_TRAIN.talonDriveLeftSlave.changeControlMode(TalonControlMode.Follower);
-        Robot.DRIVE_TRAIN.talonDriveRightSlave.changeControlMode(TalonControlMode.Follower);
-        
-        
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.changeControlMode(TalonControlMode.Position);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.changeControlMode(TalonControlMode.Position);
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.set(200);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.set(-200);
         
 //        if ((Math.abs(inchesToTravel) - Math.abs(medianInchesTraveled)) <= SAFE_ZONE) {
 //            Robot.DRIVE_TRAIN.set(SAFE_SPEED * speedFix , SAFE_SPEED * speedFix);
@@ -100,8 +79,8 @@ public class DriveDistanceCommand extends Command {
     }
     
     protected boolean isFinished() {
-//        return isDone;
-        final double medianDistanceTraveled = (Robot.DRIVE_TRAIN.getLeftEncoderPosition() + Robot.DRIVE_TRAIN.getRightEncoderPosition())/2;
+
+    	final double medianDistanceTraveled = (Robot.DRIVE_TRAIN.getLeftEncoderPosition() + Robot.DRIVE_TRAIN.getRightEncoderPosition())/2;
         final double medianInchesTraveled = Robot.DRIVE_TRAIN.convertTicksToInches(medianDistanceTraveled); 
         
         return (Math.abs(medianInchesTraveled) > Math.abs(inchesToTravel));

@@ -142,8 +142,8 @@ public class ShooterSubsystem extends Subsystem {
   		sb.append(motorOutputLeft + "," + talonShooterLeft1.getSpeed() + "," + talonShooterLeft1.getOutputVoltage() + "," + talonShooterLeft2.getOutputVoltage() + "," + talonShooterLeft1.getBusVoltage() + ",");
   		sb.append(motorOutputRight + "," + talonShooterRight1.getSpeed() + "," + talonShooterRight1.getOutputVoltage() + "," + talonShooterRight2.getOutputVoltage() + "," + talonShooterRight1.getBusVoltage() + ",");
   		sb.append( talonShooterLeft1.getP() + "," + talonShooterLeft1.getI() + "," + talonShooterLeft1.getD() + "," + talonShooterLeft1.getF() + ",");
-  		sb.append( talonShooterRight1.getP() + "," + talonShooterRight1.getI() + "," + talonShooterRight1.getD() + "," + talonShooterRight1.getF() + "," );
-  		sb.append( Robot.INDEXER.getSpeed() + "," + Robot.INDEXER.getP() + "," + Robot.INDEXER.getI() + "," + Robot.INDEXER.getD() + "," + Robot.INDEXER.getF() + "\n");
+  		sb.append( talonShooterRight1.getP() + "," + talonShooterRight1.getI() + "," + talonShooterRight1.getD() + "," + talonShooterRight1.getF() + "\n" );
+  		//sb.append( Robot.INDEXER.getSpeed() + "," + Robot.INDEXER.getP() + "," + Robot.INDEXER.getI() + "," + Robot.INDEXER.getD() + "," + Robot.INDEXER.getF() + "\n");
   	
   		try {
 			Robot.bw.write(sb.toString());
