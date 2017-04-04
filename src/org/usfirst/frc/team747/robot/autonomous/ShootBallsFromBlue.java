@@ -17,9 +17,9 @@ public class ShootBallsFromBlue extends CommandGroup {
         
         addSequential(new ShootBallsTimedCommand(8));
         addSequential(new PauseCommand(.5));
-        addSequential(new DriveDistanceCommand(8, -.5));
+        addSequential(new DriveDistanceCommand(12, -.5));
         addSequential(new PauseCommand(.5));
-        addSequential(new DriveRotateCommand(-.5, -45));
+        addSequential(new DriveRotateCommand(-.8, -45));
         addSequential(new PauseCommand(.5));
         addSequential(new DriveDistanceCommand(55, -.5));
     }

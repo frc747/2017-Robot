@@ -32,7 +32,7 @@ public class VisionDriveCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         this.targetActive = false;
-        Robot.DRIVE_TRAIN.resetEncoders();
+        Robot.DRIVE_TRAIN.resetBothEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -120,7 +120,7 @@ public class VisionDriveCommand extends Command {
         } else {
             Robot.DRIVE_TRAIN.stop();
         }
-        Robot.DRIVE_TRAIN.resetEncoders();
+        Robot.DRIVE_TRAIN.resetBothEncoders();
         Robot.resetNavXAngle();
         
     }

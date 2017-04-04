@@ -29,12 +29,12 @@ public class DriveRotateCommand extends Command {
     }
 
     protected boolean isFinished() {
-//    	System.out.println("NavX: " + Robot.getNavXAngle());
-//    	System.out.println("Robot: " + this.degrees);
+    	System.out.println("NavX: " + Robot.getNavXAngle());
+    	System.out.println("Robot: " + this.degrees);
     	boolean stopRotate = false;
     	
     	if (Robot.getNavXAngle() <= (this.degrees + 1) && Robot.getNavXAngle() >= (this.degrees - 1)){
-//    		System.out.println("****************SHOULD BE STOPPING!!!");
+    		System.out.println("****************SHOULD BE STOPPING!!!");
     		stopRotate = true;
     	}
     	return stopRotate;

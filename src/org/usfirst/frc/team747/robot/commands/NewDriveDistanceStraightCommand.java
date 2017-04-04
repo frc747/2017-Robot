@@ -46,7 +46,7 @@ public class NewDriveDistanceStraightCommand extends Command {
     	    timer.stop();
     	    timer.reset();
     	    timer.start();
-    	    Robot.DRIVE_TRAIN.resetEncoders();
+    	    Robot.DRIVE_TRAIN.resetBothEncoders();
     	    Robot.resetNavXAngle();
     	    firstRun = false;
     	}
@@ -72,7 +72,7 @@ public class NewDriveDistanceStraightCommand extends Command {
         boolean end = false;
         
         if(firstRun) {
-            Robot.DRIVE_TRAIN.resetEncoders();
+            Robot.DRIVE_TRAIN.resetBothEncoders();
             navXInitialAngle = Robot.getNavXAngle();
             encodersDistanceDriven = 0;
             firstRun = false;

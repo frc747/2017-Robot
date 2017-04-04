@@ -35,7 +35,7 @@ public class AutoStepCommand extends Command {
         this.remainingAngle = this.degrees;
         this.remainingDistance = this.distance;
         Robot.resetNavXAngle();
-        Robot.DRIVE_TRAIN.resetEncoders();
+        Robot.DRIVE_TRAIN.resetBothEncoders();
     }
 
     protected void execute() {
@@ -52,7 +52,7 @@ public class AutoStepCommand extends Command {
         this.remainingDistance -= updatedDistance;
         Robot.DRIVE_TRAIN.driveToTarget(0, this.remainingDistance, updatedSpeed);
         Robot.resetNavXAngle();
-        Robot.DRIVE_TRAIN.resetEncoders();
+        Robot.DRIVE_TRAIN.resetBothEncoders();
         
         System.out.println("Angle Remaining: " + this.remainingAngle);
         System.out.println("Distance Remaining: " + this.remainingDistance);

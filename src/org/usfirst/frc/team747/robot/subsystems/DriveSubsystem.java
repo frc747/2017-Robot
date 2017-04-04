@@ -99,25 +99,38 @@ public class DriveSubsystem extends Subsystem {
 
     public void resetLeftEncoder() {
         talonDriveLeftPrimary.setPosition(0);
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
     }
     
     public void resetRightEncoder() {
         talonDriveRightPrimary.setPosition(0);
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
-    public void newResetEncoders() {
-        talonDriveLeftPrimary.setEncPosition(0);
-        talonDriveRightPrimary.setEncPosition(0);
+    public void resetBothEncoders(){
+    	talonDriveRightPrimary.setPosition(0);
+    	talonDriveLeftPrimary.setPosition(0);
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public int newGetEncoderPosition() {
         return (talonDriveLeftPrimary.getEncPosition() + talonDriveRightPrimary.getEncPosition())/ 2;
-    }
-    
-    public void resetEncoders() {
-    	this.resetLeftEncoder();
-    	this.resetRightEncoder();
     }
     
     public double getLeftEncoderPosition() {
