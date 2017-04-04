@@ -1,14 +1,17 @@
 package org.usfirst.frc.team747.robot;
 
-import org.usfirst.frc.team747.robot.commands.ClimberClimbUpFastCommand;
-import org.usfirst.frc.team747.robot.commands.ClimberClimbUpSlowCommand;
-import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
-import org.usfirst.frc.team747.robot.commands.VisionDriveCommand;
-import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
-import org.usfirst.frc.team747.robot.commands.IntakeCommand;
-import org.usfirst.frc.team747.robot.commands.ShooterIndexerReverseCommand;
-import org.usfirst.frc.team747.robot.commands.ShootButton;
-import org.usfirst.frc.team747.robot.commands.IndexerReverseButton;
+//import org.usfirst.frc.team747.robot.commands.ClimberClimbUpFastCommand;
+//import org.usfirst.frc.team747.robot.commands.ClimberClimbUpSlowCommand;
+//import org.usfirst.frc.team747.robot.commands.ShooterShootCommand;
+//import org.usfirst.frc.team747.robot.commands.SimpleVisionDriveCommand;
+//import org.usfirst.frc.team747.robot.commands.VisionDriveCommand;
+//import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
+//import org.usfirst.frc.team747.robot.commands.IntakeCommand;
+//import org.usfirst.frc.team747.robot.commands.ShooterIndexerReverseCommand;
+//import org.usfirst.frc.team747.robot.commands.ShooterReverseCommand;
+//import org.usfirst.frc.team747.robot.commands.ShootButton;
+//import org.usfirst.frc.team747.robot.commands.IndexerReverseButton;
+import org.usfirst.frc.team747.robot.commands.*;
 import org.usfirst.frc.team747.robot.maps.DriverStation;
 //import org.usfirst.frc.team869.robot.RobotMap;
 
@@ -28,7 +31,9 @@ public class OI {
 
     public static final JoystickButton BUTTON_DRIVE_SLOW_DRIVER
                 = new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_7.getValue()),
-            BUTTON_DRIVE_SLOW_OPERATOR
+            BUTTON_REV_SHOOTER
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_RB.getValue()),
+            BUTTON_REVERSE_SHOOTER
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_LB.getValue()),
             BUTTON_INTAKE_FORWARD
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_A.getValue()),
@@ -42,8 +47,15 @@ public class OI {
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_Y.getValue()),
             BUTTON_GEAR
                 = new JoystickButton(JOYSTICK_DRIVER_LEFT, DriverStation.Joystick.BUTTON_2.getValue()),
-            BUTTON_BOILER
+            BUTTON_SECOND_GEAR
                 = new JoystickButton(JOYSTICK_DRIVER_RIGHT, DriverStation.Joystick.BUTTON_2.getValue());
+//            BUTTON_INDEXER_FORWARD
+//                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_BACK.getValue()),
+//            BUTTON_SHOOTER_VOLTAGE
+//                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_START.getValue());
+
+            //BUTTON_BOILER
+            //    = new JoystickButton(JOYSTICK_DRIVER_RIGHT, DriverStation.Joystick.BUTTON_2.getValue());
 
 	public static final ShootButton BUTTON_FIRE = new ShootButton();
 	public static final IndexerReverseButton BUTTON_REVERSE_INDEXER = new IndexerReverseButton();
@@ -53,11 +65,14 @@ public class OI {
     public OI() {
         BUTTON_INTAKE_FORWARD.whileHeld(new IntakeCommand());
         BUTTON_INTAKE_BACK.whileHeld(new IntakeCommand(false));
-        BUTTON_REVERSE_INDEXER.whileHeld(new ShooterIndexerReverseCommand());
-        BUTTON_FIRE.whileHeld(new ShooterShootCommand());
+        BUTTON_REVERSE_INDEXER.whileHeld(new IndexerReverseCommand());
+        BUTTON_REVERSE_SHOOTER.whileHeld(new ShooterReverseCommand());
+        BUTTON_FIRE.whileHeld(new ShootBallsCommand());
+        BUTTON_REV_SHOOTER.whileHeld(new ShooterRevCommand());
         BUTTON_CLIMB_SLOW.whileHeld(new ClimberClimbUpSlowCommand());
         BUTTON_CLIMB_FAST.whileHeld(new ClimberClimbUpFastCommand());
-        
+//        BUTTON_SHOOTER_VOLTAGE.whileHeld(new ShooterShootVoltageCommand());
+//        BUTTON_INDEXER_FORWARD.whileHeld(new ShooterIndexerForwardCommand());
 //        if (OI.getClimbState()) {
 //        	BUTTON_CLIMB_SLOW.whileHeld(new ClimberClimbUpSlowCommand());
 //        	
@@ -66,9 +81,10 @@ public class OI {
 //        }
 
         
-        BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 12));
-        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
-        BUTTON_DRIVE_DISTANCE.whenPressed(new DriveDistanceCommand((6.25 * Math.PI), 0.1));
+        BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
+        BUTTON_SECOND_GEAR.toggleWhenPressed(new SimpleVisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
+        //        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
+        BUTTON_DRIVE_DISTANCE.whenPressed(new BROKENDriveDistanceCommand((6.25 * Math.PI), 0.1));
     }
     
     public static boolean getClimbState(){
@@ -87,8 +103,8 @@ public class OI {
     }
 
     public static double getIndexerSpeed() {
-        prefs = Preferences.getInstance();
-        return prefs.getDouble("Indexer", .55);
+        prefs = Preferences.getInstance(); // had it at .4 seemed to work but let's try faster to give it inertia
+        return prefs.getDouble("Indexer", .5);
     }
   
 	public static boolean getShootButton() {

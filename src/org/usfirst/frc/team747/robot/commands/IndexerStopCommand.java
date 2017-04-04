@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.command.Command;
  * 
  * Stops both shooter wheels from spinning by setting their speed to 0.
  */
-public class ShooterStopCommand extends Command {
+public class IndexerStopCommand extends Command {
 
-	public ShooterStopCommand() {
-		requires(Robot.SHOOTER);
+	public IndexerStopCommand() {
+		requires(Robot.INDEXER);
 	}
 
 	/**
@@ -21,7 +21,7 @@ public class ShooterStopCommand extends Command {
 	@Override
 	protected void execute() {
 
-		Robot.SHOOTER.shooterStop();
+		Robot.INDEXER.indexerStop();
 	
 	}
 

@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.DriveCommand;
+import org.usfirst.frc.team747.robot.commands.DriveDistanceStraightCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
@@ -13,10 +15,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveSubsystem extends Subsystem {
 
-    private static final double DEFAULT_DISTANCE_PRECISION = 3; // Inches
-    private static final double DEFAULT_ANGLE_PRECISION = 1; // Radians?
-    private static final double DEFAULT_DISTANCE_VARIANCE = 30;
-    private static final double DEFAULT_ANGLE_VARIANCE = 1; // Radians?
+    private static final double DEFAULT_DISTANCE_PRECISION = 1; // Inches
+    private static final double DEFAULT_ANGLE_PRECISION = Math.toRadians(5); // Change to Radians
+    private static final double DEFAULT_DISTANCE_VARIANCE = 2;
+    private static final double DEFAULT_ANGLE_VARIANCE = Math.toRadians(10); // Change to Radians
     
     public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
@@ -24,7 +26,9 @@ public class DriveSubsystem extends Subsystem {
             talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
             talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue()),
             talonDriveRightThree = new CANTalon(RobotMap.DriveTrain.RIGHT_THREE.getValue());
-            
+
+    //public RobotDrive autoDrive = new RobotDrive(talonDriveLeftPrimary, talonDriveLeftSlave, talonDriveRightPrimary, talonDriveRightSlave);
+    
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
     
@@ -58,9 +62,11 @@ public class DriveSubsystem extends Subsystem {
         this.setDefaultCommand(new DriveCommand());
     }
 
-    public void changeControlMode(TalonControlMode mode) {
-        this.talonDriveLeftPrimary.changeControlMode(mode);
-        this.talonDriveRightPrimary.changeControlMode(mode);
+    public void changeControlMode(TalonControlMode primaryMode, TalonControlMode secondaryMode) {
+        this.talonDriveLeftPrimary.changeControlMode(primaryMode);
+        this.talonDriveRightPrimary.changeControlMode(primaryMode);
+        this.talonDriveLeftSlave.changeControlMode(secondaryMode);
+        this.talonDriveRightSlave.changeControlMode(secondaryMode);
     }
     
     public void set(double left, double right) {
@@ -68,7 +74,7 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightPrimary.set(right);
         
         
-//        System.out.println("NAVX Angle: " + Robot.getNavXAngle360());
+        //System.out.println("NAVX Angle: " + Robot.getNavXAngle());
 //        sb.append( Robot.getNavXAngle360() + "\n");
 //  
 //  		try {
@@ -82,18 +88,49 @@ public class DriveSubsystem extends Subsystem {
 //        	System.out.println(sb.toString());
 ////        }
     }
+    
+    public void setAutoDriveStraight(double left) {
+        this.talonDriveLeftPrimary.set(left);
+        this.talonDriveRightPrimary.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.talonDriveRightPrimary.set(this.talonDriveLeftPrimary.getDeviceID());
+        this.talonDriveRightSlave.set(this.talonDriveLeftPrimary.getDeviceID());
+    }
 
     public void resetLeftEncoder() {
         talonDriveLeftPrimary.setPosition(0);
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
     }
     
     public void resetRightEncoder() {
         talonDriveRightPrimary.setPosition(0);
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
-    public void resetEcoders() {
-    	this.resetLeftEncoder();
-    	this.resetRightEncoder();
+    public void resetBothEncoders(){
+    	talonDriveRightPrimary.setPosition(0);
+    	talonDriveLeftPrimary.setPosition(0);
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public int newGetEncoderPosition() {
+        return (talonDriveLeftPrimary.getEncPosition() + talonDriveRightPrimary.getEncPosition())/ 2;
     }
     
     public double getLeftEncoderPosition() {
@@ -111,7 +148,7 @@ public class DriveSubsystem extends Subsystem {
     public double convertInchesToTicks(double inchesToTravel) {
         
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
-        final double wheelCircumference = 6.25 * Math.PI,
+        final double wheelCircumference = 18.75,
                      ticksPerEncoder = 128;
                 
         //Calculate how many ticks per inch
@@ -127,7 +164,7 @@ public class DriveSubsystem extends Subsystem {
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
 //        final double wheelCircumference = 6.25 * Math.PI,
 //                     ticksPerEncoder = 128;
-        final double wheelCircumference = 18.75,
+        final double wheelCircumference = 20.5,
                 ticksPerEncoder = 128;
                 
         //Calculate how many ticks per inch
@@ -199,8 +236,8 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public void skewDrive(double power, double diff) {
-        double left = power * (0.25 * diff + .75);
-        double right = power * (-0.25 * diff + .75);
+        double left = power * (0.5 * diff + .5);
+        double right = power * (-0.5 * diff + .5);
         set(left, right);
     }
     
@@ -219,31 +256,46 @@ public class DriveSubsystem extends Subsystem {
     public void driveToTarget(double angle, double distance, double power, double distanceVariance, double angleVariance, double distancePrecision, double anglePrecision) {
         
         double distanceAbs = Math.abs(distance);
+        
+        double direction = distance / distanceAbs;
 
         double angleAbs = Math.abs(angle);
         double skew = angle / angleAbs;
 
         if (angleAbs < anglePrecision) {
             skew = 0;
-        } else if (angleAbs < anglePrecision) {
-            skew *= angleAbs / anglePrecision;
+        } else if (angleAbs < angleVariance) {
+            skew *= angleAbs / angleVariance;
         }
 
         if (distanceAbs < distancePrecision) {
-            // @TODO Try to turn.
+            // Try to turn.
             if (skew != 0) {
-                Robot.DRIVE_TRAIN.spinDrive(1.25 * skew * power);
+                Robot.DRIVE_TRAIN.spinDrive(skew * power);
             } else {
                 Robot.DRIVE_TRAIN.stop();
             }
             return;
         } else if (distanceAbs < distanceVariance) {
             power *= distanceAbs / distanceVariance;
-            power = Math.max(Math.abs(power), 0.1) * Math.abs(power) / power;
-            System.out.println("Power: " + power);
+            power = Math.max(Math.abs(power), 0.1);
         }
 
-        Robot.DRIVE_TRAIN.skewDrive(power, skew);
+        this.skewDrive(power, skew);
     }
 
+    public void simpleRotateToTarget(double angle, double distance, double power) {
+        
+        double navxAngle = Robot.getNavXAngle();
+        
+        double angleThreshold = 3;
+      
+        if (angle > 0){
+            //LEFT
+        } else if (angle < 0){
+            //RIGHT
+            //DO UNTIL LOOPS
+        }
+        
+    }
 }

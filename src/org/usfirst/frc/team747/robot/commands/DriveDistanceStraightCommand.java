@@ -2,6 +2,8 @@ package org.usfirst.frc.team747.robot.commands;
 
 import org.usfirst.frc.team747.robot.Robot;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveDistanceStraightCommand extends Command {
@@ -26,10 +28,8 @@ public class DriveDistanceStraightCommand extends Command {
     }
 
     protected void execute() {
-    	Robot.DRIVE_TRAIN.driveStraight(speed, targetAngle);
+    	Robot.DRIVE_TRAIN.setAutoDriveStraight(speed);
         
-        System.out.println("EXECUTE SpeedOFFSET ****** left encoder =" + Double.toString(Robot.DRIVE_TRAIN.getLeftEncoderPosition()) + 
-                "  right encoder get=" + Double.toString(Robot.DRIVE_TRAIN.getRightEncoderPosition()));
     }
 
     protected boolean isFinished() {
@@ -43,7 +43,8 @@ public class DriveDistanceStraightCommand extends Command {
     }
 
     protected void end() {
-        Robot.DRIVE_TRAIN.set(0, 0);
+        Robot.DRIVE_TRAIN.setAutoDriveStraight(speed);
+        Robot.DRIVE_TRAIN.changeControlMode(CANTalon.TalonControlMode.PercentVbus, CANTalon.TalonControlMode.Follower);
     }
 
     protected void interrupted() {
