@@ -19,7 +19,7 @@ public class ShootBallsFromRed extends CommandGroup {
         addSequential(new PauseCommand(.5));
         addSequential(new DriveDistanceCommand(8, -.5));
         addSequential(new PauseCommand(.5));
-        addSequential(new DriveRotateCommand(.7, 90));
+        addSequential(new DriveRotateCommand(.5, 90));
         addSequential(new PauseCommand(.5));
         addSequential(new DriveDistanceCommand(55, -.5));
         
