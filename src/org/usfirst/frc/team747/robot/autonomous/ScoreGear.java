@@ -17,7 +17,7 @@ public class ScoreGear extends CommandGroup {
         //this one line below is what was previously in the autonomous class
 //        addSequential(new DriveDistanceCommand(AutonomousConfig.ScoreGear.DISTANCE, .19));
 
-        addSequential(new PIDDriveDistanceCommand(50));
+        addSequential(new PIDDriveDistanceCommand(100));
         addSequential(new PauseCommand(2));
         addSequential(new DriveDistanceCommand(6, .3));
         

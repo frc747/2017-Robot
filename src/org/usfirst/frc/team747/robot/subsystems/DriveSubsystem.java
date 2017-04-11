@@ -49,6 +49,10 @@ public class DriveSubsystem extends Subsystem {
         talonDriveRightPrimary.configNominalOutputVoltage(+0.0f,-0.0f);
         talonDriveRightPrimary.configPeakOutputVoltage(+12.0f, -12.0f);
         
+//        talonDriveLeftPrimary.setPID(   0, 0, 0, 1, 0, 0, 0);
+//        talonDriveRightPrimary.setPID(  0, 0, 0, 1, 0, 0, 0);
+        
+        
         talonDriveLeftPrimary.setPID(   .1, 0, 1.5, .06, 0, 0, 0);
         talonDriveRightPrimary.setPID(  .1, 0, 1.5, .05825, 0, 0, 0);
 
@@ -63,6 +67,7 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightPrimary.setInverted(false);
         this.talonDriveRightSlave.setInverted(false);
         
+        this.talonDriveLeftPrimary.reverseSensor(true);
         this.talonDriveRightPrimary.reverseSensor(true);        
 
         this.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
@@ -105,9 +110,14 @@ public class DriveSubsystem extends Subsystem {
 ////        }
     }
     
-    public void setPositionPID(double encoderTicks) {
-        this.talonDriveLeftPrimary.setPosition(encoderTicks);
-        this.talonDriveRightPrimary.setPosition(encoderTicks);
+    public void setPositionPID(double leftEncoderTicks, double rightEncoderTicks) {
+        this.talonDriveLeftPrimary.set(-leftEncoderTicks);
+        this.talonDriveRightPrimary.set(rightEncoderTicks);
+    }
+    
+    public void talonEnableControl() {
+        talonDriveLeftPrimary.enableControl();
+        talonDriveRightPrimary.enableControl();
     }
     
     public void setAutoDriveStraight(double left) {
