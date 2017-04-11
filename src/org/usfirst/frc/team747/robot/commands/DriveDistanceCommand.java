@@ -2,6 +2,7 @@ package org.usfirst.frc.team747.robot.commands;
 
 import org.usfirst.frc.team747.robot.Robot;
 
+import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,7 +27,7 @@ public class DriveDistanceCommand extends Command {
     	Robot.DRIVE_TRAIN.resetBothEncoders();
         System.out.println("RESET Should Be 0 ****** left encoder =" + Double.toString(Robot.DRIVE_TRAIN.getLeftEncoderPosition()) + 
                 "   right encoder get=" + Double.toString(Robot.DRIVE_TRAIN.getRightEncoderPosition()));
-        
+
     }
 
     protected void execute() {
@@ -51,10 +52,22 @@ public class DriveDistanceCommand extends Command {
     }
 
     protected void end() {
+        
+//        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.changeControlMode(TalonControlMode.PercentVbus);
+//        Robot.DRIVE_TRAIN.talonDriveRightPrimary.changeControlMode(TalonControlMode.PercentVbus);
+//        Robot.DRIVE_TRAIN.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+//        Robot.DRIVE_TRAIN.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+//        Robot.DRIVE_TRAIN.set(0, 0);
+        
+        /*Fix made to the code above, all four of the talons were being set to PercentVbus when the two 
+         * "Slave" talons were instead supposed to be set to Follower
+         */
+        
+        
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.changeControlMode(TalonControlMode.PercentVbus);
         Robot.DRIVE_TRAIN.talonDriveRightPrimary.changeControlMode(TalonControlMode.PercentVbus);
-        Robot.DRIVE_TRAIN.talonDriveLeftSlave.changeControlMode(TalonControlMode.PercentVbus);
-        Robot.DRIVE_TRAIN.talonDriveRightSlave.changeControlMode(TalonControlMode.PercentVbus);
+        Robot.DRIVE_TRAIN.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+        Robot.DRIVE_TRAIN.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         Robot.DRIVE_TRAIN.set(0, 0);
     }
 

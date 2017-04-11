@@ -14,16 +14,14 @@ public class ShootBallsFromRed extends CommandGroup {
     public  ShootBallsFromRed() {
         requires(Robot.DRIVE_TRAIN);
         requires(Robot.SHOOTER);
-        
+
         addSequential(new ShootBallsTimedCommand(8));
         addSequential(new PauseCommand(.5));
         addSequential(new DriveDistanceCommand(8, -.5));
         addSequential(new PauseCommand(.5));
-        addSequential(new DriveRotateCommand(.7, 55));
+        addSequential(new DriveRotateCommand(.7, 90));
         addSequential(new PauseCommand(.5));
         addSequential(new DriveDistanceCommand(55, -.5));
-        
-        
         
     }
 }
