@@ -3,6 +3,7 @@ package org.usfirst.frc.team747.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
+import org.usfirst.frc.team747.robot.Autonomous.AutoMode;
 import org.usfirst.frc.team747.robot.autonomous.*;
 //import org.usfirst.frc.team747.robot.autonomous.CrossLine;
 //import org.usfirst.frc.team747.robot.autonomous.ScoreGear;
@@ -21,6 +22,8 @@ public class Autonomous{
         AUTOMODE_HOPPER_SCORE_BALLS_RED,
         AUTOMODE_HOPPER_SCORE_BALLS_BLUE,
         AUTOMODE_SCORE_GEAR,
+        AUTOMODE_SCORE_GEAR_RED,
+        AUTOMODE_SCORE_GEAR_BLUE,
         AUTOMODE_VISION_GEAR
     }
     
@@ -39,6 +42,8 @@ public class Autonomous{
         autoChooser1.addObject("Red Hopper Score Balls", AutoMode.AUTOMODE_HOPPER_SCORE_BALLS_RED);
         autoChooser1.addObject("Blue Hopper Score Balls", AutoMode.AUTOMODE_HOPPER_SCORE_BALLS_BLUE);
         autoChooser1.addObject("Score Gear", AutoMode.AUTOMODE_SCORE_GEAR);
+        autoChooser1.addObject("Score Gear Red", AutoMode.AUTOMODE_SCORE_GEAR_RED);
+        autoChooser1.addObject("Score Gear Blue", AutoMode.AUTOMODE_SCORE_GEAR_BLUE);
         autoChooser1.addObject("Score Vision Gear", AutoMode.AUTOMODE_VISION_GEAR);
         SmartDashboard.putData("Auto mode", autoChooser1);
         
@@ -70,6 +75,12 @@ public class Autonomous{
                 break;
             case AUTOMODE_SCORE_GEAR:
                 new ScoreGear().start();
+                break;
+            case AUTOMODE_SCORE_GEAR_RED:
+                new ScoreGearRed().start();
+                break;
+            case AUTOMODE_SCORE_GEAR_BLUE:
+                new ScoreGearBlue().start();
                 break;
             case AUTOMODE_VISION_GEAR:
                 new VisionGear().start();

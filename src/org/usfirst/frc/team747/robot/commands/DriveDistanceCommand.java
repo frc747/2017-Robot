@@ -24,7 +24,8 @@ public class DriveDistanceCommand extends Command {
     	
 //        Robot.DRIVE_TRAIN.resetLeftEncoder();
 //        Robot.DRIVE_TRAIN.resetRightEncoder();
-    	Robot.DRIVE_TRAIN.resetBothEncoders();
+        Robot.DRIVE_TRAIN.resetBothEncoders();
+        Robot.resetNavXAngle();
         System.out.println("RESET Should Be 0 ****** left encoder =" + Double.toString(Robot.DRIVE_TRAIN.getLeftEncoderPosition()) + 
                 "   right encoder get=" + Double.toString(Robot.DRIVE_TRAIN.getRightEncoderPosition()));
 
@@ -69,6 +70,8 @@ public class DriveDistanceCommand extends Command {
         Robot.DRIVE_TRAIN.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         Robot.DRIVE_TRAIN.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         Robot.DRIVE_TRAIN.set(0, 0);
+        Robot.DRIVE_TRAIN.resetBothEncoders();
+        Robot.resetNavXAngle();
     }
 
     protected void interrupted() {

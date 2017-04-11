@@ -159,6 +159,15 @@ public class DriveSubsystem extends Subsystem {
         return encoderTicks;
     }
     
+    /*
+     * Brian (Aryan) - A convertTicksToInches "RATIO" has been formed because of the
+     * time I was messing around with the DriveDistanceCommand and began changing the
+     * convertTicksToInches/wheelCircumference to see if it would fix the problems we were
+     * having (dumb idea) and I forgot to change it back. Calculating 18.75/20.5 the "RATIO"
+     * formed is equal to about 0.91 meaning that we must divide whatever actual distance
+     * we want to travel by 0.91 to find the distance we want to input into the code
+     */
+    
     public double convertTicksToInches(double ticks) {
         
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)

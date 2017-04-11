@@ -80,7 +80,7 @@ public class ShooterSubsystem extends Subsystem {
 	  	
 	    talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
-	    talonShooterLeft1.set(1800);
+	    talonShooterLeft1.set(1850);
 	    talonShooterRight1.set(1800);
 	    shooterLogging();
 	    

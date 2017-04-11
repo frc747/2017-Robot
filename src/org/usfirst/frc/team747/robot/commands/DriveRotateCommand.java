@@ -20,6 +20,7 @@ public class DriveRotateCommand extends Command {
     }
 
     protected void initialize() {
+        Robot.DRIVE_TRAIN.resetBothEncoders();
         Robot.resetNavXAngle();
     }
 
@@ -43,6 +44,8 @@ public class DriveRotateCommand extends Command {
 
     protected void end() {
         Robot.DRIVE_TRAIN.set(0, 0);
+        Robot.DRIVE_TRAIN.resetBothEncoders();
+        Robot.resetNavXAngle();
     }
 
     protected void interrupted() {
