@@ -16,6 +16,7 @@ import org.usfirst.frc.team747.robot.Autonomous;
 
 import java.util.HashMap;
 
+import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import java.io.File;
@@ -153,6 +154,7 @@ public class Robot extends IterativeRobot {
         
         
         resetNavXAngle();
+        DRIVE_TRAIN.changeControlMode(TalonControlMode.PercentVbus, TalonControlMode.Follower);
     }
 
 	/**

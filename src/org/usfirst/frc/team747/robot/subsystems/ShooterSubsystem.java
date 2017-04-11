@@ -40,8 +40,6 @@ public class ShooterSubsystem extends Subsystem {
 		talonShooterLeft1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		talonShooterRight1.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 	  	
-	  	
-	  
 	    talonShooterLeft1.setInverted(true);
 	    talonShooterLeft1.reverseSensor(true);
 	    talonShooterRight1.reverseSensor(true);
@@ -53,9 +51,9 @@ public class ShooterSubsystem extends Subsystem {
 		
 		talonShooterLeft1.setPID(	.1, 0, 1.5, .06, 0, 0, 0);
 		talonShooterRight1.setPID(	.1, 0, 1.5, .05825, 0, 0, 0);
-		
+
+	    talonShooterLeft1.setProfile(0);
 		talonShooterRight1.setProfile(0);
-		talonShooterLeft1.setProfile(0);
 		
   }
  

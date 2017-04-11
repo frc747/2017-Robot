@@ -9,6 +9,7 @@ import org.usfirst.frc.team747.robot.maps.RobotMap;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,10 +23,8 @@ public class DriveSubsystem extends Subsystem {
     
     public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
-            talonDriveLeftThree = new CANTalon(RobotMap.DriveTrain.LEFT_THREE.getValue()),
             talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
-            talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue()),
-            talonDriveRightThree = new CANTalon(RobotMap.DriveTrain.RIGHT_THREE.getValue());
+            talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue());
 
     //public RobotDrive autoDrive = new RobotDrive(talonDriveLeftPrimary, talonDriveLeftSlave, talonDriveRightPrimary, talonDriveRightSlave);
     
@@ -34,13 +33,35 @@ public class DriveSubsystem extends Subsystem {
     
     public DriveSubsystem() {
         super();
+        
+        /*
+         * Newly added WIP PID Implementation (BRICH 4/10/17)
+         */
+        
+        talonDriveLeftPrimary.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+        talonDriveRightPrimary.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+        
+        talonDriveLeftPrimary.configEncoderCodesPerRev(128);
+        talonDriveRightPrimary.configEncoderCodesPerRev(128);
+      
+        talonDriveLeftPrimary.configNominalOutputVoltage(+0.0f,-0.0f);
+        talonDriveLeftPrimary.configPeakOutputVoltage(+12.0f, -12.0f);
+        talonDriveRightPrimary.configNominalOutputVoltage(+0.0f,-0.0f);
+        talonDriveRightPrimary.configPeakOutputVoltage(+12.0f, -12.0f);
+        
+        talonDriveLeftPrimary.setPID(   .1, 0, 1.5, .06, 0, 0, 0);
+        talonDriveRightPrimary.setPID(  .1, 0, 1.5, .05825, 0, 0, 0);
+
+        talonDriveLeftPrimary.setProfile(0);
+        talonDriveRightPrimary.setProfile(0);
+        
+        //old working stuff
+        
         this.talonDriveLeftPrimary.setInverted(true);
         this.talonDriveLeftSlave.setInverted(true);
-        this.talonDriveLeftThree.setInverted(true);
         
         this.talonDriveRightPrimary.setInverted(false);
         this.talonDriveRightSlave.setInverted(false);
-        this.talonDriveRightThree.setInverted(false);
         
         this.talonDriveRightPrimary.reverseSensor(true);        
 
@@ -50,11 +71,6 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.talonDriveRightSlave.set(this.talonDriveRightPrimary.getDeviceID());
         
-        this.talonDriveLeftThree.changeControlMode(CANTalon.TalonControlMode.Follower);
-        this.talonDriveLeftThree.set(this.talonDriveLeftPrimary.getDeviceID());
-        
-        this.talonDriveRightThree.changeControlMode(CANTalon.TalonControlMode.Follower);
-        this.talonDriveRightThree.set(this.talonDriveRightPrimary.getDeviceID());
     }
     
     @Override
@@ -87,6 +103,11 @@ public class DriveSubsystem extends Subsystem {
 ////        	loops = 0;
 //        	System.out.println(sb.toString());
 ////        }
+    }
+    
+    public void setPositionPID(double encoderTicks) {
+        this.talonDriveLeftPrimary.setPosition(encoderTicks);
+        this.talonDriveRightPrimary.setPosition(encoderTicks);
     }
     
     public void setAutoDriveStraight(double left) {
