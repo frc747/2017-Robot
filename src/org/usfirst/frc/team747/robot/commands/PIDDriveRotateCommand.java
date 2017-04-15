@@ -1,6 +1,7 @@
 package org.usfirst.frc.team747.robot.commands;
 
 import org.usfirst.frc.team747.robot.Robot;
+import org.usfirst.frc.team747.robot.vision.Target;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
@@ -9,6 +10,8 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
  */
 public class PIDDriveRotateCommand extends PIDCommand {
 
+    private Target target = null;
+    
     private double angleToRotate;
     
     private int onTargetCount;
@@ -18,6 +21,8 @@ public class PIDDriveRotateCommand extends PIDCommand {
     private final static double STOP_THRESHOLD_DEGREES = 1;
     private final static double MAX_PERCENT_VBUS = 0.5;
     
+    private final static double DRIVE_SPEED_MINIMUM = 0.30;
+    
     public PIDDriveRotateCommand(double degreesRotate) {
         super(0.05, 0, 0);
         
@@ -26,8 +31,17 @@ public class PIDDriveRotateCommand extends PIDCommand {
         requires(Robot.DRIVE_TRAIN);
     }
 
+    public PIDDriveRotateCommand(Target target) {
+        this(0.0); //calls the previous constructor with a value of 0 for "degreesRotate"
+        this.target = target;
+    }
+    
     // Called just before this Command runs the first time
     protected void initialize() {
+        
+        if (target != null) {
+            angleToRotate = target.getAngleDegrees(); //will get the degrees from the target and rotate to it
+        }
         
         onTargetCount = 0;
         
@@ -73,6 +87,15 @@ public class PIDDriveRotateCommand extends PIDCommand {
 
     @Override
     protected void usePIDOutput(double output) {
+        
+//        double sign = output > 0 ? 1.0 : -1.0; //google ternary operator
+        
+        double sign = Math.signum(output);
+        
+        if (output != 0 && Math.abs(output) < DRIVE_SPEED_MINIMUM) { //bang means "!" which is not in java, computer/programming slang
+            output = sign * DRIVE_SPEED_MINIMUM;
+        }
+        
         Robot.DRIVE_TRAIN.set(output, -output);
     }
 }
