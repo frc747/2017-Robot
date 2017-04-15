@@ -42,11 +42,11 @@ public class AutoStepCommand extends Command {
         if (remainingDistance < 0){
             updatedNavXAngle = -Robot.getNavXAngle();
             updatedSpeed = -this.speed;
-            updatedDistance = -Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
+            updatedDistance = -Robot.DRIVE_TRAIN.simpleConvertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
         } else {
             updatedNavXAngle = Robot.getNavXAngle();
             updatedSpeed = this.speed;
-            updatedDistance = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
+            updatedDistance = Robot.DRIVE_TRAIN.simpleConvertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
         }
         this.remainingAngle -= updatedNavXAngle;
         this.remainingDistance -= updatedDistance;

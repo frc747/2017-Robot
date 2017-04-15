@@ -51,7 +51,7 @@ public class NewDriveDistanceStraightCommand extends Command {
     	    firstRun = false;
     	}
         
-    	encodersDistanceDriven = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
+    	encodersDistanceDriven = Robot.DRIVE_TRAIN.simpleConvertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
     	
     	double[] pow = {0, 0};
     	
@@ -79,7 +79,7 @@ public class NewDriveDistanceStraightCommand extends Command {
             return false;
         }
         
-        encodersDistanceDriven = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
+        encodersDistanceDriven = Robot.DRIVE_TRAIN.simpleConvertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
         
         if(encoderEndThreshold>=0) {
             end = (encodersDistanceDriven > encoderEndThreshold)|| timer.get() > timeout; 

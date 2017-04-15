@@ -21,7 +21,7 @@ public class PIDDriveDistanceCommand extends Command {
         requires(Robot.DRIVE_TRAIN);
         
         this.inchesToTravel = distanceInches;
-        this.ticksToTravel = Robot.DRIVE_TRAIN.convertInchesToTicks(distanceInches);
+        this.ticksToTravel = Robot.DRIVE_TRAIN.simpleConvertInchesToTicks(distanceInches);
         errorLeft = 0;
         errorRight = 0;
         noProgressCountdown = 100;

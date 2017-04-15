@@ -34,7 +34,7 @@ public class BROKENDriveDistanceCommand extends Command {
     protected void execute() {
 
         final double medianDistanceTraveled = (Robot.DRIVE_TRAIN.getLeftEncoderPosition() + Robot.DRIVE_TRAIN.getRightEncoderPosition())/2;
-        final double medianInchesTraveled = Robot.DRIVE_TRAIN.convertTicksToInches(medianDistanceTraveled); 
+        final double medianInchesTraveled = Robot.DRIVE_TRAIN.simpleConvertTicksToInches(medianDistanceTraveled); 
         
         
 //        if ((Math.abs(inchesToTravel) - Math.abs(medianInchesTraveled)) <= SAFE_ZONE) {
@@ -81,7 +81,7 @@ public class BROKENDriveDistanceCommand extends Command {
     protected boolean isFinished() {
 
     	final double medianDistanceTraveled = (Robot.DRIVE_TRAIN.getLeftEncoderPosition() + Robot.DRIVE_TRAIN.getRightEncoderPosition())/2;
-        final double medianInchesTraveled = Robot.DRIVE_TRAIN.convertTicksToInches(medianDistanceTraveled); 
+        final double medianInchesTraveled = Robot.DRIVE_TRAIN.simpleConvertTicksToInches(medianDistanceTraveled); 
         
         return (Math.abs(medianInchesTraveled) > Math.abs(inchesToTravel));
     }

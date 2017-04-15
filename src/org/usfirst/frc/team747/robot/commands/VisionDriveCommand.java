@@ -106,7 +106,7 @@ public class VisionDriveCommand extends Command {
         	this.targetActive = false;
         }
         if (this.targetFound) {
-            double position = Robot.DRIVE_TRAIN.convertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
+            double position = Robot.DRIVE_TRAIN.simpleConvertTicksToInches(Robot.DRIVE_TRAIN.getCombindedEncoderPosition());
             
             if (!targetActive) {
                 this.targetDistance -= position;

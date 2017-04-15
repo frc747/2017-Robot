@@ -28,6 +28,16 @@ public class DriveSubsystem extends Subsystem {
 
     //public RobotDrive autoDrive = new RobotDrive(talonDriveLeftPrimary, talonDriveLeftSlave, talonDriveRightPrimary, talonDriveRightSlave);
     
+    private static final double ENCODER_TICKS = 128;
+//    250 for peanut, 128 for competition 
+    private static final double WHEEL_CIRCUMFERNCE = 18.85; //18.875
+
+    private static final double MAX_VOLTAGE = 6.5;
+    private static final double MIN_VOLTAGE = 0;
+    
+    private static final double TICKS_PER_INCH = ENCODER_TICKS / WHEEL_CIRCUMFERNCE;
+
+    
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
     
@@ -38,36 +48,13 @@ public class DriveSubsystem extends Subsystem {
          * Newly added WIP PID Implementation (BRICH 4/10/17)
          */
         
-        talonDriveLeftPrimary.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-        talonDriveRightPrimary.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-        
-        talonDriveLeftPrimary.configEncoderCodesPerRev(128);
-        talonDriveRightPrimary.configEncoderCodesPerRev(128);
-      
-        talonDriveLeftPrimary.configNominalOutputVoltage(+0.0f,-0.0f);
-        talonDriveLeftPrimary.configPeakOutputVoltage(+12.0f, -12.0f);
-        talonDriveRightPrimary.configNominalOutputVoltage(+0.0f,-0.0f);
-        talonDriveRightPrimary.configPeakOutputVoltage(+12.0f, -12.0f);
-        
-//        talonDriveLeftPrimary.setPID(   0, 0, 0, 1, 0, 0, 0);
-//        talonDriveRightPrimary.setPID(  0, 0, 0, 1, 0, 0, 0);
-        
-        
-        talonDriveLeftPrimary.setPID(   .1, 0, 1.5, .06, 0, 0, 0);
-        talonDriveRightPrimary.setPID(  .1, 0, 1.5, .05825, 0, 0, 0);
-
-        talonDriveLeftPrimary.setProfile(0);
-        talonDriveRightPrimary.setProfile(0);
-        
-        //old working stuff
-        
         this.talonDriveLeftPrimary.setInverted(true);
         this.talonDriveLeftSlave.setInverted(true);
         
         this.talonDriveRightPrimary.setInverted(false);
         this.talonDriveRightSlave.setInverted(false);
         
-        this.talonDriveLeftPrimary.reverseSensor(true);
+        this.talonDriveLeftPrimary.reverseSensor(false);
         this.talonDriveRightPrimary.reverseSensor(true);        
 
         this.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
@@ -76,6 +63,35 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.talonDriveRightSlave.set(this.talonDriveRightPrimary.getDeviceID());
         
+        talonDriveLeftPrimary.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+        talonDriveRightPrimary.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+        
+        talonDriveLeftPrimary.configEncoderCodesPerRev((int) ENCODER_TICKS);
+        talonDriveRightPrimary.configEncoderCodesPerRev((int) ENCODER_TICKS);
+      
+        talonDriveLeftPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
+        talonDriveLeftPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
+        talonDriveRightPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
+        talonDriveRightPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
+        
+        talonDriveLeftPrimary.setAllowableClosedLoopErr(0); // always servo
+        talonDriveRightPrimary.setAllowableClosedLoopErr(0); // always servo
+        
+        talonDriveLeftPrimary.setProfile(0);
+        talonDriveRightPrimary.setProfile(0);
+        
+        talonDriveLeftPrimary.setP(0.5);
+        talonDriveLeftPrimary.setI(0.0);
+        talonDriveLeftPrimary.setD(0.0); 
+        talonDriveLeftPrimary.setF(0.0);
+        
+        talonDriveRightPrimary.setP(0.5);
+        talonDriveRightPrimary.setI(0.0);
+        talonDriveRightPrimary.setD(0.0); 
+        talonDriveRightPrimary.setF(0.0);
+
+        //old working stuff
+        
     }
     
     @Override
@@ -83,11 +99,9 @@ public class DriveSubsystem extends Subsystem {
         this.setDefaultCommand(new DriveCommand());
     }
 
-    public void changeControlMode(TalonControlMode primaryMode, TalonControlMode secondaryMode) {
-        this.talonDriveLeftPrimary.changeControlMode(primaryMode);
-        this.talonDriveRightPrimary.changeControlMode(primaryMode);
-        this.talonDriveLeftSlave.changeControlMode(secondaryMode);
-        this.talonDriveRightSlave.changeControlMode(secondaryMode);
+    public void changeControlMode(TalonControlMode mode) {
+        this.talonDriveLeftPrimary.changeControlMode(mode);
+        this.talonDriveRightPrimary.changeControlMode(mode);
     }
     
     public void set(double left, double right) {
@@ -113,6 +127,30 @@ public class DriveSubsystem extends Subsystem {
     public void setPositionPID(double leftEncoderTicks, double rightEncoderTicks) {
         this.talonDriveLeftPrimary.set(-leftEncoderTicks);
         this.talonDriveRightPrimary.set(rightEncoderTicks);
+    }
+    
+    public double convertRevsToInches(double revs) {
+        return revs * WHEEL_CIRCUMFERNCE;
+    }
+    
+    public double convertInchesToRevs(double inches) {
+        return inches / WHEEL_CIRCUMFERNCE;
+    }
+    
+    public double convertRevsToTicks(double revs) {
+        return revs * ENCODER_TICKS;
+    }
+    
+    public double convertTicksToRevs(double ticks) {
+        return ticks / ENCODER_TICKS;
+    }
+    
+    public double convertInchesToTicks(double inches) {
+        return convertRevsToTicks(convertInchesToRevs(inches));
+    }
+    
+    public double convertTicksToInches(double ticks) {
+        return convertRevsToInches(convertTicksToRevs(ticks));
     }
     
     public void talonEnableControl() {
@@ -176,7 +214,7 @@ public class DriveSubsystem extends Subsystem {
         return (getLeftEncoderPosition() + getRightEncoderPosition()) / 2;
     }
     
-    public double convertInchesToTicks(double inchesToTravel) {
+    public double simpleConvertInchesToTicks(double inchesToTravel) {
         
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
         final double wheelCircumference = 18.75,
@@ -199,7 +237,7 @@ public class DriveSubsystem extends Subsystem {
      * we want to travel by 0.91 to find the distance we want to input into the code
      */
     
-    public double convertTicksToInches(double ticks) {
+    public double simpleConvertTicksToInches(double ticks) {
         
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
 //        final double wheelCircumference = 6.25 * Math.PI,
@@ -336,6 +374,27 @@ public class DriveSubsystem extends Subsystem {
             //RIGHT
             //DO UNTIL LOOPS
         }
+        
+    }
+    
+    public void disableControl() {
+        talonDriveLeftPrimary.disableControl();
+        talonDriveRightPrimary.disableControl();
+    }
+    
+    public void enableControl() {
+        talonDriveLeftPrimary.enableControl();
+        talonDriveRightPrimary.enableControl();
+    }
+    
+    public void enablePositionControl() {
+        this.changeControlMode(TalonControlMode.Position);
+        this.enableControl();
+    }
+
+    public void enableVBusControl() {
+        this.disableControl();
+        this.changeControlMode(TalonControlMode.PercentVbus);
         
     }
 }

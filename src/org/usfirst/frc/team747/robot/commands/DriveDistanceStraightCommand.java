@@ -37,14 +37,14 @@ public class DriveDistanceStraightCommand extends Command {
         
         final double medianDistanceTraveled = (Robot.DRIVE_TRAIN.getLeftEncoderPosition() + Robot.DRIVE_TRAIN.getRightEncoderPosition())/2;
         
-        final double medianInchesTraveled = Robot.DRIVE_TRAIN.convertInchesToTicks(medianDistanceTraveled);
+        final double medianInchesTraveled = Robot.DRIVE_TRAIN.simpleConvertInchesToTicks(medianDistanceTraveled);
         
         return Math.abs(medianInchesTraveled)  >= Math.abs(inchesToTravel);
     }
 
     protected void end() {
         Robot.DRIVE_TRAIN.setAutoDriveStraight(speed);
-        Robot.DRIVE_TRAIN.changeControlMode(CANTalon.TalonControlMode.PercentVbus, CANTalon.TalonControlMode.Follower);
+        Robot.DRIVE_TRAIN.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     }
 
     protected void interrupted() {

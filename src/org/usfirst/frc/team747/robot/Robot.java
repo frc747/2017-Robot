@@ -54,6 +54,7 @@ public class Robot extends IterativeRobot {
     public static VisionTracking VISION_TRACKING_REAR = null;
     private VisionThread visionThreadFront = null;
     private VisionThread visionThreadRear = null;
+    
     public static OI oi = null;
     
     private int autonLoops = 0;
@@ -154,7 +155,7 @@ public class Robot extends IterativeRobot {
         
         
         resetNavXAngle();
-        DRIVE_TRAIN.changeControlMode(TalonControlMode.PercentVbus, TalonControlMode.Follower);
+        DRIVE_TRAIN.changeControlMode(TalonControlMode.PercentVbus);
     }
 
 	/**
