@@ -20,7 +20,9 @@ public class DriveCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.DRIVE_TRAIN.changeControlMode(CANTalon.TalonControlMode.PercentVbus, CANTalon.TalonControlMode.Follower);
+        Robot.DRIVE_TRAIN.setControlPercentVBus();
+        
+        //Robot.DRIVE_TRAIN.changeControl
     }
 
     // Called repeatedly when this Command is scheduled to run

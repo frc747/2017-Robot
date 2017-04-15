@@ -44,7 +44,7 @@ public class DriveDistanceStraightCommand extends Command {
 
     protected void end() {
         Robot.DRIVE_TRAIN.setAutoDriveStraight(speed);
-        Robot.DRIVE_TRAIN.changeControlMode(CANTalon.TalonControlMode.PercentVbus, CANTalon.TalonControlMode.Follower);
+        Robot.DRIVE_TRAIN.setControlPercentVBus();
     }
 
     protected void interrupted() {

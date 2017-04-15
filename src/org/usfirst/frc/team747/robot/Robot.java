@@ -14,6 +14,8 @@ import org.usfirst.frc.team747.robot.vision.TargetTemplate;
 import org.usfirst.frc.team747.robot.vision.VisionTracking;
 import org.usfirst.frc.team747.robot.Autonomous;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.HashMap;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -46,14 +48,21 @@ public class Robot extends IterativeRobot {
     public static final ShooterSubsystem SHOOTER = new ShooterSubsystem();
     public static final IndexerSubsystem INDEXER = new IndexerSubsystem();
     public static final ClimberSubsystem CLIMBER = new ClimberSubsystem();
-	public static File logs, driveLog;
-	public static BufferedWriter bw, bwDrive;
-	public static FileWriter fw, fwDrive;
+	public static File logs;
+	public static BufferedWriter bw;
+	public static FileWriter fw;
     public static VisionTracking VISION_TRACKING_FRONT = null;
     public static VisionTracking VISION_TRACKING_REAR = null;
     private VisionThread visionThreadFront = null;
     private VisionThread visionThreadRear = null;
     public static OI oi = null;
+    private static boolean autonMode = false;
+    private static boolean teleopMode = false;
+    private static boolean testMode = false;
+    private static boolean disabledMode = false;
+    
+//    public static SmartDashboard smartDB = new SmartDashboard();
+//    public static LiveWindow LIVE_WINDOW = new LiveWindow();
     
     private int autonLoops = 0;
     
@@ -132,22 +141,6 @@ public class Robot extends IterativeRobot {
 //        });
 //        visionThreadRear.start();
         
-    	try {
-    		logs = new File("/U/Logs/shooterLog" + Instant.now().toEpochMilli() + ".csv");
-    		if(!logs.exists()){
-    			logs.createNewFile();
-    		}
-			fw = new FileWriter(logs);
-			bw = new BufferedWriter(fw);
-		
-			Robot.bw.write("outLeft,spdLeft,voltOutLeft1,voltOutLeft2,busVoltLeft,outRight,spdRight,voltOutRight1,"
-								+ "voltOutRight2,busVoltRight,leftP,leftI,leftD,leftF,rightP,rightI,rightD,rightF"
-								+ "spdIndexer,indexerP,indexerI,indexerD,indexerF\n");
-  		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
         
         this.autonomous = new Autonomous();
         
@@ -165,6 +158,10 @@ public class Robot extends IterativeRobot {
 		/**
 		 * Setup Gyro recalibration in this block
 		 */
+	disabledMode = true;
+	autonMode = false;
+	teleopMode = false;
+	testMode = false;
 		
 		if(logs != null && logs.exists()){
 			try {
@@ -175,25 +172,33 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		
-		if(driveLog != null && driveLog.exists()){
-			try {
-				bwDrive.close();
-				fwDrive.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		if(driveLog != null && driveLog.exists()){
+//			try {
+//				bwDrive.close();
+//				fwDrive.close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
 	@Override
 	public void disabledPeriodic() {
+		disabledMode = true;
+		autonMode = false;
+		teleopMode = false;
+		testMode = false;
 		Scheduler.getInstance().run();
 	}
 
 
 	@Override
 	public void autonomousInit() {
-		
+	
+		disabledMode = false;
+		autonMode = true;
+		teleopMode = false;
+		testMode = false;
         autonomous.startMode();
     if (autonomousCommand != null){
         autonomousCommand.start();
@@ -205,7 +210,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		
+		disabledMode = false;
+		autonMode = true;
+		teleopMode = false;
+		testMode = false;
 //		if (autonLoops == 10){
 //			System.out.println("Auton NavX Angle: " + Robot.getNavXAngle());
 //			autonLoops = 0;
@@ -222,10 +230,33 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		
+		disabledMode = false;
+		autonMode = false;
+		teleopMode = true;
+		testMode = false;
 		System.out.println(Instant.now().toEpochMilli());		
 		resetNavXAngle();
 		
 		
+		
+    	try {
+    		logs = new File("/U/Logs/shooterLog" + Instant.now().toEpochMilli() + ".csv");
+    		if(!logs.exists()){
+    			logs.createNewFile();
+    		}
+			fw = new FileWriter(logs);
+			bw = new BufferedWriter(fw);
+			
+		
+			Robot.bw.write("outLeft,spdLeft,voltOutLeft1,voltOutLeft2,busVoltLeft,outRight,spdRight,voltOutRight1,"
+								+ "voltOutRight2,busVoltRight,leftP,leftI,leftD,leftF,rightP,rightI,rightD,rightF"
+								+ "spdIndexer,indexerP,indexerI,indexerD,indexerF\n");
+  		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
 
     	
 //    	try {
@@ -249,6 +280,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		disabledMode = false;
+		autonMode = false;
+		teleopMode = true;
+		testMode = false;
 		Scheduler.getInstance().run();
 	}
 
@@ -257,6 +292,24 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		disabledMode = false;
+		autonMode = false;
+		teleopMode = false;
+		testMode = true;
 		LiveWindow.run();
 	}
+	
+	public static boolean isAutonMode(){
+		return autonMode;
+	}
+	public static boolean isTeleopMode(){
+		return teleopMode;
+	}
+	public static boolean isTestMode(){
+		return testMode;
+	}
+	public static boolean isDisabledMode(){
+		return (disabledMode);
+	}
+	
 }

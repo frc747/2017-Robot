@@ -47,8 +47,7 @@ public class VisionDriveCommand extends Command {
             this.targetActive = true;
             this.targetFound = true;
             
-           
-            /* Brian Stuff 8========D~~~~(o()  (.Y.)  <---- TITS AND ANAL SEX (CREAMPIE) bj
+             /*
              * Rewriting logic to see if I can get it to work
              */
             double targetAngleFromCamera = Math.toRadians(target.getAngleDegrees());

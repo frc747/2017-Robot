@@ -33,6 +33,45 @@ public final class AutonomousConfig {
                                    SPEED2	= .17,
                                    DISTANCE2 = 15;
     }
+public final class ScoreGearBlue{
+        
+        private ScoreGearBlue(){
+        }
+        
+        public static final double SPEED    = .19,
+                                   ANGLE    = 0,
+                                   DISTANCE = 70,
+                                   SPEED2   = .17,
+                                   DISTANCE2 = 15;
+    }
     
+    /*
+     *  Brian - Change for Lehigh. Distance from the driver station
+     *  diamond-plate wall to the center peg has a difference of 1 inch
+     *  (red being 1 more inch in length than blue)
+     *  
+     *  See DriveSubsytem/convertTicksToInches for an explanation as to why the
+     *  score gear "DISTANCE" values have been changed from 65 inches to 71.5
+     *  inches.
+     *  
+     *  ScoreGearRed/DISTANCE is increased by 1.1 Inches because of the
+     *  convertTicksToInches "RATIO" explained in the DriveSubsystem
+     *  
+     *  ScoreGearBlue/DISTANCE was tuned to 70 inches on the practice field
+     *  at Lehigh the back bumper of the robot was 110 inches off of the driver
+     *  station wall
+     */
+    
+    public final class ScoreGearRed{
+        
+        private ScoreGearRed(){
+        }
+        
+        public static final double SPEED    = .19,
+                                   ANGLE    = 0,
+                                   DISTANCE = 71.1,
+                                   SPEED2   = .17,
+                                   DISTANCE2 = 15;
+    }
     
 }

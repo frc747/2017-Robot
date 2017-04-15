@@ -84,7 +84,7 @@ public class OI {
         BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
         BUTTON_SECOND_GEAR.toggleWhenPressed(new SimpleVisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
         //        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
-        BUTTON_DRIVE_DISTANCE.whenPressed(new BROKENDriveDistanceCommand((6.25 * Math.PI), 0.1));
+//        BUTTON_DRIVE_DISTANCE.whenPressed(new DriveDistanceSimpleCommand((6.25 * Math.PI), 0.1));
     }
     
     public static boolean getClimbState(){

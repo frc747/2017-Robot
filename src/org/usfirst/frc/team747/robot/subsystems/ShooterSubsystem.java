@@ -3,6 +3,8 @@ package org.usfirst.frc.team747.robot.subsystems;
 
 import java.io.IOException;
 
+
+
 import org.usfirst.frc.team747.robot.OI;
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.ShooterStopCommand;
@@ -82,7 +84,11 @@ public class ShooterSubsystem extends Subsystem {
 	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	    talonShooterLeft1.set(1800);
 	    talonShooterRight1.set(1800);
+	    
+	    
+	    if(!Robot.isAutonMode() && Robot.isTeleopMode()){
 	    shooterLogging();
+	    }
 	    
 	    
   }
@@ -91,7 +97,7 @@ public class ShooterSubsystem extends Subsystem {
 	   
 	  	talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
-	    talonShooterLeft1.set(1800);
+	    talonShooterLeft1.set(1850);
 	    talonShooterRight1.set(1800);
 	   
   }

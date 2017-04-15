@@ -2,8 +2,8 @@ package org.usfirst.frc.team747.robot.autonomous;
 
 //import org.usfirst.frc.team747.robot.maps.AutonomousConfig;
 import org.usfirst.frc.team747.robot.Robot;
-import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
-import org.usfirst.frc.team747.robot.commands.DriveRotateCommand;
+import org.usfirst.frc.team747.robot.commands.DriveDistanceSimpleCommand;
+import org.usfirst.frc.team747.robot.commands.DriveRotateSimpleCommand;
 import org.usfirst.frc.team747.robot.commands.ShootBallsTimedCommand;
 import org.usfirst.frc.team747.robot.commands.PauseCommand;
 
@@ -17,10 +17,10 @@ public class ShootBallsFromBlue extends CommandGroup {
         
         addSequential(new ShootBallsTimedCommand(8));
         addSequential(new PauseCommand(.5));
-        addSequential(new DriveDistanceCommand(12, -.5));
+        addSequential(new DriveDistanceSimpleCommand(12, -.5));
         addSequential(new PauseCommand(.5));
-        addSequential(new DriveRotateCommand(-.8, -45));
+        addSequential(new DriveRotateSimpleCommand(-.5, -45));
         addSequential(new PauseCommand(.5));
-        addSequential(new DriveDistanceCommand(55, -.5));
+        addSequential(new DriveDistanceSimpleCommand(55, -.5));
     }
 }

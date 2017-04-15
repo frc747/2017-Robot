@@ -6,16 +6,14 @@ import org.usfirst.frc.team747.robot.maps.AutonomousConfig;
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.*;
 
-public class ScoreGear extends CommandGroup {
+public class ScoreGearBlue extends CommandGroup {
     
-    public  ScoreGear() {
+    public  ScoreGearBlue() {
         
         requires(Robot.DRIVE_TRAIN);
 
-        addSequential(new DriveDistanceSimpleCommand(AutonomousConfig.ScoreGear.DISTANCE, .19));
+        addSequential(new DriveDistanceSimpleCommand(AutonomousConfig.ScoreGearBlue.DISTANCE, AutonomousConfig.ScoreGearBlue.SPEED));
         addSequential(new PauseCommand(2));
         addSequential(new DriveDistanceSimpleCommand(6, .3));
-        
-
     }
 }

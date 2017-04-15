@@ -3,9 +3,9 @@ package org.usfirst.frc.team747.robot.autonomous;
 //import org.usfirst.frc.team747.robot.maps.AutonomousConfig;
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.AutoStepCommand;
-import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
+import org.usfirst.frc.team747.robot.commands.DriveDistanceSimpleCommand;
 import org.usfirst.frc.team747.robot.commands.DriveDistanceStraightCommand;
-import org.usfirst.frc.team747.robot.commands.DriveRotateCommand;
+import org.usfirst.frc.team747.robot.commands.DriveRotateSimpleCommand;
 import org.usfirst.frc.team747.robot.commands.IntakeTimeCommand;
 import org.usfirst.frc.team747.robot.commands.NewDriveDistanceStraightCommand;
 import org.usfirst.frc.team747.robot.commands.ShootBallsTimedCommand;
@@ -22,7 +22,7 @@ public class HopperShootBallsFromBlue extends CommandGroup {
         //overdrive 2 inches when going 0.3 speed
         
 //        addSequential( new AutoStepCommand(0, -98.125, 0.5));
-        addSequential(new DriveDistanceCommand(-100, -0.5));
+        addSequential(new DriveDistanceSimpleCommand(-100, -0.5));
 //        addSequential(new PauseCommand(.5));
 //       addSequential(new DriveRotateCommand(-0.5, -90));
 //        addSequential(new PauseCommand(.5));

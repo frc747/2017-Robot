@@ -22,10 +22,8 @@ public class DriveSubsystem extends Subsystem {
     
     public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
             talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
-            talonDriveLeftThree = new CANTalon(RobotMap.DriveTrain.LEFT_THREE.getValue()),
             talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
-            talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue()),
-            talonDriveRightThree = new CANTalon(RobotMap.DriveTrain.RIGHT_THREE.getValue());
+            talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue());
 
     //public RobotDrive autoDrive = new RobotDrive(talonDriveLeftPrimary, talonDriveLeftSlave, talonDriveRightPrimary, talonDriveRightSlave);
     
@@ -36,11 +34,9 @@ public class DriveSubsystem extends Subsystem {
         super();
         this.talonDriveLeftPrimary.setInverted(true);
         this.talonDriveLeftSlave.setInverted(true);
-        this.talonDriveLeftThree.setInverted(true);
         
         this.talonDriveRightPrimary.setInverted(false);
         this.talonDriveRightSlave.setInverted(false);
-        this.talonDriveRightThree.setInverted(false);
         
         this.talonDriveRightPrimary.reverseSensor(true);        
 
@@ -50,11 +46,6 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.talonDriveRightSlave.set(this.talonDriveRightPrimary.getDeviceID());
         
-        this.talonDriveLeftThree.changeControlMode(CANTalon.TalonControlMode.Follower);
-        this.talonDriveLeftThree.set(this.talonDriveLeftPrimary.getDeviceID());
-        
-        this.talonDriveRightThree.changeControlMode(CANTalon.TalonControlMode.Follower);
-        this.talonDriveRightThree.set(this.talonDriveRightPrimary.getDeviceID());
     }
     
     @Override
@@ -62,31 +53,10 @@ public class DriveSubsystem extends Subsystem {
         this.setDefaultCommand(new DriveCommand());
     }
 
-    public void changeControlMode(TalonControlMode primaryMode, TalonControlMode secondaryMode) {
-        this.talonDriveLeftPrimary.changeControlMode(primaryMode);
-        this.talonDriveRightPrimary.changeControlMode(primaryMode);
-        this.talonDriveLeftSlave.changeControlMode(secondaryMode);
-        this.talonDriveRightSlave.changeControlMode(secondaryMode);
-    }
-    
     public void set(double left, double right) {
         this.talonDriveLeftPrimary.set(left);
         this.talonDriveRightPrimary.set(right);
         
-        
-        //System.out.println("NAVX Angle: " + Robot.getNavXAngle());
-//        sb.append( Robot.getNavXAngle360() + "\n");
-//  
-//  		try {
-//			Robot.bwDrive.write(sb.toString());
-//			
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-////        	loops = 0;
-//        	System.out.println(sb.toString());
-////        }
     }
     
     public void setAutoDriveStraight(double left) {
@@ -145,6 +115,27 @@ public class DriveSubsystem extends Subsystem {
         return (getLeftEncoderPosition() + getRightEncoderPosition()) / 2;
     }
     
+    public void setControlPercentVBus (){
+    	talonDriveRightPrimary.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	talonDriveLeftPrimary.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	talonDriveRightPrimary.disableControl();
+    	talonDriveLeftPrimary.disableControl();
+    }
+    
+    public void setControlPosition (){
+    	talonDriveRightPrimary.changeControlMode(CANTalon.TalonControlMode.Position);
+    	talonDriveLeftPrimary.changeControlMode(CANTalon.TalonControlMode.Position);
+    	talonDriveRightPrimary.enableControl();
+    	talonDriveLeftPrimary.enableControl();
+    }
+    
+    public void setControlVelocity (){
+    	talonDriveRightPrimary.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	talonDriveLeftPrimary.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	talonDriveRightPrimary.enableControl();
+    	talonDriveLeftPrimary.enableControl();
+    }
+    
     public double convertInchesToTicks(double inchesToTravel) {
         
         //static hardware values (Encoder is grayhill 63R128, r128 is 128 pulsePerRevolution)
@@ -158,6 +149,15 @@ public class DriveSubsystem extends Subsystem {
         
         return encoderTicks;
     }
+    
+    /*
+     * Brian (Aryan) - A convertTicksToInches "RATIO" has been formed because of the
+     * time I was messing around with the DriveDistanceCommand and began changing the
+     * convertTicksToInches/wheelCircumference to see if it would fix the problems we were
+     * having (dumb idea) and I forgot to change it back. Calculating 18.75/20.5 the "RATIO"
+     * formed is equal to about 0.91 meaning that we must divide whatever actual distance
+     * we want to travel by 0.91 to find the distance we want to input into the code
+     */
     
     public double convertTicksToInches(double ticks) {
         

@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *Negative degrees is anti-clockwise and positive degrees is clockwise
  */
-public class DriveRotateCommand extends Command {
+public class DriveRotatePIDCommand extends Command {
     
     private double speed;
     private double degrees;
 
-    public DriveRotateCommand(double speed, double degrees) {
+    public DriveRotatePIDCommand(double speed, double degrees) {
         requires(Robot.DRIVE_TRAIN);
         
         this.speed = speed;
