@@ -391,6 +391,10 @@ public class DriveSubsystem extends Subsystem {
         
     }
     
+    /*
+     * We found out that we do not need the enable/disable control commands
+     */
+    
     public void disableControl() {
         talonDriveLeftPrimary.disableControl();
         talonDriveRightPrimary.disableControl();
@@ -403,11 +407,11 @@ public class DriveSubsystem extends Subsystem {
     
     public void enablePositionControl() {
         this.changeControlMode(TalonControlMode.Position);
-        this.enableControl();
+//        this.enableControl();
     }
 
     public void enableVBusControl() {
-        this.disableControl();
+//        this.disableControl();
         this.changeControlMode(TalonControlMode.PercentVbus);
         
     }

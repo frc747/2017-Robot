@@ -6,9 +6,9 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class PIDDriveInches extends PIDDriveRevolutions {
+public class PIDDriveInchesCommand extends PIDDriveRevolutionsCommand {
 	
-	public PIDDriveInches(double inches) {
+	public PIDDriveInchesCommand(double inches) {
 		super(Robot.DRIVE_TRAIN.convertInchesToRevs(inches));
 	}
 
