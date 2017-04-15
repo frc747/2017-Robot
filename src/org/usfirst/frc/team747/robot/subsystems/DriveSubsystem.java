@@ -28,12 +28,14 @@ public class DriveSubsystem extends Subsystem {
 
     //public RobotDrive autoDrive = new RobotDrive(talonDriveLeftPrimary, talonDriveLeftSlave, talonDriveRightPrimary, talonDriveRightSlave);
     
-    private static final double ENCODER_TICKS = 128;
+    private static final double ENCODER_TICKS = 32;
 //    250 for peanut, 128 for competition 
     private static final double WHEEL_CIRCUMFERNCE = 18.85; //18.875
 
-    private static final double MAX_VOLTAGE = 6.5;
-    private static final double MIN_VOLTAGE = 0;
+    private static final double MAX_VOLTAGE = 9;
+    private static final double MIN_VOLTAGE = 2;
+    
+    //Gear Distance IN REVOLUTIONS 3.7125 (needed like another inch or so; trying 3.725
     
     private static final double TICKS_PER_INCH = ENCODER_TICKS / WHEEL_CIRCUMFERNCE;
 
@@ -55,7 +57,7 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightSlave.setInverted(false);
         
         this.talonDriveLeftPrimary.reverseSensor(false);
-        this.talonDriveRightPrimary.reverseSensor(true);        
+        this.talonDriveRightPrimary.reverseSensor(true);     
 
         this.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.talonDriveLeftSlave.set(this.talonDriveLeftPrimary.getDeviceID());
@@ -80,12 +82,15 @@ public class DriveSubsystem extends Subsystem {
         talonDriveLeftPrimary.setProfile(0);
         talonDriveRightPrimary.setProfile(0);
         
-        talonDriveLeftPrimary.setP(0.5);
+        this.talonDriveLeftPrimary.reverseOutput(true);
+        this.talonDriveRightPrimary.reverseOutput(false);
+        
+        talonDriveLeftPrimary.setP(1.0);
         talonDriveLeftPrimary.setI(0.0);
         talonDriveLeftPrimary.setD(0.0); 
         talonDriveLeftPrimary.setF(0.0);
         
-        talonDriveRightPrimary.setP(0.5);
+        talonDriveRightPrimary.setP(1.0);
         talonDriveRightPrimary.setI(0.0);
         talonDriveRightPrimary.setD(0.0); 
         talonDriveRightPrimary.setF(0.0);
@@ -124,9 +129,9 @@ public class DriveSubsystem extends Subsystem {
 ////        }
     }
     
-    public void setPositionPID(double leftEncoderTicks, double rightEncoderTicks) {
-        this.talonDriveLeftPrimary.set(-leftEncoderTicks);
-        this.talonDriveRightPrimary.set(rightEncoderTicks);
+    public void setPID(double leftRevolutions, double rightRevolutions) {
+        this.talonDriveLeftPrimary.set(leftRevolutions);
+        this.talonDriveRightPrimary.set(rightRevolutions);
     }
     
     public double convertRevsToInches(double revs) {
@@ -168,34 +173,35 @@ public class DriveSubsystem extends Subsystem {
 
     public void resetLeftEncoder() {
         talonDriveLeftPrimary.setPosition(0);
-//    	try {
-//			Thread.sleep(100);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
     }
     
     public void resetRightEncoder() {
         talonDriveRightPrimary.setPosition(0);
-//    	try {
-//			Thread.sleep(100);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void resetBothEncoders(){
-    	talonDriveRightPrimary.setPosition(0);
-    	talonDriveLeftPrimary.setPosition(0);
-//    	try {
-//			Thread.sleep(100);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+        this.enableVBusControl();
+    	this.talonDriveRightPrimary.setEncPosition(0);
+    	this.talonDriveLeftPrimary.setEncPosition(0);
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public int newGetEncoderPosition() {
@@ -203,10 +209,18 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public double getLeftEncoderPosition() {
-        return talonDriveLeftPrimary.getPosition();
+        return talonDriveLeftPrimary.getEncPosition();
     }
     
     public double getRightEncoderPosition() {
+        return talonDriveRightPrimary.getEncPosition();
+    }
+
+    public double getLeftPosition() {
+        return talonDriveLeftPrimary.getPosition();
+    }
+    
+    public double getRightPosition() {
         return talonDriveRightPrimary.getPosition();
     }
     

@@ -16,8 +16,10 @@ import org.usfirst.frc.team747.robot.maps.DriverStation;
 //import org.usfirst.frc.team869.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -41,6 +43,8 @@ public class OI {
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_B.getValue()),
             BUTTON_DRIVE_DISTANCE
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_START.getValue()),
+            BUTTON_RESET_ENCODERS
+                = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_BACK.getValue()),
             BUTTON_CLIMB_FAST
                 = new JoystickButton(CONTROLLER_OPERATOR, DriverStation.GamePad.BUTTON_X.getValue()),
             BUTTON_CLIMB_SLOW
@@ -84,7 +88,17 @@ public class OI {
         BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
         BUTTON_SECOND_GEAR.toggleWhenPressed(new SimpleVisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
         //        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
-        BUTTON_DRIVE_DISTANCE.whenPressed(new BROKENDriveDistanceCommand((6.25 * Math.PI), 0.1));
+        BUTTON_DRIVE_DISTANCE.toggleWhenPressed(new PIDDriveRevolutions(3.725));
+        BUTTON_RESET_ENCODERS.whenPressed(new ResetEncodersCommand());
+        
+        new Notifier(() -> updateOI()).startPeriodic(0.100); //value in seconds
+    }
+    
+    public void updateOI() {
+        SmartDashboard.putNumber("Left Encoder Position", Robot.DRIVE_TRAIN.getLeftEncoderPosition());
+        SmartDashboard.putNumber("Right Encoder Position", Robot.DRIVE_TRAIN.getRightEncoderPosition());
+        SmartDashboard.putNumber("Left Position", Robot.DRIVE_TRAIN.getLeftPosition());
+        SmartDashboard.putNumber("Right Position", Robot.DRIVE_TRAIN.getRightPosition());
     }
     
     public static boolean getClimbState(){

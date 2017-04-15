@@ -12,19 +12,18 @@ public class PIDDriveRevolutions extends Command {
 	
 	public PIDDriveRevolutions(double revolutions) {
 		this.revolutions = revolutions;
-		Robot.DRIVE_TRAIN.enablePositionControl();
-		Robot.DRIVE_TRAIN.resetBothEncoders();
-		Robot.resetNavXAngle();
 		requires(Robot.DRIVE_TRAIN);
 	}
 	
 	protected void initialize() {
 	    Robot.DRIVE_TRAIN.resetBothEncoders();
 	    Robot.resetNavXAngle();
+        Robot.DRIVE_TRAIN.enablePositionControl();
+        Robot.DRIVE_TRAIN.setPID(revolutions, revolutions);
 	}
 	
 	protected void execute() {
-		Robot.DRIVE_TRAIN.set(revolutions, -revolutions);
+	    
 	}
 	
 	@Override
