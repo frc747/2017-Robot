@@ -10,8 +10,10 @@ import org.usfirst.frc.team747.robot.vision.AxisM1004Specs;
 import org.usfirst.frc.team747.robot.vision.AxisM1011Specs;
 import org.usfirst.frc.team747.robot.vision.BoilerTargetTemplate;
 import org.usfirst.frc.team747.robot.vision.GearTargetTemplate;
+import org.usfirst.frc.team747.robot.vision.Target;
 import org.usfirst.frc.team747.robot.vision.TargetTemplate;
 import org.usfirst.frc.team747.robot.vision.VisionTracking;
+import org.usfirst.frc.team747.robot.vision.VisionUtillity;
 import org.usfirst.frc.team747.robot.Autonomous;
 
 import java.util.HashMap;
@@ -107,32 +109,39 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
 
-//        AxisCamera frontCamera = new AxisCamera("axis", "10.7.47.7");
-//        AxisCamera rearCamera = new AxisCamera("axis", "axis-camera.local");
+        AxisCamera frontCamera = new AxisCamera("axis", "10.7.47.7");
+        AxisCamera rearCamera = new AxisCamera("axis", "axis-camera.local");
 //        HashMap<String, TargetTemplate> frontTemplates = new HashMap<String, TargetTemplate>();
 //        frontTemplates.put("GEAR", new GearTargetTemplate());
 //        //frontTemplates.put("RETRIEVAL", new RetrievalTargetTemplate());
 //        VISION_TRACKING_FRONT = new VisionTracking(new AxisM1004Specs(), frontTemplates);
-//        
-//        HashMap<String, TargetTemplate> rearTemplates = new HashMap<String, TargetTemplate>();
-//        rearTemplates.put("BOILER", new BoilerTargetTemplate());
-//        VISION_TRACKING_REAR = new VisionTracking(new AxisM1011Specs(), rearTemplates);
+        
+        HashMap<String, TargetTemplate> rearTemplates = new HashMap<String, TargetTemplate>();
+        rearTemplates.put("BOILER", new BoilerTargetTemplate());
+        VISION_TRACKING_REAR = new VisionTracking(new AxisM1011Specs(), rearTemplates);
         
         if (oi == null) {
             oi = new OI();
         }
-        
+//        
 //        visionThreadFront = new VisionThread(frontCamera, VISION_TRACKING_FRONT, pipeline -> {
 //        	// Do nothing on each frame.
 //            //System.out.println("GEAR TARGETS: " + pipeline.targets.size());
 //        });
 //        visionThreadFront.start();
-//        
-//        visionThreadRear = new VisionThread(rearCamera, VISION_TRACKING_REAR, pipeline -> {
-//            // Do nothing on each frame.
-//            //System.out.println("BOILER TARGETS: " + pipeline.targets.size());
-//        });
-//        visionThreadRear.start();
+        
+        visionThreadRear = new VisionThread(rearCamera, VISION_TRACKING_REAR, pipeline -> {
+            Target visionTarget = Robot.VISION_TRACKING_REAR.getTarget("BOILER");
+            if (visionTarget != null) {
+                Target translated = VisionUtillity.translateBoilerTarget(visionTarget);
+                System.out.println("BOILER TARGETS: " + translated.getDistance());
+            } else {
+            	System.out.println("No target");
+            }
+            // Do nothing on each frame.
+            //System.out.println("BOILER TARGETS: " + pipeline.targets.size());
+        });
+        visionThreadRear.start();
         
     	try {
     		logs = new File("/U/Logs/shooterLog" + Instant.now().toEpochMilli() + ".csv");

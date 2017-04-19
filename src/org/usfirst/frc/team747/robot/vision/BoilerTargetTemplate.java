@@ -5,6 +5,7 @@ import org.opencv.core.Rect;
 public class BoilerTargetTemplate extends TargetTemplate {
 
     public static double TARGET_WIDTH = 15.0;
+    public static double TARGET_HEIGHT = 8.0;
 
     public static double TARGET_TOP_WIDTH = TARGET_WIDTH;
     public static double TARGET_TOP_HEIGHT = 4.0;
@@ -16,6 +17,8 @@ public class BoilerTargetTemplate extends TargetTemplate {
 
     public static double TARGET_BOTTOM_DIFFERENCE = TARGET_BOTTOM_HEIGHT + TARGET_GAP;
     public static double TARGET_TOP_DIFFERENCE = TARGET_GAP + TARGET_TOP_HEIGHT;
+    
+    public static double Foools;
 
     public static double TARGET_DIFFERENCE_RATIO = TARGET_BOTTOM_DIFFERENCE / TARGET_TOP_DIFFERENCE;
     public static double TARGET_BOTTOM_RATIO = TARGET_BOTTOM_DIFFERENCE / TARGET_WIDTH;
@@ -46,6 +49,7 @@ public class BoilerTargetTemplate extends TargetTemplate {
         double differenceRatio = differenceBottoms / differenceTops;
 
         double targetWidth = (rectTop.width + rectBottom.width) / 2;
+        double targetHeight = differenceTops / (TARGET_TOP_HEIGHT + TARGET_GAP) * TARGET_HEIGHT;
 
         double bottomRatio = differenceBottoms / targetWidth;
         double topRatio = differenceTops / targetWidth;
@@ -57,9 +61,18 @@ public class BoilerTargetTemplate extends TargetTemplate {
             double targetCenterX = (((double)(rectTop.x + rectBottom.x) + targetWidth) / 2);
 
             double distance = TARGET_WIDTH * camera.getDistanceConstantHorizontal() / (targetWidth);
-
+            if (distance > 200) { 
+            	return null;
+            }
+            
             double delta = (targetCenterX - 0.5 * (double) camera.getImageWidth())
                             * TARGET_WIDTH / targetWidth;
+            
+            double offCenter = (targetCenterX - 0.5 * (double) camera.getImageWidth());
+            double percentOffCenter = offCenter / (camera.getImageWidth() / 2);
+            double calculatedAngle = percentOffCenter * (camera.getHorizontalAngle() / 2);
+            
+            System.out.println("Angle: " + Math.toDegrees(calculatedAngle));
 
             double angle = Math.atan(delta / distance);
 

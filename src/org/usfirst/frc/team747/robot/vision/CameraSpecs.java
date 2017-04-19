@@ -40,5 +40,13 @@ public class CameraSpecs {
     public double getDistanceConstantVertical() {
         return this.distanceConstantVertical;
     }
+    
+    public double getHorizontalAngle() {
+    	return this.cameraHorizontalAngleRad;
+    }
+    
+    public double getVerticalAngle() {
+    	return this.cameraVerticalAngleRad;
+    }
 
 }

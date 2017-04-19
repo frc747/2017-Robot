@@ -10,22 +10,25 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class VisionDriveCommand extends Command {
+	
+	public static final int X = 0;
+	public static final int Z = 1;
+	public static final int PITCH = 2;
+	public static final int YAW = 2;
+
     
     private static final double DRIVE_MAX_POWER = 0.3;
     private VisionTracking visionProcessor;
     private String targetId;
-    
-    private final double stopPoint;
     
     private double targetAngle = 0;
     private double targetDistance = 0;
     private boolean targetActive = false;
     private boolean targetFound = false;
 
-    public VisionDriveCommand(VisionTracking visionProcessor, String targetId, double stopPoint) {
+    public VisionDriveCommand(VisionTracking visionProcessor, String targetId) {
         this.visionProcessor = visionProcessor;
         this.targetId = targetId;
-        this.stopPoint = stopPoint;
         requires(Robot.DRIVE_TRAIN);
     }
 
@@ -37,71 +40,35 @@ public class VisionDriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Target target = this.visionProcessor.getTarget(this.targetId);
+        Target visionTarget = this.visionProcessor.getTarget(this.targetId);
         
         double navXAngle = Robot.getNavXAngleRadians();
         
         System.out.println(this.targetId);
         
-        if (target != null) {
+        if (visionTarget != null) {
             this.targetActive = true;
             this.targetFound = true;
             
-           
-            /* Brian Stuff 8========D~~~~(o()  (.Y.)  <---- TITS AND ANAL SEX (CREAMPIE) bj
-             * Rewriting logic to see if I can get it to work
-             */
-            double targetAngleFromCamera = Math.toRadians(target.getAngleDegrees());
-            double targetDistanceFromCamera = target.getDistance();
+            double[] cameraPosition = this.cameraPosition();
+            double[] alignmentPosition = this.alignmentPostion();
             
-            double targetDistanceXCamera = targetDistanceFromCamera * Math.sin(targetAngleFromCamera);
-            double targetDistanceZCamera = targetDistanceFromCamera * Math.cos(targetAngleFromCamera);
+            double[] cameraTarget = new double[3];
+            
+            cameraTarget[X] = Math.sin(visionTarget.getAngle()) * visionTarget.getDistance();
+            double visionTargetDPrime = Math.cos(visionTarget.getAngle()) * visionTarget.getDistance();
+            cameraTarget[Z] = Math.cos(cameraPosition[PITCH]) * visionTargetDPrime;
+            cameraTarget[YAW] = visionTarget.getAngle();
+            
+            double[] visionTargetNavX = new double[3];
+            
+            visionTargetNavX[X] = cameraTarget[X] + cameraPosition[X];
+            visionTargetNavX[Z] = cameraTarget[Z] + cameraPosition[Z];
+            visionTargetNavX[YAW] = Math.atan(cameraTarget[X] / cameraTarget[Z]);
+            
+            this.targetAngle = navXAngle + visionTargetNavX[YAW];
+            this.targetDistance = cameraTarget[Z];
 
-            //distance of the camera from our origin (front-right side from robot's perspective)
-            //double cameraOffsetX = 6.375;
-            double cameraOffsetX = 22.75;
-            double cameraOffsetZ = 0;
-            
-            //this is currently the front-center of the robot and is not likely to change
-            double gearSecureOffsetX = 14.625;
-            double gearSecureOffsetZ = 0;
-            
-            //navX is at the center of the robot
-            double navXOffsetX = 14;
-            double navXOffsetZ = 15;
-
-            double targetPositionX = targetDistanceXCamera + cameraOffsetX;
-            double targetPositionZ = targetDistanceZCamera - cameraOffsetZ;
-
-            //these are the distances the target is from the front-center part of the robot
-            double targetDistanceXGearSecure = targetPositionX - gearSecureOffsetX;
-            double targetDistanceZGearSecure = targetPositionZ + gearSecureOffsetZ;
-            
-            double targetAngleFromGearSecure = Math.atan(targetDistanceXGearSecure / targetDistanceZGearSecure);
-            double targetDistanceFromGearSecure = Math.hypot(targetDistanceXGearSecure, targetDistanceZGearSecure);
-            
-            //distances the target is from the NavX
-            double targetDistanceXNavX = targetPositionX - navXOffsetX;
-            double targetDistanceZNavX = targetPositionZ + navXOffsetZ;
-            
-            double targetAngleFromNavX = Math.atan(targetDistanceXNavX / targetDistanceZNavX);
-            double targetDistanceFromNavX = Math.hypot(targetDistanceXNavX, targetDistanceZNavX);
-            
-            //Use the Law of Sines to relate the angle with respect to the NavX to the angle with respect to the "Gear Secure" location
-            //double navXWithRelationToGearSecure = Math.asin(Math.sin(180 - targetAngleFromGearSecure) * targetDistanceFromGearSecure / targetDistanceFromNavX);
-            
-            double toRotate = targetAngleFromNavX; 
-            
-            this.targetAngle = navXAngle + toRotate;
-            this.targetDistance = targetDistanceZGearSecure - this.stopPoint;
-
-            
-            /*
-             * 
-             * JEFF BUNCA EATS DICK
-             * 
-             */
-            		
         } else {
         	this.targetActive = false;
         }
@@ -120,8 +87,6 @@ public class VisionDriveCommand extends Command {
         } else {
             Robot.DRIVE_TRAIN.stop();
         }
-        Robot.DRIVE_TRAIN.resetBothEncoders();
-        Robot.resetNavXAngle();
         
     }
 
@@ -137,5 +102,21 @@ public class VisionDriveCommand extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    }
+    
+    /**
+     * @return double[] values {X, Z, Pitch}
+     */
+    protected double[] cameraPosition() {
+    	double[] pos = {0.0, 0.0, 0.0};
+    	return pos;
+    }
+
+    /**
+     * @return double[] values {X, Z}
+     */
+    protected double[] alignmentPostion() {
+    	double[] pos = {0.0, 0.0};
+    	return pos;
     }
 }
