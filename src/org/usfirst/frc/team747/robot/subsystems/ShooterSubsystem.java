@@ -78,7 +78,15 @@ public class ShooterSubsystem extends Subsystem {
 	  	
 	    talonShooterLeft1.changeControlMode(CANTalon.TalonControlMode.Speed);
 	  	talonShooterRight1.changeControlMode(CANTalon.TalonControlMode.Speed);
-	    talonShooterLeft1.set(1850);
+	  	
+	  	/*
+	  	 * Brian - left shooter RPM was changed to 1850 at Lehigh because we believed it needed more juice (we observed that the left
+	  	 * side was spinning around 50 RPMS slower, I might have only looked at one instance and not all of the data), reverted this change
+	  	 * because we realized it was not the power of our shooter that gave us a problem, but instead it was the angle of our shooter
+	  	 * depreciating as the competition went on
+	  	 */
+	    
+	  	talonShooterLeft1.set(1800);
 	    talonShooterRight1.set(1800);
 	    shooterLogging();
 	    
@@ -144,7 +152,18 @@ public class ShooterSubsystem extends Subsystem {
   		//sb.append( Robot.INDEXER.getSpeed() + "," + Robot.INDEXER.getP() + "," + Robot.INDEXER.getI() + "," + Robot.INDEXER.getD() + "," + Robot.INDEXER.getF() + "\n");
   	
   		try {
-			Robot.bw.write(sb.toString());
+  		    
+  		    /*
+  		     * added this if statement to stop the crashing of the robot code when running the shooter; this issue is brought about
+  		     * by our incomplete logging
+  		     */
+  		    
+  		    /*
+  		     * 
+  		     */
+  		    if (Robot.bw != null) {
+  	            Robot.bw.write(sb.toString());
+  		    }
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

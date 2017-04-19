@@ -1,9 +1,6 @@
 package org.usfirst.frc.team747.robot.commands;
 
 import org.usfirst.frc.team747.robot.Robot;
-
-import com.ctre.CANTalon;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class PIDDriveRevolutionsCommand extends Command {
@@ -13,7 +10,7 @@ public class PIDDriveRevolutionsCommand extends Command {
     
 	private final double revolutions;
 	
-	private final static double STOP_THRESHOLD = Robot.DRIVE_TRAIN.convertInchesToRevs(.5);
+	private final static double STOP_THRESHOLD = Robot.DRIVE_TRAIN.convertInchesToRevs(.375);
 	
 	private int onTargetCount;
 	

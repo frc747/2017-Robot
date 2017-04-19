@@ -61,7 +61,7 @@ public final class RobotMap {
      */
     public enum ShooterSpeed {
     	SPEED(1800),
-    	INDEXER_SPEED(100),
+//    	INDEXER_SPEED(100),
     	PROFILE(0),
     	F(0.066),
     	P(0.05),

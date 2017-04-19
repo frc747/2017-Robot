@@ -4,9 +4,7 @@ import java.io.IOException;
 
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.DriveCommand;
-import org.usfirst.frc.team747.robot.commands.DriveDistanceStraightCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap;
-import edu.wpi.first.wpilibj.RobotDrive;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -30,15 +28,14 @@ public class DriveSubsystem extends Subsystem {
     
     private static final double ENCODER_TICKS = 32;
 //    250 for peanut, 128 for competition 
-    private static final double WHEEL_CIRCUMFERNCE = 18.85; //18.875
+    private static final double WHEEL_CIRCUMFERNCE = 19.091; //18.875 then was 18.85
 
-    private static final double MAX_VOLTAGE = 9;
+    private static final double MAX_VOLTAGE = 4.5;
     private static final double MIN_VOLTAGE = 2;
     
     //Gear Distance IN REVOLUTIONS 3.7125 (needed like another inch or so; trying 3.725
     
     private static final double TICKS_PER_INCH = ENCODER_TICKS / WHEEL_CIRCUMFERNCE;
-
     
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
@@ -86,13 +83,13 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveRightPrimary.reverseOutput(false);
         
         talonDriveLeftPrimary.setP(1.0);
-        talonDriveLeftPrimary.setI(0.0);
-        talonDriveLeftPrimary.setD(0.0); 
+        talonDriveLeftPrimary.setI(0.000);
+        talonDriveLeftPrimary.setD(50.0); 
         talonDriveLeftPrimary.setF(0.0);
         
         talonDriveRightPrimary.setP(1.0);
-        talonDriveRightPrimary.setI(0.0);
-        talonDriveRightPrimary.setD(0.0); 
+        talonDriveRightPrimary.setI(0.000);
+        talonDriveRightPrimary.setD(50.0); 
         talonDriveRightPrimary.setF(0.0);
 
         //old working stuff
@@ -104,29 +101,9 @@ public class DriveSubsystem extends Subsystem {
         this.setDefaultCommand(new DriveCommand());
     }
 
-    public void changeControlMode(TalonControlMode mode) {
-        this.talonDriveLeftPrimary.changeControlMode(mode);
-        this.talonDriveRightPrimary.changeControlMode(mode);
-    }
-    
     public void set(double left, double right) {
         this.talonDriveLeftPrimary.set(left);
         this.talonDriveRightPrimary.set(right);
-        
-        
-        //System.out.println("NAVX Angle: " + Robot.getNavXAngle());
-//        sb.append( Robot.getNavXAngle360() + "\n");
-//  
-//  		try {
-//			Robot.bwDrive.write(sb.toString());
-//			
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-////        	loops = 0;
-//        	System.out.println(sb.toString());
-////        }
     }
     
     public void setPID(double leftRevolutions, double rightRevolutions) {
@@ -158,19 +135,36 @@ public class DriveSubsystem extends Subsystem {
         return convertRevsToInches(convertTicksToRevs(ticks));
     }
     
+    public void changeControlMode(TalonControlMode mode) {
+        this.talonDriveLeftPrimary.changeControlMode(mode);
+        this.talonDriveRightPrimary.changeControlMode(mode);
+    }
+    
+    /*
+     * We found out that we do not need the enable/disable control commands
+     */
+    
     public void talonEnableControl() {
         talonDriveLeftPrimary.enableControl();
         talonDriveRightPrimary.enableControl();
     }
     
-    public void setAutoDriveStraight(double left) {
-        this.talonDriveLeftPrimary.set(left);
-        this.talonDriveRightPrimary.changeControlMode(CANTalon.TalonControlMode.Follower);
-        this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
-        this.talonDriveRightPrimary.set(this.talonDriveLeftPrimary.getDeviceID());
-        this.talonDriveRightSlave.set(this.talonDriveLeftPrimary.getDeviceID());
+    public void talonDisableControl() {
+        talonDriveLeftPrimary.disableControl();
+        talonDriveRightPrimary.disableControl();
+    }
+    
+    public void enablePositionControl() {
+        this.changeControlMode(TalonControlMode.Position);
+//        this.talonEnableControl();
     }
 
+    public void enableVBusControl() {
+//        this.talonDisableControl();
+        this.changeControlMode(TalonControlMode.PercentVbus);
+        
+    }
+    
     public void resetLeftEncoder() {
         talonDriveLeftPrimary.setPosition(0);
     	try {
@@ -203,11 +197,7 @@ public class DriveSubsystem extends Subsystem {
 			e.printStackTrace();
 		}
     }
-    
-    public int newGetEncoderPosition() {
-        return (talonDriveLeftPrimary.getEncPosition() + talonDriveRightPrimary.getEncPosition())/ 2;
-    }
-    
+        
     public double getLeftEncoderPosition() {
         return talonDriveLeftPrimary.getEncPosition();
     }
@@ -219,7 +209,7 @@ public class DriveSubsystem extends Subsystem {
     public double getLeftPosition() {
         return talonDriveLeftPrimary.getPosition();
     }
-    
+        
     public double getRightPosition() {
         return talonDriveRightPrimary.getPosition();
     }
@@ -374,45 +364,5 @@ public class DriveSubsystem extends Subsystem {
         }
 
         this.skewDrive(power, skew);
-    }
-
-    public void simpleRotateToTarget(double angle, double distance, double power) {
-        
-        double navxAngle = Robot.getNavXAngle();
-        
-        double angleThreshold = 3;
-      
-        if (angle > 0){
-            //LEFT
-        } else if (angle < 0){
-            //RIGHT
-            //DO UNTIL LOOPS
-        }
-        
-    }
-    
-    /*
-     * We found out that we do not need the enable/disable control commands
-     */
-    
-    public void disableControl() {
-        talonDriveLeftPrimary.disableControl();
-        talonDriveRightPrimary.disableControl();
-    }
-    
-    public void enableControl() {
-        talonDriveLeftPrimary.enableControl();
-        talonDriveRightPrimary.enableControl();
-    }
-    
-    public void enablePositionControl() {
-        this.changeControlMode(TalonControlMode.Position);
-//        this.enableControl();
-    }
-
-    public void enableVBusControl() {
-//        this.disableControl();
-        this.changeControlMode(TalonControlMode.PercentVbus);
-        
     }
 }

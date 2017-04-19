@@ -88,9 +88,9 @@ public class OI {
 
         
         BUTTON_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
-        BUTTON_SECOND_GEAR.toggleWhenPressed(new SimpleVisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
+        BUTTON_SECOND_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
         //        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
-        BUTTON_DRIVE_DISTANCE.toggleWhenPressed(new PIDDriveRevolutionsCommand(3.725));
+        BUTTON_DRIVE_DISTANCE.toggleWhenPressed(new PIDDriveInchesCommand(100)); //3.725 Revolutions * 18.85 in. per revolutions
         BUTTON_RESET_ENCODERS.whenPressed(new ResetSensorsCommand());
         BUTTON_DRIVE_ROTATE.toggleWhenPressed(new PIDDriveRotateCommand(90));
         
@@ -124,7 +124,7 @@ public class OI {
 
     public static double getIndexerSpeed() {
         prefs = Preferences.getInstance(); // had it at .4 seemed to work but let's try faster to give it inertia
-        return prefs.getDouble("Indexer", .5);
+        return prefs.getDouble("Indexer", .65);
     }
   
 	public static boolean getShootButton() {
