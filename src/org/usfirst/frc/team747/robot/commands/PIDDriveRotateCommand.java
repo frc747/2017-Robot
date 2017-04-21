@@ -19,13 +19,13 @@ public class PIDDriveRotateCommand extends PIDCommand {
     private final static int ON_TARGET_MINIMUM_COUNT = 25; //Checks to make sure you are on target for half a second
     
     private final static double STOP_THRESHOLD_DEGREES = 1;
-    private final static double MAX_PERCENT_VBUS = 0.5;
+    private final static double MAX_PERCENT_VBUS = 1;
     
-    private final static double DRIVE_SPEED_MINIMUM = 0.30;
+    private final static double DRIVE_SPEED_MINIMUM = 0;
     
     public PIDDriveRotateCommand(double degreesRotate) {
 //        super(0.05, 0.0005, 0.5);
-        super(0.05, 0.0, 0.0);
+        super(0.045, 0, 0);
         
         this.angleToRotate = degreesRotate;
         

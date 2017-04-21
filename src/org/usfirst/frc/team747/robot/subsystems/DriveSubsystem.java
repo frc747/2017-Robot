@@ -26,12 +26,12 @@ public class DriveSubsystem extends Subsystem {
 
     //public RobotDrive autoDrive = new RobotDrive(talonDriveLeftPrimary, talonDriveLeftSlave, talonDriveRightPrimary, talonDriveRightSlave);
     
-    private static final double ENCODER_TICKS = 32;
+    private static final double ENCODER_TICKS = 128;
 //    250 for peanut, 128 for competition 
     private static final double WHEEL_CIRCUMFERNCE = 18.85; //18.875 then was 18.85
 
     private static final double MAX_VOLTAGE = 12;
-    private static final double MIN_VOLTAGE = 2.3;
+    private static final double MIN_VOLTAGE = 0;
     
     //Gear Distance IN REVOLUTIONS 3.7125 (needed like another inch or so; trying 3.725
     
@@ -68,10 +68,10 @@ public class DriveSubsystem extends Subsystem {
         talonDriveLeftPrimary.configEncoderCodesPerRev((int) ENCODER_TICKS);
         talonDriveRightPrimary.configEncoderCodesPerRev((int) ENCODER_TICKS);
       
-        talonDriveLeftPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
-        talonDriveLeftPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
-        talonDriveRightPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
-        talonDriveRightPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
+//        talonDriveLeftPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
+//        talonDriveLeftPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
+//        talonDriveRightPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
+//        talonDriveRightPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
         
         talonDriveLeftPrimary.setAllowableClosedLoopErr(0); // always servo
         talonDriveRightPrimary.setAllowableClosedLoopErr(0); // always servo
@@ -86,15 +86,28 @@ public class DriveSubsystem extends Subsystem {
          * These are the informally tuned, but somewhat effective fast values for the PID
          */
 
-        talonDriveLeftPrimary.setP(3.0);
-        talonDriveLeftPrimary.setI(0.0000125);
-        talonDriveLeftPrimary.setD(4096.0); 
-        talonDriveLeftPrimary.setF(0.0);
+//        talonDriveLeftPrimary.setPID(1.5, 0.0, 10.0);
         
-        talonDriveRightPrimary.setP(3.0);
-        talonDriveRightPrimary.setI(0.0000125);
-        talonDriveRightPrimary.setD(4096.0); 
-        talonDriveRightPrimary.setF(0.0);
+//        talonDriveLeftPrimary.setP(3.0);
+//        talonDriveLeftPrimary.setI(0.0);
+//        talonDriveLeftPrimary.setD(950.0);
+//        talonDriveLeftPrimary.setF(0.0);
+//        
+//        talonDriveRightPrimary.setP(3.0);
+//        talonDriveRightPrimary.setI(0.0);
+//        talonDriveRightPrimary.setD(950.0);
+//        talonDriveRightPrimary.setF(0.0);
+        
+//        talonDriveLeftPrimary.setP(3.0);
+//        talonDriveLeftPrimary.setI(0.0000125);
+//        talonDriveLeftPrimary.setD(4096.0); 
+//        talonDriveLeftPrimary.setF(0.0);
+//        
+//        talonDriveRightPrimary.setP(3.0);
+//        talonDriveRightPrimary.setI(0.0000125);
+//        talonDriveRightPrimary.setD(4096.0); 
+//        talonDriveRightPrimary.setF(0.0);
+        
         
 
 //      talonDriveLeftPrimary.setP(0.8);
