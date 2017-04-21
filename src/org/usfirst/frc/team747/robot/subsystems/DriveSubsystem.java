@@ -28,10 +28,10 @@ public class DriveSubsystem extends Subsystem {
     
     private static final double ENCODER_TICKS = 32;
 //    250 for peanut, 128 for competition 
-    private static final double WHEEL_CIRCUMFERNCE = 19.091; //18.875 then was 18.85
+    private static final double WHEEL_CIRCUMFERNCE = 18.85; //18.875 then was 18.85
 
-    private static final double MAX_VOLTAGE = 4.5;
-    private static final double MIN_VOLTAGE = 2;
+    private static final double MAX_VOLTAGE = 12;
+    private static final double MIN_VOLTAGE = 2.3;
     
     //Gear Distance IN REVOLUTIONS 3.7125 (needed like another inch or so; trying 3.725
     
@@ -82,16 +82,31 @@ public class DriveSubsystem extends Subsystem {
         this.talonDriveLeftPrimary.reverseOutput(true);
         this.talonDriveRightPrimary.reverseOutput(false);
         
-        talonDriveLeftPrimary.setP(1.0);
-        talonDriveLeftPrimary.setI(0.000);
-        talonDriveLeftPrimary.setD(50.0); 
+        /*
+         * These are the informally tuned, but somewhat effective fast values for the PID
+         */
+
+        talonDriveLeftPrimary.setP(3.0);
+        talonDriveLeftPrimary.setI(0.0000125);
+        talonDriveLeftPrimary.setD(4096.0); 
         talonDriveLeftPrimary.setF(0.0);
         
-        talonDriveRightPrimary.setP(1.0);
-        talonDriveRightPrimary.setI(0.000);
-        talonDriveRightPrimary.setD(50.0); 
+        talonDriveRightPrimary.setP(3.0);
+        talonDriveRightPrimary.setI(0.0000125);
+        talonDriveRightPrimary.setD(4096.0); 
         talonDriveRightPrimary.setF(0.0);
+        
 
+//      talonDriveLeftPrimary.setP(0.8);
+//      talonDriveLeftPrimary.setI(0.000005);
+//      talonDriveLeftPrimary.setD(20.0); 
+//      talonDriveLeftPrimary.setF(0.0);
+//      
+//      talonDriveRightPrimary.setP(0.8);
+//      talonDriveRightPrimary.setI(0.000005);
+//      talonDriveRightPrimary.setD(20.0); 
+//      talonDriveRightPrimary.setF(0.0);
+        
         //old working stuff
         
     }

@@ -24,7 +24,8 @@ public class PIDDriveRotateCommand extends PIDCommand {
     private final static double DRIVE_SPEED_MINIMUM = 0.30;
     
     public PIDDriveRotateCommand(double degreesRotate) {
-        super(0.05, 0, 0);
+//        super(0.05, 0.0005, 0.5);
+        super(0.05, 0.0, 0.0);
         
         this.angleToRotate = degreesRotate;
         
