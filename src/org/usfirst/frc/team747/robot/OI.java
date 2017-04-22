@@ -94,7 +94,8 @@ public class OI {
         //        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
         BUTTON_DRIVE_DISTANCE.toggleWhenPressed(new PIDDriveInchesCommand(25)); //3.725 Revolutions * 18.85 in. per revolutions
         BUTTON_DRIVE_REVERSE_DISTANCE.toggleWhenPressed(new PIDDriveInchesCommand(-25)); //75.25 inches for distance to pin
-        BUTTON_DRIVE_ROTATE.toggleWhenPressed(new PIDDriveRotateCommand(-45));
+        BUTTON_DRIVE_ROTATE.toggleWhenPressed(new PIDDriveRotateWithVisionCommand(Robot.VISION_TRACKING_REAR, "BOILER"));
+        //        BUTTON_DRIVE_ROTATE.toggleWhenPressed(new PIDDriveRotateCommand(-45));
         BUTTON_RESET_ENCODERS.whenPressed(new ResetSensorsCommand());
 
 //        BUTTON_DRIVE_ROTATE.toggleWhenPressed(new PIDDriveInchesCommand(75.25));
@@ -110,6 +111,8 @@ public class OI {
         SmartDashboard.putNumber("Left Position (Inches):", Robot.DRIVE_TRAIN.convertRevsToInches(Robot.DRIVE_TRAIN.getLeftPosition()) * 4);
         SmartDashboard.putNumber("Right Position (Inches):", Robot.DRIVE_TRAIN.convertRevsToInches(Robot.DRIVE_TRAIN.getRightPosition()) * 4);
         SmartDashboard.putNumber("NavX Angle:", Robot.getNavXAngle());
+        SmartDashboard.putNumber("Distance to Target:", Robot.getCVDistance(Robot.VISION_TRACKING_REAR, "BOILER"));
+        SmartDashboard.putNumber("Degrees to Target:", Robot.getCVAngle(Robot.VISION_TRACKING_REAR, "BOILER"));
     }
     
     public static boolean getClimbState(){

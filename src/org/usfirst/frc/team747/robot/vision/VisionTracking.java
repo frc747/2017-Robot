@@ -2,14 +2,12 @@ package org.usfirst.frc.team747.robot.vision;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
@@ -23,14 +21,14 @@ import edu.wpi.first.wpilibj.vision.VisionPipeline;
  * @author GRIP
  */
 public class VisionTracking implements VisionPipeline {
+    
+    GripPipeline pipe = new GripPipeline();
 
 	// Bounding rectangles should be made of > 60% of the paired contours
     private static final double BOUNDING_AREA_MINIMUM_FILL = .60;
     private static final double BOUNDING_AREA_MINIMUM_SIZE = 100;
     
-    private Mat hslThresholdOutput = new Mat();
-    private Mat desaturateOutput = new Mat();
-    private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
+    private ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
     
     private final CameraSpecs cameraSpecs;
     private final Map<String, TargetTemplate> targetTemplates;
@@ -51,94 +49,12 @@ public class VisionTracking implements VisionPipeline {
      */
     @Override
     public void process(Mat source0) {
-        // Step HSL_Threshold0:
-        Mat hslThresholdInput = source0;
-        double[] hslThresholdHue = {47.0, 99.0};
-        double[] hslThresholdSaturation = {23.0, 255.0};
-        double[] hslThresholdLuminance = {30.0, 255.0};
-        hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
-
-        // Step Desaturate0:
-        Mat desaturateInput = hslThresholdOutput;
-        desaturate(desaturateInput, desaturateOutput);
-
-        // Step Find_Contours0:
-        Mat findContoursInput = desaturateOutput;
-        boolean findContoursExternalOnly = false;
-        findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
-        analyzeCoutours(findContoursOutput);
+        
+        this.pipe.process(source0);
+        
+        contours = pipe.filterContoursOutput();
+        analyzeCoutours(contours);
       }
-
-    /**
-     * Segment an image based on hue, saturation, and luminance ranges.
-     *
-     * @param input
-     *            The image on which to perform the HSL threshold.
-     * @param hue
-     *            The min and max hue
-     * @param sat
-     *            The min and max saturation
-     * @param lum
-     *            The min and max luminance
-     * @param output
-     *            The image in which to store the output.
-     */
-    private void hslThreshold(Mat input, double[] hue, double[] sat, double[] lum, Mat out) {
-        Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2HLS);
-        Core.inRange(out, new Scalar(hue[0], lum[0], sat[0]), new Scalar(hue[1], lum[1], sat[1]),
-                        out);
-    }
-
-    /**
-     * Converts a color image into shades of grey.
-     * 
-     * @param input
-     *            The image on which to perform the desaturate.
-     * @param output
-     *            The image in which to store the output.
-     */
-    private void desaturate(Mat input, Mat output) {
-        switch (input.channels()) {
-        case 1:
-            // If the input is already one channel, it's already desaturated
-            input.copyTo(output);
-            break;
-        case 3:
-            Imgproc.cvtColor(input, output, Imgproc.COLOR_BGR2GRAY);
-            break;
-        case 4:
-            Imgproc.cvtColor(input, output, Imgproc.COLOR_BGRA2GRAY);
-            break;
-        default:
-            throw new IllegalArgumentException("Input to desaturate must have 1, 3, or 4 channels");
-        }
-    }
-
-    /**
-     * Sets the values of pixels in a binary image to their distance to the
-     * nearest black pixel.
-     * 
-     * @param input
-     *            The image on which to perform the Distance Transform.
-     * @param type
-     *            The Transform.
-     * @param maskSize
-     *            the size of the mask.
-     * @param output
-     *            The image in which to store the output.
-     */
-    private void findContours(Mat input, boolean externalOnly, List<MatOfPoint> contours) {
-        Mat hierarchy = new Mat();
-        contours.clear();
-        int mode;
-        if (externalOnly) {
-            mode = Imgproc.RETR_EXTERNAL;
-        } else {
-            mode = Imgproc.RETR_LIST;
-        }
-        int method = Imgproc.CHAIN_APPROX_SIMPLE;
-        Imgproc.findContours(input, contours, hierarchy, mode, method);
-    }
 
     /**
      * Analyze Contours for matching.

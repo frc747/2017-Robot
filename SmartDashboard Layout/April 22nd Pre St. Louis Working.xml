@@ -1,0 +1,46 @@
+<xml version="1.0">
+<dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="1051" y="151"/>
+	</static-widget>
+	<widget field="Distance to Target:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="242" y="103"/>
+	</widget>
+	<widget field="Degrees to Target:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="244" y="68"/>
+	</widget>
+	<static-widget class="edu.wpi.grip.smartdashboard.GRIPExtension">
+		<location x="217" y="150"/>
+		<width>750</width>
+		<height>414</height>
+	</static-widget>
+	<widget field="Left Position (Inches):" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="466" y="102"/>
+	</widget>
+	<widget field="Right Position (Revolutions):" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="675" y="67"/>
+	</widget>
+	<widget field="Right Encoder Position:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="700" y="34"/>
+		<height>20</height>
+	</widget>
+	<widget field="NavX Angle:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="278" y="33"/>
+	</widget>
+	<widget field="Right Position (Inches):" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="698" y="102"/>
+	</widget>
+	<widget field="Left Position (Revolutions):" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="443" y="67"/>
+	</widget>
+	<widget field="Left Encoder Position:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="468" y="34"/>
+		<height>20</height>
+	</widget>
+	<widget field="Auto mode" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="0" y="0"/>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>

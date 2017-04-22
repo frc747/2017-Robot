@@ -2,14 +2,19 @@ package org.usfirst.frc.team747.robot.commands;
 
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.vision.Target;
+import org.usfirst.frc.team747.robot.vision.VisionTracking;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
 /**
  *
  */
-public class PIDDriveRotateCommand extends PIDCommand {
+public class PIDDriveRotateWithVisionCommand extends PIDCommand {
 
+    private VisionTracking visionTracking = null;
+    
+    private String targetId;
+    
     private double angleToRotate;
     
     private int onTargetCount;
@@ -21,7 +26,7 @@ public class PIDDriveRotateCommand extends PIDCommand {
     
     private final static double DRIVE_SPEED_MINIMUM = 0;
     
-    public PIDDriveRotateCommand(double degreesRotate) {
+    public PIDDriveRotateWithVisionCommand(double degreesRotate) {
 //        super(0.05, 0.0005, 0.5);
         super(0.045, 0, 0);
         
@@ -29,9 +34,20 @@ public class PIDDriveRotateCommand extends PIDCommand {
         
         requires(Robot.DRIVE_TRAIN);
     }
-
+    
+    public PIDDriveRotateWithVisionCommand(VisionTracking visionTracking, String targetId) {
+        this(0.0); //calls the previous constructor with a value of 0 for "degreesRotate"
+        
+        this.visionTracking = visionTracking;
+        this.targetId = targetId;
+    }
+    
     // Called just before this Command runs the first time
     protected void initialize() {
+        
+        if (visionTracking != null) {
+            angleToRotate = Robot.getCVAngle(visionTracking, targetId); //will get the degrees from the target and rotate to it
+        }
         
         onTargetCount = 0;
         
