@@ -93,11 +93,11 @@ public class OI {
         BUTTON_SECOND_GEAR.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 8));
         //        BUTTON_BOILER.toggleWhenPressed(new VisionDriveCommand(Robot.VISION_TRACKING_REAR, "BOILER", 0));
         BUTTON_DRIVE_DISTANCE.toggleWhenPressed(new PIDDriveInchesCommand(25)); //3.725 Revolutions * 18.85 in. per revolutions
-        BUTTON_DRIVE_REVERSE_DISTANCE.toggleWhenPressed(new PIDDriveInchesCommand(50)); //3.725 Revolutions * 18.85 in. per revolutions
-        BUTTON_DRIVE_ROTATE.toggleWhenPressed(new PIDDriveRotateCommand(180));
+        BUTTON_DRIVE_REVERSE_DISTANCE.toggleWhenPressed(new PIDDriveInchesCommand(-25)); //75.25 inches for distance to pin
+        BUTTON_DRIVE_ROTATE.toggleWhenPressed(new PIDDriveRotateCommand(-45));
         BUTTON_RESET_ENCODERS.whenPressed(new ResetSensorsCommand());
 
-//        BUTTON_DRIVE_ROTATE.toggleWhenPressed(new PIDDriveRotateCommand(90));
+//        BUTTON_DRIVE_ROTATE.toggleWhenPressed(new PIDDriveInchesCommand(75.25));
         
         new Notifier(() -> updateOI()).startPeriodic(0.100); //value in seconds
     }

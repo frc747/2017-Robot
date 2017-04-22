@@ -14,7 +14,7 @@ public class PIDDriveRevolutionsCommand extends Command {
 	
 	private int onTargetCount;
 	
-	private final static int ON_TARGET_MINIMUM_COUNT = 25; //Checks to make sure you are on target for half a second
+	private final static int ON_TARGET_MINIMUM_COUNT = 25 * 20; //Checks to make sure you are on target for half a second (which is 25)
 	
     private static final double MAX_VOLTAGE = 12;
     private static final double MIN_VOLTAGE = 0;
@@ -34,11 +34,17 @@ public class PIDDriveRevolutionsCommand extends Command {
         /*
          * April 20th: Brian - Comfortable PID values that we found are P = 3, I = 0, and D = 950.
          * Testing done with George and Corey, we dropped using I. Still need to test the use of
-         * different drive distances.
+         * different drive distances. April 20th (end of the night): Brian - after testing shorter
+         * distances, particularly 25 inches, we found that the drive train does not arrive at the
+         * desired location.
          */
         
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setPID(3.0, 0.000001, 950.0);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(3.0, 0.000001, 950.0);
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setPID(0.85, 0.0005, 85.0);
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(0.85, 0.0005, 85.0);
+        
+        //values for the long distance drive
+//        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setPID(3.0, 0.0001, 950.0);
+//        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(3.0, 0.0001, 950.0);
         
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);

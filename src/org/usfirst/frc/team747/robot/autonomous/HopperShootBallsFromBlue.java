@@ -6,6 +6,8 @@ import org.usfirst.frc.team747.robot.commands.AutoStepCommand;
 import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
 import org.usfirst.frc.team747.robot.commands.DriveRotateCommand;
 import org.usfirst.frc.team747.robot.commands.IntakeTimeCommand;
+import org.usfirst.frc.team747.robot.commands.PIDDriveInchesCommand;
+import org.usfirst.frc.team747.robot.commands.PIDDriveRotateCommand;
 import org.usfirst.frc.team747.robot.commands.ShootBallsTimedCommand;
 import org.usfirst.frc.team747.robot.commands.ShooterRevCommand;
 import org.usfirst.frc.team747.robot.commands.PauseCommand;
@@ -19,8 +21,8 @@ public class HopperShootBallsFromBlue extends CommandGroup {
         requires(Robot.SHOOTER);
         //overdrive 2 inches when going 0.3 speed
         
-//        addSequential( new AutoStepCommand(0, -98.125, 0.5));
-        addSequential(new DriveDistanceCommand(-100, -0.5));
+        addSequential(new PIDDriveInchesCommand(30));
+        addSequential(new PIDDriveRotateCommand(45));
 //        addSequential(new PauseCommand(.5));
 //       addSequential(new DriveRotateCommand(-0.5, -90));
 //        addSequential(new PauseCommand(.5));
