@@ -22,6 +22,7 @@ public class PIDDriveRevolutionsCommand extends Command {
     private static final double MAX_VOLTAGE = 12;
     private static final double MIN_VOLTAGE = 1.9;
 
+    //STOP_THRESHOLD_REAL was 3 inches and is now 8 inches in an attempt to cut back on time
     private final static double STOP_THRESHOLD_REAL = 8.0;
     private final static double STOP_THRESHOLD_ADJUSTED = Robot.DRIVE_TRAIN.convertInchesToRevs(STOP_THRESHOLD_REAL / ENCODER_COMPENSATION_VALUE);
 
@@ -37,7 +38,7 @@ public class PIDDriveRevolutionsCommand extends Command {
     private final static int TARGET_COUNT_ONE_SECOND = 50;
     
     //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
-    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.125; //times 10 is 5 seconds, times 20 is 10 seconds, etc...
+    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.125;
 
     
 	private String specificDistanceName = null;
@@ -53,21 +54,25 @@ public class PIDDriveRevolutionsCommand extends Command {
 
     //values that worked for 75 gear inches and 25 inches respectively (PID: 2.1, 0.0, 4.0; 0.85, 0.0, 1.35)
 
+	/*
+	 * A lot of test values were being implemented in attempts to cut time
+	 */
+	
     private final static double FORWARD_TO_GEAR_DISTANCE = 75.25;
     private final static double FORWARD_TO_GEAR_P = 2.65;//1.5
     private final static double FORWARD_TO_GEAR_I = 0.0001;//0.0005
-    private final static double FORWARD_TO_GEAR_D = 1250.0; //450.0
-    
+    private final static double FORWARD_TO_GEAR_D = 1250.0;//450.0
+
     private final static double REVERSE_AWAY_FROM_CENTER_GEAR_DISTANCE = -30.0;
     private final static double REVERSE_AWAY_FROM_CENTER_GEAR_P = 2.1;
     private final static double REVERSE_AWAY_FROM_CENTER_GEAR_I = 0.0005;
     private final static double REVERSE_AWAY_FROM_CENTER_GEAR_D = 250.0;
 
-    private final static double FORWARD_TO_FRONT_OF_KEY_DISTANCE = 48.0;//48.0 //72.0 //should be 90 for final
-    private final static double FORWARD_TO_FRONT_OF_KEY_P = 1.5;// 1.3 //2.15
-    private final static double FORWARD_TO_FRONT_OF_KEY_I = 0.0005;
-    private final static double FORWARD_TO_FRONT_OF_KEY_D = 450.0;//250.0 //450.0
-        
+    private final static double FORWARD_TO_FRONT_OF_KEY_DISTANCE = 48.0;//48.0 //72.0 //90.0
+    private final static double FORWARD_TO_FRONT_OF_KEY_P = 1.6;//1.5 //1.3 //2.15
+    private final static double FORWARD_TO_FRONT_OF_KEY_I = 0.0001;
+    private final static double FORWARD_TO_FRONT_OF_KEY_D = 450.0;//450.0 //250.0 //450.0
+
     private final static double FORWARD_TO_SHOOT_DISTANCE = 33;
     private final static double FORWARD_TO_SHOOT_P = 4.5;
     private final static double FORWARD_TO_SHOOT_I = 0.005;
