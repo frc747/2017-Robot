@@ -19,8 +19,8 @@ public class Autonomous{
         AUTOMODE_CROSS_LINE,
         AUTOMODE_SCORE_BALLS_RED,
         AUTOMODE_SCORE_BALLS_BLUE,
-        AUTOMODE_HOPPER_SCORE_BALLS_RED,
-        AUTOMODE_HOPPER_SCORE_BALLS_BLUE,
+        AUTOMODE_GEAR_SCORE_BALLS_RED,
+        AUTOMODE_GEAR_SCORE_BALLS_BLUE,
         AUTOMODE_SCORE_GEAR,
         AUTOMODE_SCORE_GEAR_RED,
         AUTOMODE_SCORE_GEAR_BLUE,
@@ -39,8 +39,8 @@ public class Autonomous{
         autoChooser1.addObject("Cross Line", AutoMode.AUTOMODE_CROSS_LINE);
         autoChooser1.addObject("Red Score Balls", AutoMode.AUTOMODE_SCORE_BALLS_RED);
         autoChooser1.addObject("Blue Score Balls", AutoMode.AUTOMODE_SCORE_BALLS_BLUE);
-        autoChooser1.addObject("Red Hopper Score Balls", AutoMode.AUTOMODE_HOPPER_SCORE_BALLS_RED);
-        autoChooser1.addObject("Blue Hopper Score Balls", AutoMode.AUTOMODE_HOPPER_SCORE_BALLS_BLUE);
+        autoChooser1.addObject("Red Gear Score Balls", AutoMode.AUTOMODE_GEAR_SCORE_BALLS_RED);
+        autoChooser1.addObject("Blue Gear Score Balls", AutoMode.AUTOMODE_GEAR_SCORE_BALLS_BLUE);
         autoChooser1.addObject("Score Gear", AutoMode.AUTOMODE_SCORE_GEAR);
         autoChooser1.addObject("Score Gear Red", AutoMode.AUTOMODE_SCORE_GEAR_RED);
         autoChooser1.addObject("Score Gear Blue", AutoMode.AUTOMODE_SCORE_GEAR_BLUE);
@@ -67,11 +67,11 @@ public class Autonomous{
             case AUTOMODE_SCORE_BALLS_BLUE:
                 new ShootBallsFromBlue().start();
                 break;
-            case AUTOMODE_HOPPER_SCORE_BALLS_RED:
-                new HopperShootBallsFromBlue().start();
+            case AUTOMODE_GEAR_SCORE_BALLS_RED:
+                new GearShootBallsFromBlue().start();
                 break;
-            case AUTOMODE_HOPPER_SCORE_BALLS_BLUE:
-                new HopperShootBallsFromBlue().start();
+            case AUTOMODE_GEAR_SCORE_BALLS_BLUE:
+                new GearShootBallsFromBlue().start();
                 break;
             case AUTOMODE_SCORE_GEAR:
                 new ScoreGear().start();

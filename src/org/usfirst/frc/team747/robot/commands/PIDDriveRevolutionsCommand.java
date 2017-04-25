@@ -1,35 +1,170 @@
 package org.usfirst.frc.team747.robot.commands;
 
 import org.usfirst.frc.team747.robot.Robot;
+import org.usfirst.frc.team747.robot.maps.AutonomousConfig;
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PIDDriveRevolutionsCommand extends Command {
 	
     //execute is called every 20ms and isFinished is called right after execute
     //add a button to Ryan's joystick that will default the drive train back to DriveWithJoystickCommand
     
-	private final double revolutions;
+	private double driveRevolutions;
+    private double driveP;
+    private double driveI;
+    private double driveD;
+    
 	
-	private final static double STOP_THRESHOLD = Robot.DRIVE_TRAIN.convertInchesToRevs(.375);
-	
-	private int onTargetCount;
-	
-	private final static int ON_TARGET_MINIMUM_COUNT = 25 * 20; //Checks to make sure you are on target for half a second (which is 25)
-	
+	private final static double ENCODER_COMPENSATION_VALUE = 4;
+
     private static final double MAX_VOLTAGE = 12;
-    private static final double MIN_VOLTAGE = 0;
+    private static final double MIN_VOLTAGE = 1.9;
+
+    private final static double STOP_THRESHOLD_REAL = 8.0;
+    private final static double STOP_THRESHOLD_ADJUSTED = Robot.DRIVE_TRAIN.convertInchesToRevs(STOP_THRESHOLD_REAL / ENCODER_COMPENSATION_VALUE);
+
+    private final static int I_ZONE_IN_REVOLUTIONS = 100;
+    private final static double I_ACCUM_RESET_BENCHMARK_IN_INCHES = 15.0;
+    private double IAccumDistanceCounter;
+    private double IAccumDistanceTraveled;
+    
+    private boolean firstPass;
+    
+    private int onTargetCount = 0;
+    
+    private final static int TARGET_COUNT_ONE_SECOND = 50;
+    
+    //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
+    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.125; //times 10 is 5 seconds, times 20 is 10 seconds, etc...
+
+    
+	private String specificDistanceName = null;
+    
+	private double specificDistanceInches;
 	
-	public PIDDriveRevolutionsCommand(double revolutions) {
-		this.revolutions = revolutions / 4;
-		requires(Robot.DRIVE_TRAIN);
+	private double specificDistanceP;
+	
+	private double specificDistanceI;
+	
+	private double specificDistanceD;
+	
+
+    //values that worked for 75 gear inches and 25 inches respectively (PID: 2.1, 0.0, 4.0; 0.85, 0.0, 1.35)
+
+    private final static double FORWARD_TO_GEAR_DISTANCE = 75.25;
+    private final static double FORWARD_TO_GEAR_P = 2.65;//1.5
+    private final static double FORWARD_TO_GEAR_I = 0.0001;//0.0005
+    private final static double FORWARD_TO_GEAR_D = 1250.0; //450.0
+    
+    private final static double REVERSE_AWAY_FROM_CENTER_GEAR_DISTANCE = -30.0;
+    private final static double REVERSE_AWAY_FROM_CENTER_GEAR_P = 2.1;
+    private final static double REVERSE_AWAY_FROM_CENTER_GEAR_I = 0.0005;
+    private final static double REVERSE_AWAY_FROM_CENTER_GEAR_D = 250.0;
+
+    private final static double FORWARD_TO_FRONT_OF_KEY_DISTANCE = 48.0;//48.0 //72.0 //should be 90 for final
+    private final static double FORWARD_TO_FRONT_OF_KEY_P = 1.5;// 1.3 //2.15
+    private final static double FORWARD_TO_FRONT_OF_KEY_I = 0.0005;
+    private final static double FORWARD_TO_FRONT_OF_KEY_D = 450.0;//250.0 //450.0
+        
+    private final static double FORWARD_TO_SHOOT_DISTANCE = 33;
+    private final static double FORWARD_TO_SHOOT_P = 4.5;
+    private final static double FORWARD_TO_SHOOT_I = 0.005;
+    private final static double FORWARD_TO_SHOOT_D = 200.0;
+    
+    //for 30 inch reverse DON'T USE THIS NUMBER
+//    private final static double SHORT_DISTANCE_P = 3.0;
+//    private final static double SHORT_DISTANCE_I = 0.000335;
+//    private final static double SHORT_DISTANCE_D = 950.0;
+
+    //for 75.25 inch forward DON'T USE THIS NUMBER
+//    private final static double LONG_DISTANCE_P = 3.0;
+//    private final static double LONG_DISTANCE_I = 0.0001;
+//    private final static double LONG_DISTANCE_D = 950.0; //was at 1.5
+
+    /*
+     * April 22nd: (CURRENT) NEED TO FIX THE LONG AND SHORT DISTANCE DIFFERENTIAL
+     * 
+     * P, I, D for driving 75.25 inches with the "more correct numbers"; (0.85, 0.0, 3.5)
+     * 
+     * CLUNKY VALUES FOR LONG DISTANCE DRIVE (REALLY FAST, 2 second):
+     *      P, I, D: (3.0, 0.0001, 950.0)
+     *      Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(3.0, 0.0001, 950.0);
+     */
+
+	
+	public PIDDriveRevolutionsCommand(double revolutions, double P, double I, double D) {
+	    requires(Robot.DRIVE_TRAIN);
+	      
+	    this.driveRevolutions = revolutions / ENCODER_COMPENSATION_VALUE;
+		this.driveP = P;
+		this.driveI = I;
+		this.driveD = D;
 	}
 	
-	protected void initialize() {
-	    onTargetCount = 0;
+	public PIDDriveRevolutionsCommand(String specificDistance, boolean reverse) {
+	    this(0, 0, 0, 0);
 	    
+	    this.specificDistanceName = specificDistance;
+	    
+        switch (this.specificDistanceName) {
+            case AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR:
+                specificDistanceInches = FORWARD_TO_GEAR_DISTANCE;
+                specificDistanceP = FORWARD_TO_GEAR_P;
+                specificDistanceI = FORWARD_TO_GEAR_I;
+                specificDistanceD = FORWARD_TO_GEAR_D;
+                break;
+            case AutonomousConfig.PIDDriveDistances.REVERSE_AWAY_FROM_CENTER_GEAR:
+                specificDistanceInches = REVERSE_AWAY_FROM_CENTER_GEAR_DISTANCE;
+                specificDistanceP = REVERSE_AWAY_FROM_CENTER_GEAR_P;
+                specificDistanceI = REVERSE_AWAY_FROM_CENTER_GEAR_I;
+                specificDistanceD = REVERSE_AWAY_FROM_CENTER_GEAR_D;
+                break;
+            case AutonomousConfig.PIDDriveDistances.FORWARD_TO_FRONT_OF_KEY:
+                specificDistanceInches = FORWARD_TO_FRONT_OF_KEY_DISTANCE;
+                specificDistanceP = FORWARD_TO_FRONT_OF_KEY_P;
+                specificDistanceI = FORWARD_TO_FRONT_OF_KEY_I;
+                specificDistanceD = FORWARD_TO_FRONT_OF_KEY_D;
+                break;
+            case AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT:
+                specificDistanceInches = FORWARD_TO_SHOOT_DISTANCE;
+                specificDistanceP = FORWARD_TO_SHOOT_P;
+                specificDistanceI = FORWARD_TO_SHOOT_I;
+                specificDistanceD = FORWARD_TO_SHOOT_D;
+                break;
+            default:
+                specificDistanceInches = 0.0;
+                specificDistanceP = 0;
+                specificDistanceI = 0;
+                specificDistanceD = 0;
+                break;
+        }
+        
+	    if (reverse) {
+	        this.driveRevolutions = -Robot.DRIVE_TRAIN.convertInchesToRevs(specificDistanceInches / ENCODER_COMPENSATION_VALUE);
+	    } else {
+	        this.driveRevolutions = Robot.DRIVE_TRAIN.convertInchesToRevs(specificDistanceInches / ENCODER_COMPENSATION_VALUE);
+	    }
+	    this.driveP = specificDistanceP;
+	    this.driveI = specificDistanceI;
+	    this.driveD = specificDistanceD;
+	}
+	
+		
+	protected void initialize() {
+	    
+	    SmartDashboard.putString("specificDistanceName:", specificDistanceName);
+	    
+	    onTargetCount = 0;
+	    IAccumDistanceTraveled = 0;
+	    IAccumDistanceCounter = 0;
+	    
+	    firstPass = false;
 	    Robot.DRIVE_TRAIN.resetBothEncoders();
 	    Robot.resetNavXAngle();
         Robot.DRIVE_TRAIN.enablePositionControl();
+        
         
         /*
          * April 20th: Brian - Comfortable PID values that we found are P = 3, I = 0, and D = 950.
@@ -39,22 +174,49 @@ public class PIDDriveRevolutionsCommand extends Command {
          * desired location.
          */
         
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setPID(0.85, 0.0005, 85.0);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(0.85, 0.0005, 85.0);
-        
-        //values for the long distance drive
-//        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setPID(3.0, 0.0001, 950.0);
-//        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(3.0, 0.0001, 950.0);
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setPID(driveP, driveI, driveD);
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(driveP, driveI, driveD);
+
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.ClearIaccum();
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.ClearIaccum();
         
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
         Robot.DRIVE_TRAIN.talonDriveRightPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
         Robot.DRIVE_TRAIN.talonDriveRightPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
         
-        Robot.DRIVE_TRAIN.setPID(revolutions, revolutions);
+//        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setCloseLoopRampRate(rampRate);
+//        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setCloseLoopRampRate(rampRate);
+        
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setAllowableClosedLoopErr(6);
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setAllowableClosedLoopErr(6);
+        
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setIZone(I_ZONE_IN_REVOLUTIONS);
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setIZone(I_ZONE_IN_REVOLUTIONS);
+
+        Robot.DRIVE_TRAIN.setPID(driveRevolutions, driveRevolutions);
 	}
 	
 	protected void execute() {
+	    SmartDashboard.putNumber("STOP THRESHOLD:", Robot.DRIVE_TRAIN.convertRevsToInches(STOP_THRESHOLD_ADJUSTED));
+	    SmartDashboard.putNumber("Closed-Loop Error Left:", Robot.DRIVE_TRAIN.talonDriveLeftPrimary.getClosedLoopError());
+        SmartDashboard.putNumber("Closed-Loop Error Right:", Robot.DRIVE_TRAIN.talonDriveRightPrimary.getClosedLoopError());
+	    SmartDashboard.putNumber("I Accum Left:", Robot.DRIVE_TRAIN.talonDriveLeftPrimary.GetIaccum());
+        SmartDashboard.putNumber("I Accum Right:", Robot.DRIVE_TRAIN.talonDriveRightPrimary.GetIaccum());
+        
+//        IAccumDistanceTraveled = Robot.DRIVE_TRAIN.convertRevsToInches((Robot.DRIVE_TRAIN.getRightPosition() + Robot.DRIVE_TRAIN.getLeftPosition()) * 4);
+//	    
+//	    if ((Math.abs(IAccumDistanceTraveled) - Math.abs(IAccumDistanceCounter)) >= Math.abs(I_ACCUM_RESET_BENCHMARK_IN_INCHES)) {
+//	        IAccumDistanceCounter = IAccumDistanceTraveled;
+//	        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.ClearIaccum();
+//	        Robot.DRIVE_TRAIN.talonDriveRightPrimary.ClearIaccum();
+//	    }
+//	    
+//	    if ((Math.abs(IAccumDistanceTraveled) >= Math.abs(driveRevolutions) && !firstPass)) {
+//	        firstPass = true;
+//            Robot.DRIVE_TRAIN.talonDriveLeftPrimary.ClearIaccum();
+//            Robot.DRIVE_TRAIN.talonDriveRightPrimary.ClearIaccum();
+//	    }
 	    
 	}
 	
@@ -63,8 +225,8 @@ public class PIDDriveRevolutionsCommand extends Command {
 		double leftPosition = Robot.DRIVE_TRAIN.getLeftPosition();
 		double rightPosition = Robot.DRIVE_TRAIN.getRightPosition();
 		
-		if (leftPosition > (revolutions - STOP_THRESHOLD) && leftPosition < (revolutions + STOP_THRESHOLD) &&
-		    rightPosition > (revolutions - STOP_THRESHOLD) && rightPosition < (revolutions + STOP_THRESHOLD)) {
+		if (leftPosition > (driveRevolutions - STOP_THRESHOLD_ADJUSTED) && leftPosition < (driveRevolutions + STOP_THRESHOLD_ADJUSTED) &&
+		    rightPosition > (driveRevolutions - STOP_THRESHOLD_ADJUSTED) && rightPosition < (driveRevolutions + STOP_THRESHOLD_ADJUSTED)) {
 		    onTargetCount++;
 		} else {
 		    onTargetCount = 0;

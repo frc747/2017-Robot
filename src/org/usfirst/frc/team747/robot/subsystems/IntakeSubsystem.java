@@ -31,7 +31,11 @@ public class IntakeSubsystem extends Subsystem {
         }
         this.talonIntake.set(speed);
     }
-
+    
+    public void autonomous() {
+        this.talonIntake.set(0.5);
+    }
+    
     public void stop() {
         this.set(false);
     }

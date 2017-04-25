@@ -29,7 +29,7 @@ public class DriveCommand extends Command {
     protected void execute() {
         double left = -OI.JOYSTICK_DRIVER_LEFT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
         double right = -OI.JOYSTICK_DRIVER_RIGHT.getRawAxis(DriverStation.Joystick.AXIS_Y.getValue());
-        double navXAngle = Robot.getNavXAngle();
+//        double navXAngle = Robot.getNavXAngle();
 
         if (Math.abs(left) < 0.1) {
             left = 0;

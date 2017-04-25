@@ -13,6 +13,16 @@ public final class AutonomousConfig {
     
     //TODO Determine Values for these classes
     
+    public final class PIDDriveDistances{
+       
+        private PIDDriveDistances(){
+        }
+        
+        public static final String FORWARD_TO_CENTER_GEAR = "FORWARD_TO_CENTER_GEAR",
+                                   REVERSE_AWAY_FROM_CENTER_GEAR = "REVERSE_AWAY_FROM_CENTER_GEAR",
+                                   FORWARD_TO_FRONT_OF_KEY = "FORWARD_TO_FRONT_OF_KEY",
+                                   FORWARD_TO_SHOOT = "FORWARD_TO_SHOOT";
+    }
     
     public final class CrossLine{
         
