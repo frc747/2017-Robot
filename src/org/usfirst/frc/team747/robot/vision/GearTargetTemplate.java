@@ -1,6 +1,7 @@
 package org.usfirst.frc.team747.robot.vision;
 
 import org.opencv.core.Rect;
+import org.usfirst.frc.team747.robot.Robot;
 
 public class GearTargetTemplate extends TargetTemplate {
 
@@ -50,7 +51,48 @@ public class GearTargetTemplate extends TargetTemplate {
 
             double angle = Math.atan(delta / distance);
 
-            return new Target(angle, distance);
+//            Target target = this.visionProcessor.getTarget(this.targetId);
+            
+            double navXAngle = Robot.getNavXAngleRadians();
+            
+            //angle is in radians at this point, needs to be converted to degrees by the end of the command
+            double targetAngleFromCamera = angle;
+            double targetDistanceFromCamera = distance;
+                
+            double targetDistanceXCamera = targetDistanceFromCamera * Math.sin(targetAngleFromCamera);
+            double targetDistanceZCamera = targetDistanceFromCamera * Math.cos(targetAngleFromCamera);
+
+            //distance of the camera from our origin (front-right side from robot's perspective)
+            //double cameraOffsetX = 22.75;
+            double cameraOffsetX = 6.375;
+            double cameraOffsetZ = 0;
+               
+            //this is currently the front-center of the robot and is not likely to change
+            double gearSecureOffsetX = 14.5; //was 14.625
+            double gearSecureOffsetZ = 0;
+                
+            //navX is at the center of the robot
+            double navXOffsetX = 14;
+            double navXOffsetZ = 15;
+
+            double targetPositionX = targetDistanceXCamera + cameraOffsetX;
+            double targetPositionZ = targetDistanceZCamera - cameraOffsetZ;
+
+            //these are the distances the target is from the front-center part of the robot
+            double targetDistanceXGearSecure = targetPositionX - gearSecureOffsetX;
+            double targetDistanceZGearSecure = targetPositionZ + gearSecureOffsetZ;
+                
+            double targetAngleFromGearSecure = Math.atan(targetDistanceXGearSecure / targetDistanceZGearSecure);
+            double targetDistanceFromGearSecure = Math.hypot(targetDistanceXGearSecure, targetDistanceZGearSecure);
+                
+            //distances the target is from the NavX
+            double targetDistanceXNavX = targetPositionX - navXOffsetX;
+            double targetDistanceZNavX = targetPositionZ + navXOffsetZ;
+                
+            double targetAngleFromNavX = Math.atan(targetDistanceXNavX / targetDistanceZNavX);
+            double targetDistanceFromNavX = Math.hypot(targetDistanceXNavX, targetDistanceZNavX);
+
+            return new Target(targetAngleFromNavX, targetDistanceFromGearSecure);
         }
         return null;
     }

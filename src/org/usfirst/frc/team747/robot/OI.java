@@ -159,8 +159,10 @@ public class OI {
         SmartDashboard.putNumber("Left Position (Inches):", Robot.DRIVE_TRAIN.convertRevsToInches(Robot.DRIVE_TRAIN.getLeftPosition()) * 4);
         SmartDashboard.putNumber("Right Position (Inches):", Robot.DRIVE_TRAIN.convertRevsToInches(Robot.DRIVE_TRAIN.getRightPosition()) * 4);
         SmartDashboard.putNumber("NavX Angle:", Robot.getNavXAngle());
-        SmartDashboard.putNumber("Distance to Target:", Robot.getCVDistance(Robot.VISION_TRACKING_REAR, "BOILER"));
-        SmartDashboard.putNumber("Degrees to Target:", Robot.getCVAngle(Robot.VISION_TRACKING_REAR, "BOILER"));
+//        SmartDashboard.putNumber("Distance to Boiler Target:", Robot.getCVDistance(Robot.VISION_TRACKING_REAR, "BOILER"));
+//        SmartDashboard.putNumber("Degrees to Boiler Target:", Robot.getCVAngle(Robot.VISION_TRACKING_REAR, "BOILER"));
+        SmartDashboard.putNumber("Distance to Target:", Robot.getCVDistance(Robot.VISION_TRACKING_REAR, "GEAR"));
+        SmartDashboard.putNumber("Degrees to Target:", Robot.getCVAngle(Robot.VISION_TRACKING_REAR, "GEAR"));
     }
     
     public static boolean getClimbState(){
