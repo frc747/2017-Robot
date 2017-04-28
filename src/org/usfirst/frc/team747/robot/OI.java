@@ -96,8 +96,8 @@ public class OI {
     static Preferences prefs;
     
     public OI() {
-        BUTTON_RESET_DRIVE_TRAIN_CLONE_ONE.whenPressed(new DriveCommand());
-        BUTTON_RESET_DRIVE_TRAIN_CLONE_TWO.whenPressed(new DriveCommand());
+        BUTTON_RESET_DRIVE_TRAIN_CLONE_ONE.whileHeld(new ClimberClimbUpSlowCommand());
+        BUTTON_RESET_DRIVE_TRAIN_CLONE_TWO.whileHeld(new ClimberClimbUpSlowCommand());
         BUTTON_INTAKE_FORWARD.whileHeld(new IntakeCommand());
         BUTTON_INTAKE_BACK.whileHeld(new IntakeCommand(false));
         BUTTON_REVERSE_INDEXER.whileHeld(new IndexerReverseCommand());
