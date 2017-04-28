@@ -4,6 +4,9 @@ package org.usfirst.frc.team747.robot.autonomous;
 import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.DriveDistanceCommand;
 import org.usfirst.frc.team747.robot.commands.DriveRotateCommand;
+import org.usfirst.frc.team747.robot.commands.IntakeTimeCommand;
+import org.usfirst.frc.team747.robot.commands.PIDDriveInchesCommand;
+import org.usfirst.frc.team747.robot.commands.PIDDriveRotateCommand;
 import org.usfirst.frc.team747.robot.commands.ShootBallsTimedCommand;
 import org.usfirst.frc.team747.robot.commands.PauseCommand;
 
@@ -39,18 +42,28 @@ public class ShootBallsFromRed extends CommandGroup {
          *          if the speed is set for positive or negative
          */
         
-        addSequential(new DriveDistanceCommand(40, -.19)); // was 45
-        addSequential(new PauseCommand(.5));
-        addSequential(new DriveRotateCommand(-.50, -35));
-        addSequential(new PauseCommand(.5));
-        addSequential(new DriveDistanceCommand(28, .30)); //66
+        addParallel(new IntakeTimeCommand(2));
+        addSequential(new PIDDriveInchesCommand(-45, 2.1, 0.0005, 250.0));
+        addSequential(new PIDDriveRotateCommand(-45));
+        addSequential(new PIDDriveInchesCommand(40, 2.1, 0.0005, 250.0));
         addSequential(new ShootBallsTimedCommand(4));
-        addSequential(new PauseCommand(.5));
-        addSequential(new DriveDistanceCommand(12, -.30));
-        addSequential(new PauseCommand(.5));
-        addSequential(new DriveRotateCommand(.50, 35));
-        addSequential(new PauseCommand(.5));
-        addSequential(new DriveDistanceCommand(55, -.70));
+        addSequential(new PIDDriveInchesCommand(-20, 2.1, 0.0005, 250.0));
+        addSequential(new PIDDriveRotateCommand(45));
+        addSequential(new PIDDriveInchesCommand(-60, 2.65, 0.0001, 500));
+        
+        
+//        addSequential(new DriveDistanceCommand(40, -.19)); // was 45
+//        addSequential(new PauseCommand(.5));
+//        addSequential(new DriveRotateCommand(-.50, -35));
+//        addSequential(new PauseCommand(.5));
+//        addSequential(new DriveDistanceCommand(28, .30)); //66
+//        addSequential(new ShootBallsTimedCommand(4));
+//        addSequential(new PauseCommand(.5));
+//        addSequential(new DriveDistanceCommand(12, -.30));
+//        addSequential(new PauseCommand(.5));
+//        addSequential(new DriveRotateCommand(.50, 35));
+//        addSequential(new PauseCommand(.5));
+//        addSequential(new DriveDistanceCommand(55, -.70));
 
     }
 }

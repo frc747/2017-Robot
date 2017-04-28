@@ -1,7 +1,7 @@
 package org.usfirst.frc.team747.robot.vision;
 
 import org.opencv.core.Rect;
-import org.usfirst.frc.team747.robot.Robot;
+//import org.usfirst.frc.team747.robot.Robot;
 
 public class GearTargetTemplate extends TargetTemplate {
 
@@ -13,8 +13,8 @@ public class GearTargetTemplate extends TargetTemplate {
     private static final double TARGET_SECTION_RATIO = TARGET_SECTION_WIDTH / TARGET_SECTION_HEIGHT;
     private static final double TARGET_WIDTH_RATIO = TARGET_SECTION_WIDTH / TARGET_WIDTH;
 
-    private static final double TARGET_SECTION_RATIO_VARIANCE = 0.1;
-    private static final double TARGET_RATIO_VARIANCE = 0.1;
+    private static final double TARGET_SECTION_RATIO_VARIANCE = 0.75;
+    private static final double TARGET_RATIO_VARIANCE = 0.75;
 
     @Override
     public boolean isSector(Rect contour) {
@@ -53,7 +53,7 @@ public class GearTargetTemplate extends TargetTemplate {
 
 //            Target target = this.visionProcessor.getTarget(this.targetId);
             
-            double navXAngle = Robot.getNavXAngleRadians();
+//            double navXAngle = Robot.getNavXAngleRadians();
             
             //angle is in radians at this point, needs to be converted to degrees by the end of the command
             double targetAngleFromCamera = angle;
@@ -63,8 +63,8 @@ public class GearTargetTemplate extends TargetTemplate {
             double targetDistanceZCamera = targetDistanceFromCamera * Math.cos(targetAngleFromCamera);
 
             //distance of the camera from our origin (front-right side from robot's perspective)
-            //double cameraOffsetX = 22.75;
-            double cameraOffsetX = 6.375;
+            double cameraOffsetX = 22.625;
+//            double cameraOffsetX = 6.375;
             double cameraOffsetZ = 0;
                
             //this is currently the front-center of the robot and is not likely to change
@@ -72,8 +72,8 @@ public class GearTargetTemplate extends TargetTemplate {
             double gearSecureOffsetZ = 0;
                 
             //navX is at the center of the robot
-            double navXOffsetX = 14;
-            double navXOffsetZ = 15;
+            double navXOffsetX = 14.375;
+            double navXOffsetZ = 19.625;
 
             double targetPositionX = targetDistanceXCamera + cameraOffsetX;
             double targetPositionZ = targetDistanceZCamera - cameraOffsetZ;

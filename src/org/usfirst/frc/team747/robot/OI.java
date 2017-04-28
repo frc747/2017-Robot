@@ -105,25 +105,26 @@ public class OI {
         BUTTON_FIRE.whileHeld(new ShootBallsCommand());
         BUTTON_REV_SHOOTER.whileHeld(new ShooterRevCommand());
         BUTTON_CLIMB_SLOW.whileHeld(new ClimberClimbUpSlowCommand());
-        BUTTON_CLIMB_FAST.whileHeld(new ClimberClimbUpFastCommand());
+//        BUTTON_CLIMB_FAST.whileHeld(new ClimberClimbUpFastCommand()); //Joe wanted this out
         
         // THESE NEXT BUTTONS ARE ONLY FOR WHEN WE ARE TESTING, MAKE SURE TO COMMENT OUT WHEN IN COMPETITION
         
-        BUTTON_PID_ROTATE_TEST_BUTTON_ONE.toggleWhenPressed(new PIDDriveRotateCommand(-45));
-        BUTTON_PID_ROTATE_TEST_BUTTON_TWO.toggleWhenPressed(new PIDDriveRotateCommand(45));
-        BUTTON_PID_ROTATE_TEST_BUTTON_THREE.toggleWhenPressed(new PIDDriveRotateCommand(-90));
-        BUTTON_PID_ROTATE_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRotateCommand(90));
-        BUTTON_PID_TEST_ROTATE_BOILER.toggleWhenPressed(new PIDDriveRotateWithVisionCommand(Robot.VISION_TRACKING_REAR, "BOILER"));
-        
-        BUTTON_PID_TEST_BUTTON_ONE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, false));
-        BUTTON_PID_TEST_BUTTON_TWO.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.REVERSE_AWAY_FROM_CENTER_GEAR, false));
-        BUTTON_PID_TEST_BUTTON_THREE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_FRONT_OF_KEY, false));
-        BUTTON_PID_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, false));
-
-        BUTTON_PID_TEST_REVERSE_BUTTON_ONE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, true));
-        BUTTON_PID_TEST_REVERSE_BUTTON_TWO.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.REVERSE_AWAY_FROM_CENTER_GEAR, true));
-        BUTTON_PID_TEST_REVERSE_BUTTON_THREE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_FRONT_OF_KEY, true));
-        BUTTON_PID_TEST_REVERSE_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, true));
+//        BUTTON_PID_ROTATE_TEST_BUTTON_ONE.toggleWhenPressed(new PIDDriveRotateCommand(-45));
+//        BUTTON_PID_ROTATE_TEST_BUTTON_TWO.toggleWhenPressed(new PIDDriveRotateCommand(45));
+//        BUTTON_PID_ROTATE_TEST_BUTTON_THREE.toggleWhenPressed(new PIDDriveRotateCommand(-90));
+//        BUTTON_PID_ROTATE_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRotateWithVisionCommand(Robot.VISION_TRACKING_REAR, "GEAR"));
+////        BUTTON_PID_ROTATE_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRotateCommand(90));
+//        BUTTON_PID_TEST_ROTATE_BOILER.toggleWhenPressed(new PIDDriveRotateWithVisionCommand(Robot.VISION_TRACKING_REAR, "BOILER"));
+//        
+//        BUTTON_PID_TEST_BUTTON_ONE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, false));
+//        BUTTON_PID_TEST_BUTTON_TWO.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.REVERSE_AWAY_FROM_CENTER_GEAR, false));
+//        BUTTON_PID_TEST_BUTTON_THREE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_FRONT_OF_KEY, false));
+//        BUTTON_PID_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, false));
+//
+//        BUTTON_PID_TEST_REVERSE_BUTTON_ONE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, true));
+//        BUTTON_PID_TEST_REVERSE_BUTTON_TWO.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.REVERSE_AWAY_FROM_CENTER_GEAR, true));
+//        BUTTON_PID_TEST_REVERSE_BUTTON_THREE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_FRONT_OF_KEY, true));
+//        BUTTON_PID_TEST_REVERSE_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, true));
 
 //        BUTTON_RESET_ENCODERS.whenPressed(new ResetSensorsCommand());
 
@@ -162,7 +163,7 @@ public class OI {
 //        SmartDashboard.putNumber("Distance to Boiler Target:", Robot.getCVDistance(Robot.VISION_TRACKING_REAR, "BOILER"));
 //        SmartDashboard.putNumber("Degrees to Boiler Target:", Robot.getCVAngle(Robot.VISION_TRACKING_REAR, "BOILER"));
         SmartDashboard.putNumber("Distance to Target:", Robot.getCVDistance(Robot.VISION_TRACKING_REAR, "GEAR"));
-        SmartDashboard.putNumber("Degrees to Target:", Robot.getCVAngle(Robot.VISION_TRACKING_REAR, "GEAR"));
+        SmartDashboard.putNumber("Degrees to Target:", (Robot.getCVAngle(Robot.VISION_TRACKING_REAR, "GEAR")));
     }
     
     public static boolean getClimbState(){

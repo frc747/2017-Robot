@@ -88,7 +88,7 @@ public class ShooterSubsystem extends Subsystem {
 	    
 	  	talonShooterLeft1.set(1800);
 	    talonShooterRight1.set(1800);
-	    shooterLogging();
+//	    shooterLogging();
 	    
 	    
   }
@@ -133,45 +133,45 @@ public class ShooterSubsystem extends Subsystem {
   }
 
   
-  public void shooterLogging () {
-		
-		
-
-  	/* prepare line to print */
-  	if(++loops >= 10) {
-  	  	double motorOutputLeft = talonShooterLeft1.getOutputVoltage() / talonShooterLeft1.getBusVoltage();
-  	  	double motorOutputRight = talonShooterRight1.getOutputVoltage() / talonShooterRight1.getBusVoltage();
-  		
-  	  	
-  	  	
-  	  	
-  		sb.append(motorOutputLeft + "," + talonShooterLeft1.getSpeed() + "," + talonShooterLeft1.getOutputVoltage() + "," + talonShooterLeft2.getOutputVoltage() + "," + talonShooterLeft1.getBusVoltage() + ",");
-  		sb.append(motorOutputRight + "," + talonShooterRight1.getSpeed() + "," + talonShooterRight1.getOutputVoltage() + "," + talonShooterRight2.getOutputVoltage() + "," + talonShooterRight1.getBusVoltage() + ",");
-  		sb.append( talonShooterLeft1.getP() + "," + talonShooterLeft1.getI() + "," + talonShooterLeft1.getD() + "," + talonShooterLeft1.getF() + ",");
-  		sb.append( talonShooterRight1.getP() + "," + talonShooterRight1.getI() + "," + talonShooterRight1.getD() + "," + talonShooterRight1.getF() + "\n" );
-  		//sb.append( Robot.INDEXER.getSpeed() + "," + Robot.INDEXER.getP() + "," + Robot.INDEXER.getI() + "," + Robot.INDEXER.getD() + "," + Robot.INDEXER.getF() + "\n");
-  	
-  		try {
-  		    
-  		    /*
-  		     * added this if statement to stop the crashing of the robot code when running the shooter; this issue is brought about
-  		     * by our incomplete logging
-  		     */
-  		    
-  		    /*
-  		     * 
-  		     */
-  		    if (Robot.bw != null) {
-  	            Robot.bw.write(sb.toString());
-  		    }
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        	loops = 0;
-        	System.out.println(sb.toString());
-        }
-    sb.setLength(0);
-  	}
+//  public void shooterLogging () {
+//		
+//		
+//
+//  	/* prepare line to print */
+//  	if(++loops >= 10) {
+//  	  	double motorOutputLeft = talonShooterLeft1.getOutputVoltage() / talonShooterLeft1.getBusVoltage();
+//  	  	double motorOutputRight = talonShooterRight1.getOutputVoltage() / talonShooterRight1.getBusVoltage();
+//  		
+//  	  	
+//  	  	
+//  	  	
+//  		sb.append(motorOutputLeft + "," + talonShooterLeft1.getSpeed() + "," + talonShooterLeft1.getOutputVoltage() + "," + talonShooterLeft2.getOutputVoltage() + "," + talonShooterLeft1.getBusVoltage() + ",");
+//  		sb.append(motorOutputRight + "," + talonShooterRight1.getSpeed() + "," + talonShooterRight1.getOutputVoltage() + "," + talonShooterRight2.getOutputVoltage() + "," + talonShooterRight1.getBusVoltage() + ",");
+//  		sb.append( talonShooterLeft1.getP() + "," + talonShooterLeft1.getI() + "," + talonShooterLeft1.getD() + "," + talonShooterLeft1.getF() + ",");
+//  		sb.append( talonShooterRight1.getP() + "," + talonShooterRight1.getI() + "," + talonShooterRight1.getD() + "," + talonShooterRight1.getF() + "\n" );
+//  		//sb.append( Robot.INDEXER.getSpeed() + "," + Robot.INDEXER.getP() + "," + Robot.INDEXER.getI() + "," + Robot.INDEXER.getD() + "," + Robot.INDEXER.getF() + "\n");
+//  	
+//  		try {
+//  		    
+//  		    /*
+//  		     * added this if statement to stop the crashing of the robot code when running the shooter; this issue is brought about
+//  		     * by our incomplete logging
+//  		     */
+//  		    
+//  		    /*
+//  		     * 
+//  		     */
+//  		    if (Robot.bw != null) {
+//  	            Robot.bw.write(sb.toString());
+//  		    }
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        	loops = 0;
+//        	System.out.println(sb.toString());
+//        }
+//    sb.setLength(0);
+//  	}
 }

@@ -22,17 +22,24 @@ public class PIDDriveRotateWithVisionCommand extends PIDCommand {
 private final static int TARGET_COUNT_ONE_SECOND = 50;
     
     //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
-    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.25; //times 10 is 5 seconds, times 20 is 10 seconds, etc...
+    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.125; //times 10 is 5 seconds, times 20 is 10 seconds, etc...
     
-    private final static double STOP_THRESHOLD_DEGREES = 2;
+    //values for the boiler
+//    private final static double STOP_THRESHOLD_DEGREES = 2;
+    
+    //values for the gear
+    private final static double STOP_THRESHOLD_DEGREES = 1.0;
+    
     private final static double MAX_PERCENT_VBUS = 0.5;
     
     private final static double DRIVE_SPEED_MINIMUM = 0.3;
     
     public PIDDriveRotateWithVisionCommand(double degreesRotate) {
-//        super(0.05, 0.0005, 0.5);
-        super(0.1, 0.001, 0.2);
+//values for the boiler vision tracking rotate
+//        super(0.1, 0.001, 0.2);
         
+      //values for the gear  
+      super(0.1, 0.0015, 0.1);
         this.angleToRotate = degreesRotate;
         
         requires(Robot.DRIVE_TRAIN);

@@ -68,7 +68,7 @@ public class Autonomous{
                 new ShootBallsFromBlue().start();
                 break;
             case AUTOMODE_GEAR_SCORE_BALLS_RED:
-                new GearShootBallsFromBlue().start();
+                new GearShootBallsFromRed().start();
                 break;
             case AUTOMODE_GEAR_SCORE_BALLS_BLUE:
                 new GearShootBallsFromBlue().start();

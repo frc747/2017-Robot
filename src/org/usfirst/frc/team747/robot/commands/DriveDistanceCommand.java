@@ -15,7 +15,7 @@ public class DriveDistanceCommand extends Command {
     public DriveDistanceCommand(double distanceInches, double speed) {
         requires(Robot.DRIVE_TRAIN);
         
-        this.inchesToTravel = distanceInches;
+        this.inchesToTravel = (distanceInches / 16);
         this.speed = speed;
         
     }

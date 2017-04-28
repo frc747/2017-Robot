@@ -18,8 +18,13 @@ public class ScoreGear extends CommandGroup {
 //        addSequential(new DriveDistanceCommand(AutonomousConfig.ScoreGear.DISTANCE, .19));
 
 //        addSequential(new PIDDriveDistanceCommand(100));
+        
+        addParallel(new IntakeTimeCommand(2));        
+        addSequential(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, false));
         addSequential(new PauseCommand(2));
-        addSequential(new DriveDistanceCommand(6, .3));
+        
+//        addSequential(new PauseCommand(2));
+//        addSequential(new DriveDistanceCommand(6, .3));
         
 
     }

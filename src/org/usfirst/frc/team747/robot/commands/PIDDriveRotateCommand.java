@@ -18,7 +18,7 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
     //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
     private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.25; //times 10 is 5 seconds, times 20 is 10 seconds, etc...
     
-    private final static double STOP_THRESHOLD_DEGREES = 3;
+    private final static double STOP_THRESHOLD_DEGREES = 5;
     private final static double MAX_PERCENT_VBUS = 0.5;
     
     private final static double DRIVE_SPEED_MINIMUM = 0.30;

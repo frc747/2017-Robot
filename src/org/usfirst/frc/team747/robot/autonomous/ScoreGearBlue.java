@@ -12,8 +12,12 @@ public class ScoreGearBlue extends CommandGroup {
         
         requires(Robot.DRIVE_TRAIN);
 
-        addSequential(new DriveDistanceCommand(AutonomousConfig.ScoreGearBlue.DISTANCE, AutonomousConfig.ScoreGearBlue.SPEED));
+        addParallel(new IntakeTimeCommand(2));        
+        addSequential(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, false));
         addSequential(new PauseCommand(2));
-        addSequential(new DriveDistanceCommand(6, .3));
+        
+//        addSequential(new DriveDistanceCommand(AutonomousConfig.ScoreGearBlue.DISTANCE, AutonomousConfig.ScoreGearBlue.SPEED));
+//        addSequential(new PauseCommand(2));
+//        addSequential(new DriveDistanceCommand(6, .3));
     }
 }

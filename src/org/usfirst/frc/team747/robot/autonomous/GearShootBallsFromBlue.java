@@ -29,8 +29,5 @@ public class GearShootBallsFromBlue extends CommandGroup {
         addSequential(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, false));
         addSequential(new ShootBallsTimedCommand(4));
         
-        //these are the values options available to drive, you must input a string, for example "FORWARD_GEAR_DISTANCE"
-        
-
     }
 }
