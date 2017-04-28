@@ -109,10 +109,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 
 //        AxisCamera frontCamera = new AxisCamera("axis", "10.7.47.7"); //m1004
-   
-////        AxisCamera rearCamera = new AxisCamera("axis", "10.7.47.17"); // m1011-W
-
-        
+        AxisCamera rearCamera = new AxisCamera("axis", "10.7.47.17"); // m1011-W
 //        HashMap<String, TargetTemplate> frontTemplates = new HashMap<String, TargetTemplate>();
 //        frontTemplates.put("GEAR", new GearTargetTemplate());
 //        //frontTemplates.put("RETRIEVAL", new RetrievalTargetTemplate());
@@ -126,13 +123,13 @@ public class Robot extends IterativeRobot {
 //            oi = new OI();
 //        }
         
-////        HashMap<String, TargetTemplate> rearTemplates = new HashMap<String, TargetTemplate>();
-//        rearTemplates.put("GEAR", new GearTargetTemplate());
-//        VISION_TRACKING_REAR = new VisionTracking(new AxisM1011Specs(), rearTemplates);
-//        
-//        if (oi == null) {
-//            oi = new OI();
-////        }
+        HashMap<String, TargetTemplate> rearTemplates = new HashMap<String, TargetTemplate>();
+        rearTemplates.put("GEAR", new GearTargetTemplate());
+        VISION_TRACKING_REAR = new VisionTracking(new AxisM1011Specs(), rearTemplates);
+        
+        if (oi == null) {
+            oi = new OI();
+        }
         
 //        visionThreadFront = new VisionThread(frontCamera, VISION_TRACKING_FRONT, pipeline -> {
 //        	// Do nothing on each frame.
@@ -140,28 +137,27 @@ public class Robot extends IterativeRobot {
 //        });
 //        visionThreadFront.start();
 //        
-
-////        visionThreadRear = new VisionThread(rearCamera, VISION_TRACKING_REAR, pipeline -> {
-//            // Do nothing on each frame.
-//            //System.out.println("BOILER TARGETS: " + pipeline.targets.size());
-//        });
-////        visionThreadRear.start();
+        visionThreadRear = new VisionThread(rearCamera, VISION_TRACKING_REAR, pipeline -> {
+            // Do nothing on each frame.
+            //System.out.println("BOILER TARGETS: " + pipeline.targets.size());
+        });
+        visionThreadRear.start();
         
-//    	try {
-//    		logs = new File("/U/Logs/shooterLog" + Instant.now().toEpochMilli() + ".csv");
-//    		if(!logs.exists()){
-//    			logs.createNewFile();
-//    		}
-//			fw = new FileWriter(logs);
-//			bw = new BufferedWriter(fw);
-//		
-//			Robot.bw.write("outLeft,spdLeft,voltOutLeft1,voltOutLeft2,busVoltLeft,outRight,spdRight,voltOutRight1,"
-//								+ "voltOutRight2,busVoltRight,leftP,leftI,leftD,leftF,rightP,rightI,rightD,rightF"
-//								+ "spdIndexer,indexerP,indexerI,indexerD,indexerF\n");
-//  		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+    	try {
+    		logs = new File("/U/Logs/shooterLog" + Instant.now().toEpochMilli() + ".csv");
+    		if(!logs.exists()){
+    			logs.createNewFile();
+    		}
+			fw = new FileWriter(logs);
+			bw = new BufferedWriter(fw);
+		
+			Robot.bw.write("outLeft,spdLeft,voltOutLeft1,voltOutLeft2,busVoltLeft,outRight,spdRight,voltOutRight1,"
+								+ "voltOutRight2,busVoltRight,leftP,leftI,leftD,leftF,rightP,rightI,rightD,rightF"
+								+ "spdIndexer,indexerP,indexerI,indexerD,indexerF\n");
+  		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         
         this.autonomous = new Autonomous();
@@ -182,23 +178,23 @@ public class Robot extends IterativeRobot {
 		 * Setup Gyro recalibration in this block
 		 */
 		
-//		if(logs != null && logs.exists()){
-//			try {
-//				bw.close();
-//				fw.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		if(driveLog != null && driveLog.exists()){
-//			try {
-//				bwDrive.close();
-//				fwDrive.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		if(logs != null && logs.exists()){
+			try {
+				bw.close();
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(driveLog != null && driveLog.exists()){
+			try {
+				bwDrive.close();
+				fwDrive.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
