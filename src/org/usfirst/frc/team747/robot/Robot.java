@@ -236,6 +236,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		System.out.println(Instant.now().toEpochMilli());		
 		resetNavXAngle();
+		Robot.DRIVE_TRAIN.resetBothEncoders();
 		
 		
 

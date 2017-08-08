@@ -119,12 +119,12 @@ public class OI {
 //        BUTTON_PID_TEST_BUTTON_ONE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, false));
 //        BUTTON_PID_TEST_BUTTON_TWO.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.REVERSE_AWAY_FROM_CENTER_GEAR, false));
 //        BUTTON_PID_TEST_BUTTON_THREE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_FRONT_OF_KEY, false));
-//        BUTTON_PID_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, false));
+        BUTTON_PID_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, false));
 //
 //        BUTTON_PID_TEST_REVERSE_BUTTON_ONE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, true));
 //        BUTTON_PID_TEST_REVERSE_BUTTON_TWO.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.REVERSE_AWAY_FROM_CENTER_GEAR, true));
 //        BUTTON_PID_TEST_REVERSE_BUTTON_THREE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_FRONT_OF_KEY, true));
-//        BUTTON_PID_TEST_REVERSE_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, true));
+        BUTTON_PID_TEST_REVERSE_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, true));
 
 //        BUTTON_RESET_ENCODERS.whenPressed(new ResetSensorsCommand());
 
@@ -153,12 +153,14 @@ public class OI {
     }
     
     public void updateOI() {
-        SmartDashboard.putNumber("Left Encoder Position:", Robot.DRIVE_TRAIN.getLeftEncoderPosition() * 4);
-        SmartDashboard.putNumber("Right Encoder Position:", Robot.DRIVE_TRAIN.getRightEncoderPosition() * 4);
-        SmartDashboard.putNumber("Left Position (Revolutions):", Robot.DRIVE_TRAIN.getLeftPosition() * 4);
-        SmartDashboard.putNumber("Right Position (Revolutions):", Robot.DRIVE_TRAIN.getRightPosition() * 4);
-        SmartDashboard.putNumber("Left Position (Inches):", Robot.DRIVE_TRAIN.convertRevsToInches(Robot.DRIVE_TRAIN.getLeftPosition()) * 4);
-        SmartDashboard.putNumber("Right Position (Inches):", Robot.DRIVE_TRAIN.convertRevsToInches(Robot.DRIVE_TRAIN.getRightPosition()) * 4);
+      SmartDashboard.putNumber("Left Encoder Position:", Robot.DRIVE_TRAIN.getLeftEncoderPosition());
+      SmartDashboard.putNumber("Right Encoder Position:", Robot.DRIVE_TRAIN.getRightEncoderPosition());
+//        SmartDashboard.putNumber("Left Encoder Position:", Robot.DRIVE_TRAIN.getLeftEncoderPosition() * 4);
+//        SmartDashboard.putNumber("Right Encoder Position:", Robot.DRIVE_TRAIN.getRightEncoderPosition() * 4);
+//        SmartDashboard.putNumber("Left Position (Revolutions):", Robot.DRIVE_TRAIN.getLeftPosition() * 4);
+//        SmartDashboard.putNumber("Right Position (Revolutions):", Robot.DRIVE_TRAIN.getRightPosition() * 4);
+//        SmartDashboard.putNumber("Left Position (Inches):", Robot.DRIVE_TRAIN.convertRevsToInches(Robot.DRIVE_TRAIN.getLeftPosition()) * 4);
+//        SmartDashboard.putNumber("Right Position (Inches):", Robot.DRIVE_TRAIN.convertRevsToInches(Robot.DRIVE_TRAIN.getRightPosition()) * 4);
         SmartDashboard.putNumber("NavX Angle:", Robot.getNavXAngle());
 //        SmartDashboard.putNumber("Distance to Boiler Target:", Robot.getCVDistance(Robot.VISION_TRACKING_REAR, "BOILER"));
 //        SmartDashboard.putNumber("Degrees to Boiler Target:", Robot.getCVAngle(Robot.VISION_TRACKING_REAR, "BOILER"));

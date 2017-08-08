@@ -17,7 +17,7 @@ public class PIDDriveRevolutionsCommand extends Command {
     private double driveD;
     
 	
-	private final static double ENCODER_COMPENSATION_VALUE = 4;
+	private final static double ENCODER_COMPENSATION_VALUE = 1;
 
     private static final double MAX_VOLTAGE = 12;
     private static final double MIN_VOLTAGE = 1.9;
@@ -26,7 +26,7 @@ public class PIDDriveRevolutionsCommand extends Command {
     private final static double STOP_THRESHOLD_REAL = 3.0;
     private final static double STOP_THRESHOLD_ADJUSTED = Robot.DRIVE_TRAIN.convertInchesToRevs(STOP_THRESHOLD_REAL / ENCODER_COMPENSATION_VALUE);
 
-    private final static int I_ZONE_IN_REVOLUTIONS = 100;
+    private final static int I_ZONE_IN_REVOLUTIONS = 50; //100;
     private final static double I_ACCUM_RESET_BENCHMARK_IN_INCHES = 15.0;
     private double IAccumDistanceCounter;
     private double IAccumDistanceTraveled;
@@ -74,9 +74,9 @@ public class PIDDriveRevolutionsCommand extends Command {
     private final static double FORWARD_TO_FRONT_OF_KEY_D = 450.0;//450.0 //250.0 //450.0
 
     private final static double FORWARD_TO_SHOOT_DISTANCE = 33;
-    private final static double FORWARD_TO_SHOOT_P = 4.5;
-    private final static double FORWARD_TO_SHOOT_I = 0.005;
-    private final static double FORWARD_TO_SHOOT_D = 200.0;
+    private final static double FORWARD_TO_SHOOT_P = 1.5; //4.5 / 32;
+    private final static double FORWARD_TO_SHOOT_I = 0.01; //0.005 / 32;
+    private final static double FORWARD_TO_SHOOT_D = 15; //200.0 / 32;
     
     //for 30 inch reverse DON'T USE THIS NUMBER
 //    private final static double SHORT_DISTANCE_P = 3.0;
@@ -181,9 +181,11 @@ public class PIDDriveRevolutionsCommand extends Command {
         
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setPID(driveP, driveI, driveD);
         Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(driveP, driveI, driveD);
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setF(0.1489);
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setF(0.1489);
 
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.ClearIaccum();
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.ClearIaccum();
+//        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.ClearIaccum();
+//        Robot.DRIVE_TRAIN.talonDriveRightPrimary.ClearIaccum();
         
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
@@ -193,8 +195,8 @@ public class PIDDriveRevolutionsCommand extends Command {
 //        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setCloseLoopRampRate(rampRate);
 //        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setCloseLoopRampRate(rampRate);
         
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setAllowableClosedLoopErr(2); //was 6
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setAllowableClosedLoopErr(2); //was 6
+//        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setAllowableClosedLoopErr(2); //was 6
+//        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setAllowableClosedLoopErr(2); //was 6
         
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setIZone(I_ZONE_IN_REVOLUTIONS);
         Robot.DRIVE_TRAIN.talonDriveRightPrimary.setIZone(I_ZONE_IN_REVOLUTIONS);
