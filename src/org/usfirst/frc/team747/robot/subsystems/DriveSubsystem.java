@@ -90,10 +90,10 @@ public class DriveSubsystem extends Subsystem {
         talonDriveLeftPrimary.setF(0.1489);
         talonDriveRightPrimary.setF(0.1489);
         
-        talonDriveLeftPrimary.setMotionMagicCruiseVelocity(706);
-        talonDriveLeftPrimary.setMotionMagicAcceleration(706);
-        talonDriveRightPrimary.setMotionMagicCruiseVelocity(706);
-        talonDriveRightPrimary.setMotionMagicAcceleration(706);
+        talonDriveLeftPrimary.setMotionMagicCruiseVelocity(470); //706
+        talonDriveLeftPrimary.setMotionMagicAcceleration(180); //706
+        talonDriveRightPrimary.setMotionMagicCruiseVelocity(470); //706
+        talonDriveRightPrimary.setMotionMagicAcceleration(180); //706
         
         this.talonDriveLeftPrimary.reverseOutput(true);
         this.talonDriveRightPrimary.reverseOutput(false);

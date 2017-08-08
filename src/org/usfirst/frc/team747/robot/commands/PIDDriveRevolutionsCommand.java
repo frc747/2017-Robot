@@ -23,7 +23,7 @@ public class PIDDriveRevolutionsCommand extends Command {
     private static final double MIN_VOLTAGE = 1.9;
 
     //STOP_THRESHOLD_REAL was 3 inches and is now 8 inches in an attempt to cut back on time
-    private final static double STOP_THRESHOLD_REAL = 3.0;
+    private final static double STOP_THRESHOLD_REAL = .5; //3.0;
     private final static double STOP_THRESHOLD_ADJUSTED = Robot.DRIVE_TRAIN.convertInchesToRevs(STOP_THRESHOLD_REAL / ENCODER_COMPENSATION_VALUE);
 
     private final static int I_ZONE_IN_REVOLUTIONS = 50; //100;
@@ -73,7 +73,7 @@ public class PIDDriveRevolutionsCommand extends Command {
     private final static double FORWARD_TO_FRONT_OF_KEY_I = 0.0001;
     private final static double FORWARD_TO_FRONT_OF_KEY_D = 450.0;//450.0 //250.0 //450.0
 
-    private final static double FORWARD_TO_SHOOT_DISTANCE = 33;
+    private final static double FORWARD_TO_SHOOT_DISTANCE = 90; //33
     private final static double FORWARD_TO_SHOOT_P = 1.5; //4.5 / 32;
     private final static double FORWARD_TO_SHOOT_I = 0.01; //0.005 / 32;
     private final static double FORWARD_TO_SHOOT_D = 15; //200.0 / 32;
@@ -195,8 +195,8 @@ public class PIDDriveRevolutionsCommand extends Command {
 //        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setCloseLoopRampRate(rampRate);
 //        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setCloseLoopRampRate(rampRate);
         
-//        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setAllowableClosedLoopErr(2); //was 6
-//        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setAllowableClosedLoopErr(2); //was 6
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setAllowableClosedLoopErr(6); //was 6
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setAllowableClosedLoopErr(6); //was 6
         
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setIZone(I_ZONE_IN_REVOLUTIONS);
         Robot.DRIVE_TRAIN.talonDriveRightPrimary.setIZone(I_ZONE_IN_REVOLUTIONS);
