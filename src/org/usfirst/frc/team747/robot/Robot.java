@@ -66,7 +66,7 @@ public class Robot extends IterativeRobot {
     private Command      autonomousCommand;
     private Autonomous   autonomous;
 
-    private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
+    public static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
     
     public static double getNavXAngle() {
     	return NAV_X.getYaw();
