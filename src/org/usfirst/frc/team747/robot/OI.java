@@ -111,9 +111,9 @@ public class OI {
         
 //        BUTTON_PID_ROTATE_TEST_BUTTON_ONE.toggleWhenPressed(new PIDDriveRotateCommand(-45));
 //        BUTTON_PID_ROTATE_TEST_BUTTON_TWO.toggleWhenPressed(new PIDDriveRotateCommand(45));
-//        BUTTON_PID_ROTATE_TEST_BUTTON_THREE.toggleWhenPressed(new PIDDriveRotateCommand(-90));
+        BUTTON_PID_ROTATE_TEST_BUTTON_THREE.toggleWhenPressed(new PIDDriveRotateCommand(-90));
 //        BUTTON_PID_ROTATE_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRotateWithVisionCommand(Robot.VISION_TRACKING_REAR, "GEAR"));
-////        BUTTON_PID_ROTATE_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRotateCommand(90));
+        BUTTON_PID_ROTATE_TEST_BUTTON_FOUR.toggleWhenPressed(new PIDDriveRotateCommand(90));
 //        BUTTON_PID_TEST_ROTATE_BOILER.toggleWhenPressed(new PIDDriveRotateWithVisionCommand(Robot.VISION_TRACKING_REAR, "BOILER"));
 //        
 //        BUTTON_PID_TEST_BUTTON_ONE.toggleWhenPressed(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, false));
