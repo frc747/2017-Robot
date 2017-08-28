@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.SPI;
 /**
  *
  */
-public class NavXRotate extends Command {
+public class NavXRotate extends Command implements PIDOutput {
 
 	PIDController rotateController;
 	double rotateToAngleRate;
@@ -59,4 +59,10 @@ public class NavXRotate extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+
+	@Override
+	public void pidWrite(double output) {
+		// TODO Auto-generated method stub
+		
+	}
 }

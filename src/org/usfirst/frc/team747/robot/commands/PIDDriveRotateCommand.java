@@ -19,13 +19,13 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
     private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.25; //times 10 is 5 seconds, times 20 is 10 seconds, etc...
     
     private final static double STOP_THRESHOLD_DEGREES = 5;
-    private final static double MAX_PERCENT_VBUS = 0.5;
+    private final static double MAX_PERCENT_VBUS = .75;
     
     private final static double DRIVE_SPEED_MINIMUM = 0.30;
     
     public PIDDriveRotateCommand(double degreesRotate) {
 //        super(0.05, 0.0005, 0.5);
-        super(3.0, 0.0, 2.45 );
+        super(0.25, 0.0, 0.55);
         
         this.angleToRotate = degreesRotate;
         
