@@ -28,18 +28,18 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
 //    private final static double STOP_THRESHOLD_DEGREES = 2;
     
     //values for the gear
-    private final static double STOP_THRESHOLD_DEGREES = 1.0;
+    private final static double STOP_THRESHOLD_DEGREES = 0.5;
     
     private final static double MAX_PERCENT_VBUS = 0.5;
     
-    private final static double DRIVE_SPEED_MINIMUM = 0.3;
+    private final static double DRIVE_SPEED_MINIMUM = 0.325;
     
     public PIDDriveRotateWithVisionCommand(double degreesRotate) {
 //values for the boiler vision tracking rotate
 //        super(0.1, 0.001, 0.2);
         
       //values for the gear  
-      super(0.1, 0.0015, 0.1);
+      super(0.2, 0.0, 0.375);
         this.angleToRotate = degreesRotate;
         
         requires(Robot.DRIVE_TRAIN);

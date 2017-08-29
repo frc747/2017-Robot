@@ -18,14 +18,14 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
     //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
     private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.25; //times 10 is 5 seconds, times 20 is 10 seconds, etc...
     
-    private final static double STOP_THRESHOLD_DEGREES = 5;
-    private final static double MAX_PERCENT_VBUS = .75;
+    private final static double STOP_THRESHOLD_DEGREES = 0.5;
+    private final static double MAX_PERCENT_VBUS = .5;
     
-    private final static double DRIVE_SPEED_MINIMUM = 0.30;
+    private final static double DRIVE_SPEED_MINIMUM = 0.325;
     
     public PIDDriveRotateCommand(double degreesRotate) {
 //        super(0.05, 0.0005, 0.5);
-        super(0.25, 0.0, 0.55);
+        super(0.2, 0.0, 0.375);
         
         this.angleToRotate = degreesRotate;
         
@@ -84,9 +84,9 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
         
         double sign = Math.signum(output);
         
-        if (output != 0 && Math.abs(output) < DRIVE_SPEED_MINIMUM) { //bang means "!" which is not in java, computer/programming slang
-            output = sign * DRIVE_SPEED_MINIMUM;
-        }
+//        IF (OUTPUT != 0 && MATH.ABS(OUTPUT) < DRIVE_SPEED_MINIMUM) { //BANG MEANS "!" WHICH IS NOT IN JAVA, COMPUTER/PROGRAMMING SLANG
+//            OUTPUT = SIGN * DRIVE_SPEED_MINIMUM;
+//        }
         
         Robot.DRIVE_TRAIN.set(output, -output);
     }

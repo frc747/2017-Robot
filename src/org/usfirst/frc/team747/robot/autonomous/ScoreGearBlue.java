@@ -12,9 +12,12 @@ public class ScoreGearBlue extends CommandGroup {
         
         requires(Robot.DRIVE_TRAIN);
 
-        addParallel(new IntakeTimeCommand(2));        
-        addSequential(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_CENTER_GEAR, false));
-        addSequential(new PauseCommand(2));
+        
+        addParallel(new IntakeTimeCommand(2));    
+        addSequential(new PIDDriveRevolutionsCommand(AutonomousConfig.PIDDriveDistances.FORWARD_TO_SHOOT, false));
+        addSequential(new PIDDriveRotateCommand(-45));
+        addSequential(new PIDDriveRotateWithVisionCommand(Robot.VISION_TRACKING_FRONT, "GEAR"));
+        addSequential(new VisionDriveCommand(Robot.VISION_TRACKING_FRONT, "GEAR", 4));
         
 //        addSequential(new DriveDistanceCommand(AutonomousConfig.ScoreGearBlue.DISTANCE, AutonomousConfig.ScoreGearBlue.SPEED));
 //        addSequential(new PauseCommand(2));

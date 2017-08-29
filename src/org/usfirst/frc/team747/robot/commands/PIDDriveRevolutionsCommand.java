@@ -73,7 +73,9 @@ public class PIDDriveRevolutionsCommand extends Command {
     private final static double FORWARD_TO_FRONT_OF_KEY_I = 0.0001;
     private final static double FORWARD_TO_FRONT_OF_KEY_D = 450.0;//450.0 //250.0 //450.0
 
-    private final static double FORWARD_TO_SHOOT_DISTANCE = 76.97; //33
+    //the values used for motion magic (universal PID values for driving forward and back
+    
+    private final static double FORWARD_TO_SHOOT_DISTANCE = 81.25; //33
     private final static double FORWARD_TO_SHOOT_P = 1.5; //4.5 / 32;
     private final static double FORWARD_TO_SHOOT_I = 0.01; //0.005 / 32;
     private final static double FORWARD_TO_SHOOT_D = 60; //200.0 / 32;
