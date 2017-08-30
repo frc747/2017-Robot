@@ -36,7 +36,7 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
     
     public PIDDriveRotateWithVisionCommand(double degreesRotate) {
 //values for the boiler vision tracking rotate
-//        super(0.1, 0.001, 0.2);
+//        super(0.1, 0.001, 0.2); 
         
       //values for the gear  
       super(0.2, 0.0, 0.375);
