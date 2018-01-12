@@ -20,7 +20,7 @@ public class DriveCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.DRIVE_TRAIN.changeControlMode(IFollower.TalonControlMode.PercentVbus);
+        Robot.DRIVE_TRAIN.changeControlMode(IFollower.TalonControlMode.PercentVbus);  //IFollower probably isn't right
         //TalonControlMode and Percent VBus are errors with the new imports
         
       
