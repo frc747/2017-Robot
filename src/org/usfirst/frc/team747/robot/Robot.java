@@ -17,7 +17,8 @@ import org.usfirst.frc.team747.robot.Autonomous;
 
 import java.util.HashMap;
 
-import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.motorcontrol.can.*; //                  new
+//import com.ctre.CANTalon.TalonControlMode;                    old
 import com.kauailabs.navx.frc.AHRS;
 
 import java.io.File;
