@@ -5,6 +5,7 @@ import org.usfirst.frc.team747.robot.Robot;
 import com.ctre.phoenix.motorcontrol.can.*;          //fixed both of these to the potential correct imports
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+import com.ctre.phoenix.motorcontrol.IFollower;
 
 import edu.wpi.first.wpilibj.command.Command;
 
