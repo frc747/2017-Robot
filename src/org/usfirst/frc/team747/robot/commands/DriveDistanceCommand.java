@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.IFollower;
 
+//import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveDistanceCommand extends Command {
@@ -66,9 +67,11 @@ public class DriveDistanceCommand extends Command {
          * "Slave" talons were instead supposed to be set to Follower
          */
         
-        
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.changeControlMode(BaseMotorController.PercentVbus);   //made this line and next fit the new import
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.changeControlMode(TalonSRX.PercentVbus);
+    	
+    	//changeControlMode(CANTalon.TalonControlMode.Follower) should change to set(TalonSRX.Follower) but it done broke
+    	//might need to call it or something
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.changeControlMode(BaseMotorController.PercentOutput);   //made this line and next fit the new import
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.changeControlMode(TalonSRX.PercentOutput);
         Robot.DRIVE_TRAIN.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);  //left this one and the next alone ftm
         Robot.DRIVE_TRAIN.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         Robot.DRIVE_TRAIN.set(0, 0);

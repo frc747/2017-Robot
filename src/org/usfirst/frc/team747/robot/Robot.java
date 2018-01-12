@@ -165,7 +165,7 @@ public class Robot extends IterativeRobot {
         
         
         resetNavXAngle();
-        DRIVE_TRAIN.changeControlMode(TalonControlMode.PercentVbus);
+        DRIVE_TRAIN.changeControlMode(TalonControlMode.PercentOutput);
     }
 
 	/**
