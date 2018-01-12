@@ -2,8 +2,9 @@ package org.usfirst.frc.team747.robot.commands;
 
 import org.usfirst.frc.team747.robot.Robot;
 
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.motorcontrol.can.*;          //fixed both of these to the potential correct imports
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -65,9 +66,9 @@ public class DriveDistanceCommand extends Command {
          */
         
         
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.changeControlMode(TalonControlMode.PercentVbus);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.changeControlMode(TalonControlMode.PercentVbus);
-        Robot.DRIVE_TRAIN.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.changeControlMode(BaseMotorController.PercentVbus);   //made this line and next fit the new import
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.changeControlMode(TalonSRX.PercentVbus);
+        Robot.DRIVE_TRAIN.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);  //left this one and the next alone ftm
         Robot.DRIVE_TRAIN.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
         Robot.DRIVE_TRAIN.set(0, 0);
         Robot.DRIVE_TRAIN.resetBothEncoders();
