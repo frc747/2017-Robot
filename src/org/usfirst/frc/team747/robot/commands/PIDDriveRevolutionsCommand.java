@@ -189,10 +189,10 @@ public class PIDDriveRevolutionsCommand extends Command {
 //        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.ClearIaccum();
 //        Robot.DRIVE_TRAIN.talonDriveRightPrimary.ClearIaccum();
         
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.configNominalOutputVoltage(+MIN_VOLTAGE,-MIN_VOLTAGE);
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.configPeakOutputVoltage(+MAX_VOLTAGE, -MAX_VOLTAGE);
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configPeakOutputForward(+MIN_VOLTAGE,-MIN_VOLTAGE);
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.configPeakOutputReverse(+MAX_VOLTAGE, -MAX_VOLTAGE);
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.configPeakOutputForward(+MIN_VOLTAGE,-MIN_VOLTAGE);
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.configPeakOutputReverse(+MAX_VOLTAGE, -MAX_VOLTAGE);
         
 //        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setCloseLoopRampRate(rampRate);
 //        Robot.DRIVE_TRAIN.talonDriveRightPrimary.setCloseLoopRampRate(rampRate);
