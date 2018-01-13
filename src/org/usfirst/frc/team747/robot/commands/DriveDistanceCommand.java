@@ -59,10 +59,10 @@ public class DriveDistanceCommand extends Command {
 
     protected void end() {
         
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.set(ControlMode.PercentOutput, RobotMap.DriveTrain.LEFT_FRONT); //RobotMap.DriveTrain.LEFT_FRONT should reference the values
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.set(ControlMode.PercentOutput, RobotMap.DriveTrain.RIGHT_FRONT); //but they aren't seen as values so the .set isn't working
-        Robot.DRIVE_TRAIN.talonDriveLeftSlave.set(ControlMode.Follower, #);  //# is a placeholder
-        Robot.DRIVE_TRAIN.talonDriveRightSlave.set(ControlMode.Follower, #);
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.set(ControlMode.PercentOutput, 0); //RobotMap.DriveTrain.LEFT_FRONT should reference the values
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.set(ControlMode.PercentOutput, 2); //but they aren't seen as values so the .set isn't working
+        Robot.DRIVE_TRAIN.talonDriveLeftSlave.set(ControlMode.Follower, RobotMap.DriveTrain.LEFT_FRONT);  //# is a placeholder
+        Robot.DRIVE_TRAIN.talonDriveRightSlave.set(ControlMode.Follower, RobotMap.DriveTrain.RIGHT_FRONT);
         Robot.DRIVE_TRAIN.set(0, 0);
         Robot.DRIVE_TRAIN.resetBothEncoders();
         Robot.resetNavXAngle();

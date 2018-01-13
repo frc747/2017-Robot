@@ -183,7 +183,7 @@ public class PIDDriveRevolutionsCommand extends Command {
         
         Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setPID(driveP, driveI, driveD);
         Robot.DRIVE_TRAIN.talonDriveRightPrimary.setPID(driveP, driveI, driveD);
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.setF(0.1489);
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.config_kF(0.1489, );
         Robot.DRIVE_TRAIN.talonDriveRightPrimary.setF(0.1489);
 
 //        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.ClearIaccum();

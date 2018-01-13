@@ -6,9 +6,8 @@ import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.commands.DriveCommand;
 import org.usfirst.frc.team747.robot.maps.RobotMap;
 
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
-import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.*;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -19,11 +18,13 @@ public class DriveSubsystem extends Subsystem {
     private static final double DEFAULT_DISTANCE_VARIANCE = 2;
     private static final double DEFAULT_ANGLE_VARIANCE = Math.toRadians(10); // Change to Radians
     
-    public CANTalon talonDriveLeftPrimary = new CANTalon(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
-            talonDriveLeftSlave = new CANTalon(RobotMap.DriveTrain.LEFT_REAR.getValue()),
-            talonDriveRightPrimary = new CANTalon(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
-            talonDriveRightSlave = new CANTalon(RobotMap.DriveTrain.RIGHT_REAR.getValue());
+    public TalonSRX talonDriveLeftPrimary = new TalonSRX(RobotMap.DriveTrain.LEFT_FRONT.getValue()),
+            talonDriveLeftSlave = new TalonSRX(RobotMap.DriveTrain.LEFT_REAR.getValue()),
+            talonDriveRightPrimary = new TalonSRX(RobotMap.DriveTrain.RIGHT_FRONT.getValue()),
+            talonDriveRightSlave = new TalonSRX(RobotMap.DriveTrain.RIGHT_REAR.getValue());
 
+    public static final int kSlotIdx = 0;
+    
     //public RobotDrive autoDrive = new RobotDrive(talonDriveLeftPrimary, talonDriveLeftSlave, talonDriveRightPrimary, talonDriveRightSlave);
     
     private static final double ENCODER_TICKS = 4096;
@@ -47,20 +48,22 @@ public class DriveSubsystem extends Subsystem {
          * Newly added WIP PID Implementation (BRICH 4/10/17)
          */
         
-        this.talonDriveLeftPrimary.setInverted(true);
+      /*  this.talonDriveLeftPrimary.setInverted(true);
         this.talonDriveLeftSlave.setInverted(true);
         
         this.talonDriveRightPrimary.setInverted(false);
-        this.talonDriveRightSlave.setInverted(false);
+        this.talonDriveRightSlave.setInverted(false); */
         
         // originally: left was false and right was true 8/5/17
-        this.talonDriveLeftPrimary.reverseSensor(true);
-        this.talonDriveRightPrimary.reverseSensor(false);     
+    //    this.talonDriveLeftPrimary.reverseSensor(true);
+    //    this.talonDriveRightPrimary.reverseSensor(false);     
 
-        this.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+        // talon.SetInverted and talon.SetSensorPhase need to be tested as they are meant to replace this but naaaaaaahhhhh
+        
+        this.talonDriveLeftSlave.set(ControlMode.Follower);
         this.talonDriveLeftSlave.set(this.talonDriveLeftPrimary.getDeviceID());
         
-        this.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.talonDriveRightSlave.set(ControlMode.Follower);
         this.talonDriveRightSlave.set(this.talonDriveRightPrimary.getDeviceID());
 
         /*
@@ -179,8 +182,8 @@ public class DriveSubsystem extends Subsystem {
         return convertRevsToInches(convertTicksToRevs(ticks));
     }
     
-    public void changeControlMode(TalonControlMode mode) {
-        this.talonDriveLeftPrimary.changeControlMode(mode);
+    public void changeControlMode(ControlMode mode) {
+        this.talonDriveLeftPrimary.ControlMode(mode);
         this.talonDriveRightPrimary.changeControlMode(mode);
     }
     
@@ -199,18 +202,18 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public void enablePositionControl() {
-        this.changeControlMode(TalonControlMode.MotionMagic);
+        this.set(ControlMode.PercentOutput, #);
 //        this.talonEnableControl();
     }
 
     public void enableVBusControl() {
 //        this.talonDisableControl();
-        this.changeControlMode(TalonControlMode.PercentVbus);
+        this.set(ControlMode.PercentOutput, #);
         
     }
     
     public void resetLeftEncoder() {
-        talonDriveLeftPrimary.setPosition(0);
+        talonDriveLeftPrimary.setSelectedSensorPosition(0);
     	try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
@@ -221,7 +224,7 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public void resetRightEncoder() {
-        talonDriveRightPrimary.setPosition(0);
+        talonDriveRightPrimary.setSelectedSensorPosition(0, loops, loops);
     	try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
