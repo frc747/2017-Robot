@@ -1,11 +1,13 @@
 package org.usfirst.frc.team747.robot.commands;
 
 import org.usfirst.frc.team747.robot.Robot;
+import org.usfirst.frc.team747.robot.maps.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.*;          //fixed both of these to the potential correct imports
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 //import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.command.Command;
@@ -57,23 +59,10 @@ public class DriveDistanceCommand extends Command {
 
     protected void end() {
         
-//        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.changeControlMode(TalonControlMode.PercentVbus);
-//        Robot.DRIVE_TRAIN.talonDriveRightPrimary.changeControlMode(TalonControlMode.PercentVbus);
-//        Robot.DRIVE_TRAIN.talonDriveLeftSlave.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//        Robot.DRIVE_TRAIN.talonDriveRightSlave.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-//        Robot.DRIVE_TRAIN.set(0, 0);
-        
-        /*Fix made to the code above, all four of the talons were being set to PercentVbus when the two 
-         * "Slave" talons were instead supposed to be set to Follower
-         */
-        
-    	
-    	//changeControlMode(CANTalon.TalonControlMode.Follower) should change to set(TalonSRX.Follower) but it done broke
-    	//might need to call it or something
-        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.changeControlMode(BaseMotorController.PercentOutput);   //made this line and next fit the new import
-        Robot.DRIVE_TRAIN.talonDriveRightPrimary.changeControlMode(TalonSRX.PercentOutput);
-        Robot.DRIVE_TRAIN.talonDriveLeftSlave.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, 0);  //left this one and the next alone ftm
-        Robot.DRIVE_TRAIN.talonDriveRightSlave.set(com.ctre.phoenix.motorcontrol.ControlMode.Follower, 2);
+        Robot.DRIVE_TRAIN.talonDriveLeftPrimary.set(ControlMode.PercentOutput, RobotMap.DriveTrain.LEFT_FRONT); //RobotMap.DriveTrain.LEFT_FRONT should reference the values
+        Robot.DRIVE_TRAIN.talonDriveRightPrimary.set(ControlMode.PercentOutput, RobotMap.DriveTrain.RIGHT_FRONT); //but they aren't seen as values so the .set isn't working
+        Robot.DRIVE_TRAIN.talonDriveLeftSlave.set(ControlMode.Follower, #);  //# is a placeholder
+        Robot.DRIVE_TRAIN.talonDriveRightSlave.set(ControlMode.Follower, #);
         Robot.DRIVE_TRAIN.set(0, 0);
         Robot.DRIVE_TRAIN.resetBothEncoders();
         Robot.resetNavXAngle();

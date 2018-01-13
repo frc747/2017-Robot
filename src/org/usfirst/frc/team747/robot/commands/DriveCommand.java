@@ -5,6 +5,7 @@ import org.usfirst.frc.team747.robot.Robot;
 import org.usfirst.frc.team747.robot.maps.DriverStation;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.*;
 
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,7 +21,7 @@ public class DriveCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.DRIVE_TRAIN.changeControlMode(TalonSRX.PercentOutput);  
+        Robot.DRIVE_TRAIN.set(ControlMode.PercentOutput, #);  //# is a place holder
         //TalonControlMode and Percent VBus are errors with the new imports
         
       

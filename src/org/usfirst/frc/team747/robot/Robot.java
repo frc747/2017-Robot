@@ -17,6 +17,7 @@ import org.usfirst.frc.team747.robot.Autonomous;
 
 import java.util.HashMap;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*; //                  new
 //import com.ctre.CANTalon.TalonControlMode;                    old
 import com.kauailabs.navx.frc.AHRS;
@@ -165,7 +166,7 @@ public class Robot extends IterativeRobot {
         
         
         resetNavXAngle();
-        DRIVE_TRAIN.changeControlMode(TalonControlMode.PercentOutput);
+        DRIVE_TRAIN.set(ControlMode.PercentOutput, #); //# is a place holder
     }
 
 	/**
